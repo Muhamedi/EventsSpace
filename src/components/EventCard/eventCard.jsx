@@ -9,7 +9,7 @@ const EventCard = () => (
           width="70"
           src="https://www.wallstickers-folies.co.uk/artpng-9661.png"
           className="card-img img-thumbnail"
-          alt="..."
+          alt="Dummy text"
         />
         <button className="btn btn-info mt-2">Details</button>
       </div>
