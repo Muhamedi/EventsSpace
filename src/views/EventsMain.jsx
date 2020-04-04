@@ -4,8 +4,7 @@ import EventCard from "components/EventCard/eventCard";
 
 const EventsMain = () => (
   <MainLayout>
-    <br/>
-    <div className="row">
+    <div className="row m-3">
       <div className="col-md-3">
         <EventCard></EventCard>
       </div>
