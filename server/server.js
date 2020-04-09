@@ -5,6 +5,7 @@
 
 const debug = require("debug")("WebTemplateStudioExpress:server");
 const http = require("http");
+const mongoConnect = require('./util/database').mongoConnect;
 const app = require("./app");
 const CONSTANTS = require("./constants");
 
@@ -24,8 +25,10 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+mongoConnect(() => {
+  server.listen(port);
+});
 
-server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 
