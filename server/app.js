@@ -1,7 +1,7 @@
 ﻿const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
-const cookieParser = require("cookie-parser");	
+const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
@@ -23,6 +23,8 @@ app.get("*", (req, res) => {
 app.use((req, res, next) => {
   next(createError(404));
 });
+
+
 
 // TODO Web Template Studio: Add your own error handler here.
 if (process.env.NODE_ENV === "production") {

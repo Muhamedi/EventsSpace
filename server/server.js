@@ -1,14 +1,12 @@
-﻿
-/**
+﻿/**
  * Module dependencies.
  */
 
 const debug = require("debug")("WebTemplateStudioExpress:server");
 const http = require("http");
-const mongoConnect = require('./util/database').mongoConnect;
 const app = require("./app");
 const CONSTANTS = require("./constants");
-
+const mongoose = require("mongoose");
 /**
  * Get port from environment and store in Express.
  */
@@ -25,9 +23,17 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-mongoConnect(() => {
-  server.listen(port);
-});
+mongoose
+  .connect(
+    "mongodb+srv://muhameddev:deepwaters5mo@cluster0-jeltw.mongodb.net/test?retryWrites=true&w=majority"
+  )
+  .then((result) => {
+    console.log("Connected:", result);
+    server.listen(port);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 server.on("error", onError);
 server.on("listening", onListening);

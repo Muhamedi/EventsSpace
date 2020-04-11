@@ -14,9 +14,12 @@ const NavBar = () => {
         <Link className="navbar-brand" to="/">
           Events
         </Link>
+        <Link className="navbar-brand" to="/">
+          History
+        </Link>
         <div className="navbar-nav">
           <Link className="nav-item nav-link active" to="/">
-            Blank
+            Log In
           </Link>
         </div>
       </nav>
