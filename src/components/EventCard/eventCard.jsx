@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'; 
 // import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 
 const EventCard = props => (
@@ -23,7 +24,7 @@ const EventCard = props => (
           <p className="card-text">
             {props.text}
           </p>
-          <p className="card-text">
+          <div className="card-text">
             <div className="row">
               <small className="text-muted">Type: {props.type}</small>
             </div>
@@ -34,11 +35,21 @@ const EventCard = props => (
             <div className="row">
               <small className="text-muted">Last updated {props.lastUpdated} mins ago</small>
             </div>
-          </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 );
+
+EventCard.propTypes = {
+  title: PropTypes.string,
+  text: PropTypes.string,
+  type: PropTypes.string,
+  location: PropTypes.string,
+  lastUpdated: PropTypes.string,
+  img: PropTypes.string,
+  imgAlt: PropTypes.string
+}
 
 export default EventCard;
