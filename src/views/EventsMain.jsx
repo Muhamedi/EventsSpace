@@ -1,9 +1,18 @@
 import React from "react";
 import MainLayout from "components/Layout/MainLayout";
 import EventCard from "components/EventCard/eventCard";
+import Button from "components/Button/button";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const EventsMain = () => (
   <MainLayout>
+    <div className="row m-3">
+      <div className="col-md-3">
+        <Button text="Add new">
+          <AddCircleOutlineIcon />
+        </Button>
+      </div>
+    </div>
     <div className="row m-3">
       <div className="col-md-3">
         <EventCard
