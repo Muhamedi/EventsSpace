@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from 'prop-types'; 
-// import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import PropTypes from "prop-types";
 
-const EventCard = props => (
+const EventCard = (props) => (
   <div className="card mb-3">
     <div className="row no-gutters">
       <div className="col-md-4 p-2 text-center">
@@ -21,19 +20,18 @@ const EventCard = props => (
       <div className="col-md-8">
         <div className="card-body">
           <h5 className="card-title">{props.title}</h5>
-          <p className="card-text">
-            {props.text}
-          </p>
+          <p className="card-text">{props.text}</p>
           <div className="card-text">
             <div className="row">
               <small className="text-muted">Type: {props.type}</small>
             </div>
             <div className="row">
               <small className="text-muted">Location: {props.location}</small>
-              {/* <LocationOnOutlinedIcon /> should be added along with location functionality*/}
             </div>
             <div className="row">
-              <small className="text-muted">Last updated {props.lastUpdated} mins ago</small>
+              <small className="text-muted">
+                Last updated {props.lastUpdated} mins ago
+              </small>
             </div>
           </div>
         </div>
@@ -43,13 +41,13 @@ const EventCard = props => (
 );
 
 EventCard.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.string.isRequired,
   text: PropTypes.string,
-  type: PropTypes.string,
-  location: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
   lastUpdated: PropTypes.string,
-  img: PropTypes.string,
-  imgAlt: PropTypes.string
-}
+  img: PropTypes.string.isRequired,
+  imgAlt: PropTypes.string,
+};
 
 export default EventCard;

@@ -2,15 +2,12 @@ import React from "react";
 import MainLayout from "components/Layout/MainLayout";
 import EventCard from "components/EventCard/eventCard";
 import Button from "components/Button/button";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const EventsMain = () => (
   <MainLayout>
     <div className="row m-3">
       <div className="col-md-3">
-        <Button text="Add new">
-          <AddCircleOutlineIcon />
-        </Button>
+        <Button text="Add new" icon="fa fa-plus-square" />
       </div>
     </div>
     <div className="row m-3">
@@ -32,7 +29,7 @@ const EventsMain = () => (
           type="Computer gaming"
           location="Home"
           lastUpdated="7"
-          img="https://i.dlpng.com/static/png/109064_preview.png"
+          img="https://i.dlpng.com/static/png/4547174-soldier-aiming-with-rifle-silhouette-transparent-png-svg-vector-rifle-png-png-512_512_preview.webp"
           imgAlt="Counter Strike"
         ></EventCard>
       </div>
