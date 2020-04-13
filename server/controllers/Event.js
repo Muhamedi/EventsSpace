@@ -2,8 +2,6 @@ const Event = require("../models/Event");
 
 exports.createNewEvent = async (req, res) => {
 
-  console.log("Req:", req.body);
-
   const title = req.body.title;
   const text = req.body.text;
   const type = req.body.type;
