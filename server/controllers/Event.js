@@ -23,15 +23,17 @@ exports.createNewEvent = async (req, res) => {
   const result = await event.save();
 
   if (result) {
-    res.sendStatus(201);
+    return res.sendStatus(201);
   }
 };
 
-exports.getUpcomingEvents = async () => {
+exports.getUpcomingEvents = async (req, res) => {
 
   const upcomingEvents = Event.find({startDateTime: {$gt: new Date()}}, (err, events) => {
-      console.log("Error:", err);
-      console.log("Events:", events);
+      if(err)
+      return res.status(500).send(err);
+
+      return res.status(200).json(events);
   });
 
   return upcomingEvents;
