@@ -8,7 +8,7 @@ const EventCard = (props) => (
         <div className="split">
           <img
             width="70"
-            src={props.img}
+            src={props.imgUrl}
             className="card-img img-thumbnail"
             alt={props.imgAlt}
           />
@@ -42,11 +42,11 @@ const EventCard = (props) => (
 
 EventCard.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string,
+  text: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   lastUpdated: PropTypes.string,
-  img: PropTypes.string.isRequired,
+  imgUrl: PropTypes.string.isRequired,
   imgAlt: PropTypes.string,
 };
 

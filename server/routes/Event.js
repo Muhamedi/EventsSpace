@@ -1,7 +1,10 @@
 const express = require('express');
+const eventController = require('../controllers/Event');
 
 const router = express.Router();
 
-router.post('/create', );
+// /api/event/create
+router.post('/create', eventController.createNewEvent);
+
 
 module.exports = router;

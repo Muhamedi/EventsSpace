@@ -25,7 +25,7 @@ const server = http.createServer(app);
  */
 mongoose
   .connect(
-    "mongodb+srv://muhameddev:deepwaters5mo@cluster0-jeltw.mongodb.net/test?retryWrites=true&w=majority"
+    "mongodb+srv://muhameddev:deepwaters5mo@cluster0-jeltw.mongodb.net/EventsSpace?retryWrites=true&w=majority"
   )
   .then((result) => {
     console.log("Connected:", result);
