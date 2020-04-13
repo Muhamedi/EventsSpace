@@ -27,7 +27,7 @@
     "concurrently": "5.0.2"
   },
   "scripts": {
-    "start": "concurrently \"yarn start-frontend || npm run start-frontend\" \"yarn start-backend || npm run start-backend\"",
+    "start": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
     "start-backend": "node server/server.js",
     "start-frontend": "react-scripts start",
     "build": "node ./buildScript",

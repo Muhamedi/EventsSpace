@@ -15,9 +15,6 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "build")));
 
 app.use("/api/events", eventsRouter);
-app.get("*", (req, res) => {
-  res.sendFile("build/index.html", { root: __dirname });
-});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

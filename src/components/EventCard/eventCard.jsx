@@ -29,6 +29,9 @@ const EventCard = (props) => (
               <small className="text-muted">Location: {props.location}</small>
             </div>
             <div className="row">
+              <small className="text-muted">Start time: {props.startDateTime}</small>
+            </div>
+            <div className="row">
               <small className="text-muted">
                 Last updated {props.lastUpdated} mins ago
               </small>
@@ -45,6 +48,7 @@ EventCard.propTypes = {
   text: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
+  //startDateTime: PropTypes.instanceOf(Date),
   lastUpdated: PropTypes.string,
   imgUrl: PropTypes.string.isRequired,
   imgAlt: PropTypes.string,

@@ -18,13 +18,18 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
+    startDateTime:  {
+        type: Date,
+        required: true
+    },
     imgUrl:  {
         type: String,
         required: true
     },
     dateCreated:  {
         type: Date,
-        required: true
+        default: Date.now,
+        required: false
     },
     lastModified:  {
         type: Date,
