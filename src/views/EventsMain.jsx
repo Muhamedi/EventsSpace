@@ -1,66 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getEvents } from "api/Events";
+import moment from "moment";
 import MainLayout from "components/Layout/MainLayout";
 import EventCard from "components/EventCard/eventCard";
 import Button from "components/Button/button";
 
-const EventsMain = () => (
-  <MainLayout>
-    <div className="row m-3">
-      <div className="col-md-3">
-        <Button text="Add new" icon="fa fa-plus-square" />
+const EventsMain = () => {
+  const [events, setEvents] = useState(null);
+  useEffect(() => {
+    async function getAllEvents() {
+      const events = await getEvents();
+      setEvents(events);
+    }
+    getAllEvents();
+  }, []);
+
+  return (
+    <MainLayout>
+      <div className="row m-3">
+        <div className="col-md-3">
+          <Button text="Add new" icon="fa fa-plus-square" />
+        </div>
       </div>
-    </div>
-    <div className="row m-3">
-      <div className="col-md-3">
-        <EventCard
-          title="Football"
-          text="Football match"
-          type="Sport"
-          location="Fusha Prishtina"
-          startDateTime="05/05/2020"
-          lastUpdated="3"
-          imgUrl="https://www.wallstickers-folies.co.uk/artpng-9661.png"
-          imgAlt="Football"
-        ></EventCard>
+      <div className="row m-3">
+        {events !== null &&
+          events.map((event) => (
+            <div className="col-md-3" key={event._id}>
+              <EventCard
+                title={event.title}
+                text={event.text}
+                type={event.type}
+                location={event.location}
+                startDateTime={moment(event.startDateTime).format(
+                  "HH:mm DD-MM-YYYY"
+                )}
+                lastUpdated="3"
+                imgUrl={event.imgUrl}
+                imgAlt={event.title}
+              ></EventCard>
+            </div>
+          ))}
+        {(events === null || events.length === 0) && (
+          <div className="alert alert-info">No upcomming events</div> //should be replaced with empty state photo
+        )}
       </div>
-      <div className="col-md-3">
-        <EventCard
-          title="Counter Strike"
-          text="Counter Stike match"
-          type="Computer gaming"
-          location="Home"
-          startDateTime="05/05/2020"
-          lastUpdated="7"
-          imgUrl="https://i.dlpng.com/static/png/4547174-soldier-aiming-with-rifle-silhouette-transparent-png-svg-vector-rifle-png-png-512_512_preview.webp"
-          imgAlt="Counter Strike"
-        ></EventCard>
-      </div>
-      <div className="col-md-3">
-        <EventCard
-          title="Voleyball"
-          text="Voleyball match"
-          type="Sport"
-          location="Fusha SdiAsVet"
-          startDateTime="05/05/2020"
-          lastUpdated="3"
-          imgUrl="https://bulldogstore.cz/262-tm_large_default/samolepka-volejbal-10.jpg"
-          imgAlt="Voleyball"
-        ></EventCard>
-      </div>
-      <div className="col-md-3">
-        <EventCard
-          title="Chess"
-          text="Chess game"
-          type="Strategy"
-          location="Location"
-          startDateTime="05/05/2020"
-          lastUpdated="25"
-          imgUrl="https://i.pinimg.com/originals/db/13/ee/db13ee17db1c9f24d8bfd6cf0ac1063c.png"
-          imgAlt="Chess"
-        ></EventCard>
-      </div>
-    </div>
-  </MainLayout>
-);
+    </MainLayout>
+  );
+};
 
 export default EventsMain;
