@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { getEvents } from "api/Events";
 import moment from "moment";
 import MainLayout from "components/Layout/MainLayout";
-import EventCard from "components/EventCard/eventCard";
-import Button from "components/Button/button";
+import EventCard from "components/EventCard/EventCard";
+import Button from "components/Button/Button";
+import Modal from "components/Modal/Modal";
+import { ButtonTypes } from "constants/enums";
+
 
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
+  const [displayModal, setDisplayModal] = useState(false);
+
   useEffect(() => {
     async function getAllEvents() {
       const events = await getEvents();
@@ -19,7 +24,12 @@ const EventsMain = () => {
     <MainLayout>
       <div className="row m-3">
         <div className="col-md-3">
-          <Button text="Add new" icon="fa fa-plus-square" />
+          <Button
+            text="Add new"
+            type={ButtonTypes.INFO}
+            onClick={() => setDisplayModal(!displayModal)}
+            icon="fa fa-plus-square"
+          />
         </div>
       </div>
       <div className="row m-3">
@@ -44,6 +54,12 @@ const EventsMain = () => {
           <div className="alert alert-info">No upcomming events</div> //should be replaced with empty state photo
         )}
       </div>
+      <Modal
+        display={displayModal}
+        primaryButtonText="Save"
+        secondaryButtonText="Cancel"
+        title="Create new event"
+      />
     </MainLayout>
   );
 };

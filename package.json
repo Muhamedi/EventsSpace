@@ -5,11 +5,12 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "4.4.1",
-    "classnames": "2.2.6",
+    "classnames": "^2.2.6",
     "cookie-parser": "1.4.4",
     "debug": "4.1.1",
     "express": "4.17.1",
     "font-awesome": "^4.7.0",
+    "formik": "^2.1.4",
     "fs-extra": "8.1.0",
     "http-errors": "1.7.3",
     "moment": "^2.24.0",
