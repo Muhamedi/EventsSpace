@@ -20,6 +20,10 @@ const EventsMain = () => {
     getAllEvents();
   }, []);
 
+  const toggleModalHandler = () => {
+    setDisplayModal(!displayModal);
+  }
+
   return (
     <MainLayout>
       <div className="row m-3">
@@ -27,7 +31,7 @@ const EventsMain = () => {
           <Button
             text="Add new"
             type={ButtonTypes.INFO}
-            onClick={() => setDisplayModal(!displayModal)}
+            onClick={toggleModalHandler}
             icon="fa fa-plus-square"
           />
         </div>
@@ -58,8 +62,12 @@ const EventsMain = () => {
         display={displayModal}
         primaryButtonText="Save"
         secondaryButtonText="Cancel"
+        secondaryButtonClick={toggleModalHandler}
         title="Create new event"
-      />
+        toggleModal={toggleModalHandler}
+      >
+        Content
+      </Modal>
     </MainLayout>
   );
 };
