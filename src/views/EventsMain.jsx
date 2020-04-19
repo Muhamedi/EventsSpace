@@ -5,6 +5,7 @@ import MainLayout from "components/Layout/MainLayout";
 import EventCard from "components/EventCard/EventCard";
 import Button from "components/Button/Button";
 import Modal from "components/Modal/Modal";
+import NoEvents from "images/NoEvents.png";
 import { ButtonTypes } from "constants/enums";
 
 const EventsMain = () => {
@@ -54,7 +55,9 @@ const EventsMain = () => {
             </div>
           ))}
         {(events === null || events.length === 0) && (
-          <div className="alert alert-info">No upcomming events</div> //should be replaced with empty state photo
+          <div className="img-fluid w-100 h-100 text-center">
+            <img className="rounded" src={NoEvents} alt="No Events" />;
+          </div>
         )}
       </div>
       <Modal
