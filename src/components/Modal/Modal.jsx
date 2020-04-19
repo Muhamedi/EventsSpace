@@ -1,10 +1,11 @@
 import React from "react";
 import Button from "components/Button/Button";
+import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import { ButtonTypes } from "constants/enums";
 
 const Modal = (props) => (
-  <div className={props.display ? "d-block" : "d-none"}>
+  <div className={classNames('modal', props.display ? "d-block" : "d-none")}>
     <div className="modal-dialog modal-dialog-centered" role="document">
       <div className="modal-content">
         <div className="modal-header">

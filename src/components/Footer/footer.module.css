@@ -1,18 +1,13 @@
 ﻿.footer {
-  background-color: #1d1d1d;
-  padding-top: 2rem;
-  padding-bottom: 4rem;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  border: 1px solid lightgrey;
+  display: flex;
 }
 
-.title {
-  color: #fff;
-}
-
-.description {
-  color: #fff;
-}
-
-.footerlink,
-.footerlink:hover {
-  color: #fff;
+.text {
+  margin: auto;
 }
