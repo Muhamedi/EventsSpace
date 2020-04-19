@@ -7,7 +7,6 @@ import Button from "components/Button/Button";
 import Modal from "components/Modal/Modal";
 import { ButtonTypes } from "constants/enums";
 
-
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
@@ -22,7 +21,7 @@ const EventsMain = () => {
 
   const toggleModalHandler = () => {
     setDisplayModal(!displayModal);
-  }
+  };
 
   return (
     <MainLayout>
@@ -66,7 +65,100 @@ const EventsMain = () => {
         title="Create new event"
         toggleModal={toggleModalHandler}
       >
-        Content
+        <div className="form-group row">
+          <label htmlFor="title" className="col-sm-2">
+            Title
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Event title"
+              id="title"
+              name="title"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="text" className="col-sm-2">
+            Text
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Event text"
+              id="text"
+              name="text"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="type" className="col-sm-2">
+            Type
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Event type"
+              id="type"
+              name="type"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="image" className="col-sm-2">
+            Image
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Event image"
+              id="image"
+              name="image"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="location" className="col-sm-2">
+            Location
+          </label>
+          <div className="col-sm-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Event location"
+              id="location"
+              name="location"
+            />
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="startTime" className="col-sm-2">
+            Start Time
+          </label>
+          <div className="col-sm-4">
+            <input
+              type="time"
+              className="form-control"
+              id="startTime"
+              name="startTime"
+            />
+          </div>
+          <label htmlFor="startDate" className="col-sm-2">
+            Start Date
+          </label>
+          <div className="col-sm-4">
+            <input
+              type="date"
+              className="form-control"
+              id="startDate"
+              name="startDate"
+            />
+          </div>
+        </div>
       </Modal>
     </MainLayout>
   );

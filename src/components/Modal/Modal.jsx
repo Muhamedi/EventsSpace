@@ -24,7 +24,7 @@ const Modal = (props) => {
           <div className="modal-header">
             <h5 className="modal-title">{props.title}</h5>
           </div>
-          <div className="modal-body">{props.children}</div>
+          <div className="modal-body m-3">{props.children}</div>
           <div className="modal-footer">
             {props.secondaryButtonText && (
               <Button
