@@ -3,3 +3,10 @@ export const ButtonTypes = {
     INFO: "btn btn-info",
     SECONDARY: "btn btn-secondary"
 }
+
+export const SpinnerTypes = {
+    PRIMARY: "text-primary",
+    INFO: "text-info",
+    SECONDARY: "text-secondary",
+    LIGHT: "text-light",
+}

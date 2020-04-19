@@ -37,6 +37,8 @@ const Modal = (props) => {
             {props.primaryButtonText && (
               <Button
                 type={ButtonTypes.INFO}
+                loading={props.primaryButtonLoading}
+                primaryButtonSpinnerType={props.spinnerType}
                 onClick={props.primaryButtonClick}
                 text={props.primaryButtonText}
                 icon={props.primaryButtonIcon}
@@ -64,6 +66,8 @@ Modal.propTypes = {
   ]).isRequired,
   title: PropTypes.string,
   toggleModal: PropTypes.func,
+  primaryButtonLoading: PropTypes.bool,
+  spinnerType: PropTypes.string
 };
 
 export default Modal;

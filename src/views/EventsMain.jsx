@@ -6,7 +6,9 @@ import EventCard from "components/EventCard/EventCard";
 import Button from "components/Button/Button";
 import Modal from "components/Modal/Modal";
 import NoEvents from "images/NoEvents.png";
+import Formik from 'formik';
 import { ButtonTypes } from "constants/enums";
+import { SpinnerTypes } from "constants/enums";
 
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
@@ -63,6 +65,8 @@ const EventsMain = () => {
       <Modal
         display={displayModal}
         primaryButtonText="Save"
+        primaryButtonLoading={true}
+        primaryButtonSpinnerType={SpinnerTypes.LIGHT}
         secondaryButtonText="Cancel"
         secondaryButtonClick={toggleModalHandler}
         title="Create new event"
@@ -83,17 +87,14 @@ const EventsMain = () => {
           </div>
         </div>
         <div className="form-group row">
-          <label htmlFor="text" className="col-sm-2">
-            Text
+        <label htmlFor="type" className="col-sm-2">
+            Number of players
           </label>
           <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Event text"
-              id="text"
-              name="text"
-            />
+            <select className="form-control">
+              <option value="fixed">Fixed</option>
+              <option value="notfixed">Not fixed</option>
+            </select>
           </div>
         </div>
         <div className="form-group row">
@@ -107,20 +108,6 @@ const EventsMain = () => {
               placeholder="Event type"
               id="type"
               name="type"
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <label htmlFor="image" className="col-sm-2">
-            Image
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Event image"
-              id="image"
-              name="image"
             />
           </div>
         </div>
