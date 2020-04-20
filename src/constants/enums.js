@@ -1,12 +1,12 @@
 export const ButtonTypes = {
-    PRIMARY: "btn btn-primary",
-    INFO: "btn btn-info",
-    SECONDARY: "btn btn-secondary"
-}
+  PRIMARY: "btn btn-primary",
+  INFO: "btn btn-info",
+  SECONDARY: "btn btn-secondary",
+};
 
 export const SpinnerTypes = {
-    PRIMARY: "text-primary",
-    INFO: "text-info",
-    SECONDARY: "text-secondary",
-    LIGHT: "text-light",
-}
+  PRIMARY: "text-primary",
+  INFO: "text-info",
+  SECONDARY: "text-secondary",
+  LIGHT: "text-light",
+};

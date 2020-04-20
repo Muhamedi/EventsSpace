@@ -5,8 +5,8 @@ import styles from "./modal.module.css";
 import PropTypes from "prop-types";
 import { ButtonTypes } from "constants/enums";
 
-const Modal = (props) => {
-  const handleBackgroundClick = (e) => {
+const Modal = props => {
+  const handleBackgroundClick = e => {
     if (e.target === e.currentTarget) props.toggleModal();
   };
 
@@ -19,13 +19,13 @@ const Modal = (props) => {
         props.display ? "d-block modal-backdrop" : "d-none"
       )}
     >
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">{props.title}</h5>
+      <div className='modal-dialog modal-dialog-centered' role='document'>
+        <div className='modal-content'>
+          <div className='modal-header'>
+            <h5 className='modal-title'>{props.title}</h5>
           </div>
-          <div className="modal-body m-3">{props.children}</div>
-          <div className="modal-footer">
+          <div className='modal-body m-3'>{props.children}</div>
+          <div className='modal-footer'>
             {props.secondaryButtonText && (
               <Button
                 type={ButtonTypes.SECONDARY}
@@ -42,6 +42,7 @@ const Modal = (props) => {
                 onClick={props.primaryButtonClick}
                 text={props.primaryButtonText}
                 icon={props.primaryButtonIcon}
+                disabled={props.primaryButtonDisabled}
               />
             )}
           </div>
@@ -56,6 +57,8 @@ Modal.propTypes = {
   primaryButtonText: PropTypes.string,
   primaryButtonClick: PropTypes.func,
   primaryButtonIcon: PropTypes.string,
+  primaryButtonDisabled: PropTypes.bool,
+  primaryButtonLoading: PropTypes.bool,
   secondaryButtonText: PropTypes.string,
   secondaryButtonClick: PropTypes.func,
   secondaryButtonIcon: PropTypes.string,
@@ -66,8 +69,7 @@ Modal.propTypes = {
   ]).isRequired,
   title: PropTypes.string,
   toggleModal: PropTypes.func,
-  primaryButtonLoading: PropTypes.bool,
-  spinnerType: PropTypes.string
+  spinnerType: PropTypes.string,
 };
 
 export default Modal;
