@@ -66,7 +66,7 @@ const EventsMain = () => {
           ))}
         {(events === null || events.length === 0) && (
           <div className='img-fluid w-100 h-100 text-center'>
-            <img className='rounded' src={NoEvents} alt='No Events' />;
+            <img className='rounded' src={NoEvents} alt='No Events' />
           </div>
         )}
       </div>
@@ -117,10 +117,10 @@ const EventsMain = () => {
               toggleModal={toggleModalHandler}
             >
               <div className='form-group row'>
-                <label htmlFor='title' className='col-sm-2'>
+                <label htmlFor='title' className='col-sm-3'>
                   Title
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <input
                     type='text'
                     className='form-control'
@@ -137,10 +137,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='type' className='col-sm-2'>
+                <label htmlFor='type' className='col-sm-3'>
                   Participants
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <select
                     value={values.participants}
                     onChange={handleChange}
@@ -157,10 +157,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='type' className='col-sm-2'>
+                <label htmlFor='type' className='col-sm-3'>
                   Nr. of teams
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <select
                     value={values.nrOfTeams}
                     onChange={handleChange}
@@ -177,10 +177,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='type' className='col-sm-2'>
-                  Nr. of team players
+                <label htmlFor='type' className='col-sm-3'>
+                  Nr. team players
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <select
                     value={values.nrOfTeamPlayers}
                     onChange={handleChange}
@@ -197,10 +197,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='type' className='col-sm-2'>
+                <label htmlFor='type' className='col-sm-3'>
                   Type
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <input
                     type='text'
                     className='form-control'
@@ -217,10 +217,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='location' className='col-sm-2'>
+                <label htmlFor='location' className='col-sm-3'>
                   Location
                 </label>
-                <div className='col-sm-10'>
+                <div className='col-sm-9'>
                   <input
                     type='text'
                     className='form-control'
@@ -237,10 +237,10 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='startTime' className='col-sm-2'>
+                <label htmlFor='startTime' className='col-sm-3'>
                   Start Time
                 </label>
-                <div className='col-sm-4'>
+                <div className='col-sm-3'>
                   <input
                     type='time'
                     className='form-control'
@@ -254,10 +254,10 @@ const EventsMain = () => {
                 {errors.startTime && touched.startTime && (
                   <p className='text-danger'>{errors.startTime}</p>
                 )}
-                <label htmlFor='startDate' className='col-sm-2'>
+                <label htmlFor='startDate' className='col-sm-3'>
                   Start Date
                 </label>
-                <div className='col-sm-4'>
+                <div className='col-sm-3'>
                   <input
                     type='date'
                     className='form-control'

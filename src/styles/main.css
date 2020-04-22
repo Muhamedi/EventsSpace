@@ -1,4 +1,13 @@
 .modal-backdrop {
-    background-color: rgb(0, 0, 0, 0.8);
+  background-color: rgb(0, 0, 0, 0.8);
+}
+
+.modal-new-dialog {
+    margin: auto;
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 

@@ -19,7 +19,7 @@ const Modal = props => {
         props.display ? "d-block modal-backdrop" : "d-none"
       )}
     >
-      <div className='modal-dialog modal-dialog-centered' role='document'>
+      <div className='modal-new-dialog' role='document'>
         <div className='modal-content'>
           <div className='modal-header'>
             <h5 className='modal-title'>{props.title}</h5>
