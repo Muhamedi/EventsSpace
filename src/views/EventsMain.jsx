@@ -7,7 +7,7 @@ import Button from "components/Button/Button";
 import Modal from "components/Modal/Modal";
 import NoEvents from "images/NoEvents.png";
 import { Formik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { ButtonTypes } from "constants/enums";
 import { SpinnerTypes } from "constants/enums";
 
@@ -17,8 +17,13 @@ const EventsMain = () => {
 
   useEffect(() => {
     async function getAllEvents() {
-      const events = await getEvents();
-      setEvents(events);
+      try {
+        const events = await getEvents();
+        console.log("EVENTS:", events);
+        setEvents(events);
+      } catch (ex) {
+        console.log("EXCEPTION:", ex.message);
+      }
     }
     getAllEvents();
   }, []);

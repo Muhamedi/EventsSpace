@@ -1,7 +1,6 @@
 const Event = require("../models/Event");
 
 exports.createNewEvent = async (req, res) => {
-
   const title = req.body.title;
   const text = req.body.text;
   const type = req.body.type;
@@ -26,13 +25,15 @@ exports.createNewEvent = async (req, res) => {
 };
 
 exports.getUpcomingEvents = async (req, res) => {
-
-  const upcomingEvents = Event.find({startDateTime: {$gt: new Date()}}, (err, events) => {
-      if(err)
-      return res.status(500).send(err);
-
+  const upcomingEvents = Event.find(
+    { startDateTime: { $gt: new Date() } },
+    (err, events) => {
+      if (err) return res.status(500).send(err);
+      console.log("err:", err);
+      console.log("res:", res);
       return res.status(200).json(events);
-  });
+    }
+  );
 
   return upcomingEvents;
 };
