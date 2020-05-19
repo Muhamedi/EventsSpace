@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { getEvents } from "api/Events";
-import moment from "moment";
-import MainLayout from "components/Layout/MainLayout";
-import EventCard from "components/EventCard/EventCard";
-import Button from "components/Button/Button";
-import Modal from "components/Modal/Modal";
-import NoEvents from "images/NoEvents.png";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { ButtonTypes } from "constants/enums";
-import { SpinnerTypes } from "constants/enums";
+import React, { useEffect, useState } from 'react';
+import { getEvents } from 'api/Events';
+import moment from 'moment';
+import MainLayout from 'components/Layout/MainLayout';
+import EventCard from 'components/EventCard/EventCard';
+import Button from 'components/Button/Button';
+import Modal from 'components/Modal/Modal';
+import NoEvents from 'images/NoEvents.png';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { ButtonTypes } from 'constants/enums';
+import { SpinnerTypes } from 'constants/enums';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
@@ -19,10 +21,10 @@ const EventsMain = () => {
     async function getAllEvents() {
       try {
         const events = await getEvents();
-        console.log("EVENTS:", events);
+        console.log('EVENTS:', events);
         setEvents(events);
       } catch (ex) {
-        console.log("EXCEPTION:", ex.message);
+        console.log('EXCEPTION:', ex.message);
       }
     }
     getAllEvents();
@@ -34,7 +36,7 @@ const EventsMain = () => {
 
   const onCreateEvent = async (event, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    console.log("EVENT:", event);
+    console.log('EVENT:', event);
     setSubmitting(false);
     resetForm();
   };
@@ -61,7 +63,7 @@ const EventsMain = () => {
                 type={event.type}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(
-                  "HH:mm DD-MM-YYYY"
+                  'HH:mm DD-MM-YYYY'
                 )}
                 lastUpdated='3'
                 imgUrl={event.imgUrl}
@@ -77,22 +79,22 @@ const EventsMain = () => {
       </div>
       <Formik
         initialValues={{
-          title: "",
-          participants: "fixed",
+          title: '',
+          participants: 'fixed',
           nrOfTeams: 2,
           nrOfTeamPlayers: 5,
-          location: "",
-          startDateTime: moment().format("HH:mm DD-MM-YYYY"),
-          customEventImage: "",
+          location: '',
+          startDateTime: new Date(),
+          customEventImage: '',
         }}
         validationSchema={Yup.object().shape({
-          title: Yup.string().required("Title is required"),
-          participants: Yup.string().required("Participants are required"),
-          nrOfTeams: Yup.number().required("Number of teams are required"),
-          nrOfPlayers: Yup.number().required("Number of players are required"),
-          location: Yup.string().required("Location is required"),
+          title: Yup.string().required('Title is required'),
+          participants: Yup.string().required('Participants are required'),
+          nrOfTeams: Yup.number().required('Number of teams are required'),
+          nrOfPlayers: Yup.number().required('Number of players are required'),
+          location: Yup.string().required('Location is required'),
           startDateTime: Yup.string().required(
-            "Start date and time is required"
+            'Start date and time is required'
           ),
         })}
         onSubmit={onCreateEvent}
@@ -107,6 +109,7 @@ const EventsMain = () => {
             handleBlur,
             isSubmitting,
             isValid,
+            setFieldValue,
           } = formikProps;
           return (
             <Modal
@@ -165,7 +168,7 @@ const EventsMain = () => {
                 <label htmlFor='type' className='col-sm-3'>
                   Nr. of teams
                 </label>
-                <div className='col-sm-9'>
+                <div className='col-sm-3'>
                   <select
                     value={values.nrOfTeams}
                     onChange={handleChange}
@@ -185,7 +188,7 @@ const EventsMain = () => {
                 <label htmlFor='type' className='col-sm-3'>
                   Nr. team players
                 </label>
-                <div className='col-sm-9'>
+                <div className='col-sm-3'>
                   <select
                     value={values.nrOfTeamPlayers}
                     onChange={handleChange}
@@ -206,16 +209,18 @@ const EventsMain = () => {
                   Type
                 </label>
                 <div className='col-sm-9'>
-                  <input
-                    type='text'
-                    className='form-control'
-                    placeholder='Event type'
-                    value={values.type}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    id='type'
-                    name='type'
-                  />
+                  <div className='col-sm-3'>
+                    <select
+                      value={values.type}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name='type'
+                      className='form-control'
+                    >
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                    </select>
+                  </div>
                 </div>
                 {errors.type && touched.type && (
                   <p className='text-danger'>{errors.type}</p>
@@ -242,39 +247,23 @@ const EventsMain = () => {
                 )}
               </div>
               <div className='form-group row'>
-                <label htmlFor='startTime' className='col-sm-3'>
-                  Start Time
-                </label>
-                <div className='col-sm-3'>
-                  <input
-                    type='time'
-                    className='form-control'
-                    value={values.startTime}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    id='startTime'
-                    name='startTime'
-                  />
-                </div>
-                {errors.startTime && touched.startTime && (
-                  <p className='text-danger'>{errors.startTime}</p>
-                )}
-                <label htmlFor='startDate' className='col-sm-3'>
+                <label htmlFor='startDateTime' className='col-sm-3'>
                   Start Date
                 </label>
-                <div className='col-sm-3'>
-                  <input
-                    type='date'
+                <div className='col-sm-9'>
+                  <DatePicker
                     className='form-control'
-                    value={values.startDate}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    id='startDate'
-                    name='startDate'
+                    selected={values.startDateTime}
+                    showTimeSelect={true}
+                    timeFormat='p'
+                    timeIntervals={15}
+                    dateFormat='Pp'
+                    name='startDateTime'
+                    onChange={value => setFieldValue('startDateTime', value)}
                   />
                 </div>
-                {errors.startDate && touched.startDate && (
-                  <p className='text-danger'>{errors.startDate}</p>
+                {errors.startDateTime && touched.startDateTime && (
+                  <p className='text-danger'>{errors.startDateTime}</p>
                 )}
               </div>
             </Modal>

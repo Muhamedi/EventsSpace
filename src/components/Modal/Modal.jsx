@@ -1,9 +1,9 @@
-import React from "react";
-import Button from "components/Button/Button";
-import classNames from "classnames/bind";
-import styles from "./modal.module.css";
-import PropTypes from "prop-types";
-import { ButtonTypes } from "constants/enums";
+import React from 'react';
+import Button from 'components/Button/Button';
+import classNames from 'classnames/bind';
+import styles from './modal.module.css';
+import PropTypes from 'prop-types';
+import { ButtonTypes } from 'constants/enums';
 
 const Modal = props => {
   const handleBackgroundClick = e => {
@@ -14,9 +14,9 @@ const Modal = props => {
     <div
       onClick={handleBackgroundClick}
       className={classNames(
-        "modal",
+        'modal',
         styles.modalFade,
-        props.display ? "d-block modal-backdrop" : "d-none"
+        props.display ? 'd-block modal-backdrop' : 'd-none'
       )}
     >
       <div className='modal-new-dialog' role='document'>

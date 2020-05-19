@@ -1,4 +1,4 @@
-const Event = require("../models/Event");
+const Event = require('../models/Event');
 
 exports.createNewEvent = async (req, res) => {
   const title = req.body.title;
@@ -29,8 +29,8 @@ exports.getUpcomingEvents = async (req, res) => {
     { startDateTime: { $gt: new Date() } },
     (err, events) => {
       if (err) return res.status(500).send(err);
-      console.log("err:", err);
-      console.log("res:", res);
+      console.log('err:', err);
+      console.log('res:', res);
       return res.status(200).json(events);
     }
   );
