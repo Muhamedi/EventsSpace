@@ -20,7 +20,7 @@ const EventCard = props => (
       <div className='col-md-8'>
         <div className='card-body'>
           <h5 className='card-title'>{props.title}</h5>
-          <p className='card-text'>{props.text}</p>
+          <p className='card-text'>{props.title}</p>
           <div className='card-text'>
             <div className='row'>
               <small className='text-muted'>Type: {props.type}</small>
@@ -35,7 +35,7 @@ const EventCard = props => (
             </div>
             <div className='row'>
               <small className='text-muted'>
-                Last updated {props.lastUpdated} mins ago
+                Last updated 2 mins ago
               </small>
             </div>
           </div>
@@ -51,7 +51,7 @@ EventCard.propTypes = {
   type: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   startDateTime: PropTypes.string.isRequired,
-  lastUpdated: PropTypes.string,
+  //lastUpdated: PropTypes.string,
   imgUrl: PropTypes.string.isRequired,
   imgAlt: PropTypes.string,
 };

@@ -29,6 +29,7 @@ mongoose
   )
   .then(result => {
     console.log('Connected:', result);
+    console.log('#####################################################');
     server.listen(port);
   })
   .catch(err => {

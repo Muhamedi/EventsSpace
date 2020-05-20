@@ -6,15 +6,19 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    text: {
+    participantsType: {
         type: String,
+        required: true
+    },
+    nrOfTeams: {
+        type: Number,
+        required: true
+    },
+    nrOfTeamPlayers:  {
+        type: Number,
         required: true
     },
     type: {
-        type: String,
-        required: true
-    },
-    location:  {
         type: String,
         required: true
     },

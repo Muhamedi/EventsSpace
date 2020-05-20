@@ -10,3 +10,7 @@ export const SpinnerTypes = {
   SECONDARY: "text-secondary",
   LIGHT: "text-light",
 };
+
+export const HttpStatusCodes = {
+  CREATED: 201,
+}

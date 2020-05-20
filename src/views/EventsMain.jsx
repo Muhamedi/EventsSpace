@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getEvents } from 'api/Events';
+import { getEvents, createNewEvent } from 'api/Events';
 import moment from 'moment';
 import MainLayout from 'components/Layout/MainLayout';
 import EventCard from 'components/EventCard/EventCard';
@@ -8,8 +8,7 @@ import Modal from 'components/Modal/Modal';
 import NoEvents from 'images/NoEvents.png';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { ButtonTypes } from 'constants/enums';
-import { SpinnerTypes } from 'constants/enums';
+import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -19,13 +18,8 @@ const EventsMain = () => {
 
   useEffect(() => {
     async function getAllEvents() {
-      try {
-        const events = await getEvents();
-        console.log('EVENTS:', events);
-        setEvents(events);
-      } catch (ex) {
-        console.log('EXCEPTION:', ex.message);
-      }
+      const events = await getEvents();
+      setEvents(events);
     }
     getAllEvents();
   }, []);
@@ -36,7 +30,11 @@ const EventsMain = () => {
 
   const onCreateEvent = async (event, { setSubmitting, resetForm }) => {
     setSubmitting(true);
-    console.log('EVENT:', event);
+    const response = await createNewEvent(event);
+    if (response.status === HttpStatusCodes.CREATED) {
+      toggleModalHandler();
+      //getAllEvents();
+    }
     setSubmitting(false);
     resetForm();
   };
@@ -59,7 +57,9 @@ const EventsMain = () => {
             <div className='col-md-3' key={event._id}>
               <EventCard
                 title={event.title}
-                text={event.text}
+                participantsType={event.participantsType}
+                nrOfTeams={event.nrOfTeams}
+                nrOfTeamPlayers={event.nrOfTeamPlayers}
                 type={event.type}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(
@@ -80,18 +80,21 @@ const EventsMain = () => {
       <Formik
         initialValues={{
           title: '',
-          participants: 'fixed',
+          participantsType: 'Fixed',
           nrOfTeams: 2,
           nrOfTeamPlayers: 5,
+          type: 'Sport',
           location: '',
           startDateTime: new Date(),
-          customEventImage: '',
+          // customEventImage: '',
         }}
         validationSchema={Yup.object().shape({
           title: Yup.string().required('Title is required'),
-          participants: Yup.string().required('Participants are required'),
-          nrOfTeams: Yup.number().required('Number of teams are required'),
-          nrOfPlayers: Yup.number().required('Number of players are required'),
+          participantsType: Yup.string().required('Participants are required'),
+          nrOfTeams: Yup.string().required('Number of teams are required'),
+          nrOfTeamPlayers: Yup.string().required(
+            'Number of players are required'
+          ),
           location: Yup.string().required('Location is required'),
           startDateTime: Yup.string().required(
             'Start date and time is required'
@@ -146,22 +149,22 @@ const EventsMain = () => {
               </div>
               <div className='form-group row'>
                 <label htmlFor='type' className='col-sm-3'>
-                  Participants
+                  Participants Type
                 </label>
                 <div className='col-sm-9'>
                   <select
-                    value={values.participants}
+                    value={values.participantsType}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name='participants'
+                    name='participantsType'
                     className='form-control'
                   >
-                    <option value='fixed'>Fixed</option>
-                    <option value='notfixed'>Not fixed</option>
+                    <option value='Fixed'>Fixed</option>
+                    <option value='Not Fixed'>Not fixed</option>
                   </select>
                 </div>
-                {errors.participants && touched.participants && (
-                  <p className='text-danger'>{errors.participants}</p>
+                {errors.participantsType && touched.participantsType && (
+                  <p className='text-danger'>{errors.participantsType}</p>
                 )}
               </div>
               <div className='form-group row'>
@@ -209,18 +212,18 @@ const EventsMain = () => {
                   Type
                 </label>
                 <div className='col-sm-9'>
-                  <div className='col-sm-3'>
-                    <select
-                      value={values.type}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='type'
-                      className='form-control'
-                    >
-                      <option value='5'>5</option>
-                      <option value='6'>6</option>
-                    </select>
-                  </div>
+                  <select
+                    value={values.type}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name='type'
+                    className='form-control'
+                  >
+                    <option value='Strategy'>Strategy</option>
+                    <option value='Computer Gaming'>Computer Gaming</option>
+                    <option value='Sport'>Sport</option>
+                    <option value='Other'>Other</option>
+                  </select>
                 </div>
                 {errors.type && touched.type && (
                   <p className='text-danger'>{errors.type}</p>
@@ -248,7 +251,7 @@ const EventsMain = () => {
               </div>
               <div className='form-group row'>
                 <label htmlFor='startDateTime' className='col-sm-3'>
-                  Start Date
+                  Start Date & Time
                 </label>
                 <div className='col-sm-9'>
                   <DatePicker
