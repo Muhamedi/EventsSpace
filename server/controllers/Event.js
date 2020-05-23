@@ -9,7 +9,6 @@ exports.createNewEvent = async (req, res) => {
   const location = req.body.location;
   const startDateTime = req.body.startDateTime;
   const imgUrl = 'https://www.logolynx.com/images/logolynx/b5/b5e6c595e4c915f3ce0e3e7a50fa68d0.jpeg';//req.body.imgUrl;
-
   const event = new Event({
     title,
     participantsType,

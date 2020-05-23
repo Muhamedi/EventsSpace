@@ -12,16 +12,13 @@ import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
 
-  useEffect(() => {
-    async function getAllEvents() {
-      const events = await getEvents();
-      setEvents(events);
-    }
-    getAllEvents();
+  useEffect(async() => {
+    setEvents(await getEvents());
   }, []);
 
   const toggleModalHandler = () => {
@@ -33,7 +30,7 @@ const EventsMain = () => {
     const response = await createNewEvent(event);
     if (response.status === HttpStatusCodes.CREATED) {
       toggleModalHandler();
-      //getAllEvents();
+      setEvents(await getEvents());
     }
     setSubmitting(false);
     resetForm();

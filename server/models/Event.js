@@ -26,6 +26,10 @@ const eventSchema = new Schema({
         type: Date,
         required: true
     },
+    location: {
+        type: String,
+        required: true
+    },
     imgUrl:  {
         type: String,
         required: true
