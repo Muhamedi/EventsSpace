@@ -4,7 +4,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const eventsRouter = require("./routes/Event");
+const eventsRouter = require("./routes/Events");
+const usersRouter = require("./routes/Users");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, "build")));
 
 app.use("/api/events", eventsRouter);
+app.use("/api/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

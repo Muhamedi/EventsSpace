@@ -24,6 +24,9 @@ const NavBar = () => {
           <Link className="nav-item nav-link active" to="/">
             Log In
           </Link>
+          <Link className="nav-item nav-link active" to="/">
+            Sign Up
+          </Link>
         </div>
       </nav>
     </>

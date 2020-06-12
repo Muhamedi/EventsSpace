@@ -12,13 +12,16 @@ import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-
 const EventsMain = () => {
   const [events, setEvents] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
 
-  useEffect(async() => {
-    setEvents(await getEvents());
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await getEvents();
+      setEvents(response);
+    };
+    fetchEvents();
   }, []);
 
   const toggleModalHandler = () => {
@@ -49,11 +52,12 @@ const EventsMain = () => {
         </div>
       </div>
       <div className='row m-3'>
-        {events !== null &&
+        {events &&
           events.map(event => (
             <div className='col-md-3' key={event._id}>
               <EventCard
                 title={event.title}
+                text={event.text}
                 participantsType={event.participantsType}
                 nrOfTeams={event.nrOfTeams}
                 nrOfTeamPlayers={event.nrOfTeamPlayers}
@@ -68,7 +72,7 @@ const EventsMain = () => {
               ></EventCard>
             </div>
           ))}
-        {(events === null || events.length === 0) && (
+        {(!events || !events.length) && (
           <div className='img-fluid w-100 h-100 text-center'>
             <img className='rounded' src={NoEvents} alt='No Events' />
           </div>
