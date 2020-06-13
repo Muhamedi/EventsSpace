@@ -34,6 +34,14 @@ const SignUp = () => {
                         placeholder='Password'
                       />
                     </div>
+                    <div className='form-group col-md-12'>
+                      <input
+                        type='password'
+                        className='form-control'
+                        name='confirmPassword'
+                        placeholder='Confirm Password'
+                      />
+                    </div>
                   </div>
                   <div className='form-row'>
                     <div className='form-group'>
