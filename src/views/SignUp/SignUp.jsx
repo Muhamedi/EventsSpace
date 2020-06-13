@@ -11,6 +11,7 @@ const SignUp = () => {
               <img
                 className='card-img'
                 src='https://bmpdental.com.au/wp-content/uploads/2018/10/sport.jpg'
+                alt="Login Image"
               />
               <div>
                 <h4>Log In</h4>

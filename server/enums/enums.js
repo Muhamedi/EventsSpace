@@ -1,4 +1,4 @@
-export const HttpStatusCodes = {
+exports.HttpStatusCodes = {
     CREATED: 201,
     INTERNAL_SERVER_ERROR: 500,
     FORBIDDEN: 403,
