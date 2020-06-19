@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const exjwt = require('express-jwt');
 
+require('dotenv').config();
+
 const eventsRouter = require("./routes/Events");
 const usersRouter = require("./routes/Users");
 
