@@ -14,17 +14,17 @@ const NavBar = () => {
         <Link className="navbar-brand" to="/events">
           Events
         </Link>
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/history">
           History
         </Link>
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/ratings">
           Ratings
         </Link>
         <div className="navbar-nav">
-          <Link className="nav-item nav-link active" to="/">
+          <Link className="nav-item nav-link active" to="/login">
             Log In
           </Link>
-          <Link className="nav-item nav-link active" to="/">
+          <Link className="nav-item nav-link active" to="/signup">
             Sign Up
           </Link>
         </div>

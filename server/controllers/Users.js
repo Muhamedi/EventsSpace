@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
 exports.createNewUser = async (req, res) => {
+  console.log("INNNNN:", req.body);
   try {
     // Add check if user exists
     const { email, password, confirmPassword } = req.body;
@@ -37,7 +38,8 @@ exports.createNewUser = async (req, res) => {
         }
       }
     );
-  } catch {
+  } catch(ex) {
+    console.log("Error:", ex.message);
     return res
       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: 'Error creating the user.' });
@@ -62,7 +64,7 @@ exports.login = async (req, res) => {
       if (result) {
         let token = jwt.sign(
           { username: user.username },
-          process.env.EXPRESS_JWT_SECRET,
+          CONSTANTS.EXPRESS_JWT_SECRET,
           { expiresIn: 129600 }
         );
         return res

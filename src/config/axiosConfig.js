@@ -8,11 +8,13 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 }
 
 const opts = {
-	baseURL: APP_CONFIG.eventsSpaceApiBasePath,
+	baseURL: APP_CONFIG.URL.eventsSpaceApiBasePath,
 	timeout: 100000,
 	headers: {
 		'Content-Type': 'application/json',
 	},
 };
+
+console.log("OPTS:", opts);
 
 export const eventsSpaceApi = axios.create(opts);

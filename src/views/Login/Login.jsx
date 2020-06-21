@@ -1,31 +1,24 @@
 import React from 'react';
+import { Formik } from 'formik';
+import { login } from 'api/Users';
 import MainLayout from 'components/Layout/MainLayout';
 import Button from 'components/Button/Button';
-import { createNewUser } from 'api/Users';
-import { Formik } from 'formik';
-import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import * as Yup from 'yup';
-import styles from './signup.module.css';
+import { ButtonTypes, SpinnerTypes } from 'constants/enums';
 
-const onCreateUser = async (user, { setSubmitting, resetForm }) => {
-  console.log("user: ", user);
-  setSubmitting(true);
-  const response = await createNewUser(user);
-  if (response.status === HttpStatusCodes.CREATED) {
-    console.log('Response:', response); //Modify to render a component or modal
-  }
-  setSubmitting(false);
-  resetForm();
+const onLogin = async values => {
+  const token = await login(values.email, values.password);
+  localStorage.setItem('token', token);
+  return true;
 };
 
-const SignUp = () => {
+const Login = () => {
   return (
     <MainLayout>
       <Formik
         initialValues={{
           email: '',
           password: '',
-          confirmPassword: '',
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().required('Email is required'),
@@ -34,7 +27,7 @@ const SignUp = () => {
             .oneOf([Yup.ref('password'), null], "Passwords don't match!")
             .required('Confirm password is required'),
         })}
-        onSubmit={onCreateUser}
+        onSubmit={onLogin}
       >
         {formikProps => {
           const {
@@ -48,16 +41,16 @@ const SignUp = () => {
             isValid,
           } = formikProps;
           return (
-            <div className={`col-md-4 offset-md-4 text-center ${styles.login}`}>
+            <div className={`col-md-4 offset-md-4 text-center`}>
               <div className='card'>
                 <div className='card-body'>
                   <img
                     className='card-img'
                     src='https://bmpdental.com.au/wp-content/uploads/2018/10/sport.jpg'
-                    alt='Sign Up'
+                    alt='Login'
                   />
                   <div>
-                    <h4>Sign Up</h4>
+                    <h4>Log In</h4>
                   </div>
                   <div className='mt-4'>
                     <form>
@@ -90,44 +83,6 @@ const SignUp = () => {
                             <p className='text-danger'>{errors.password}</p>
                           )}
                         </div>
-                        <div className='form-group col-md-12'>
-                          <input
-                            type='password'
-                            className='form-control'
-                            name='confirmPassword'
-                            placeholder='Confirm Password'
-                            value={values.confirmPassword}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                          {errors.confirmPassword &&
-                            touched.confirmPassword && (
-                              <p className='text-danger'>
-                                {errors.confirmPassword}
-                              </p>
-                            )}
-                        </div>
-                      </div>
-                      <div className='form-row'>
-                        <div className='form-group'>
-                          <div className='form-check'>
-                            <input
-                              className='form-check-input'
-                              type='checkbox'
-                              id='agreeTerms'
-                              name='agreeTerms'
-                            />
-                            <label
-                              className='form-check-label'
-                              htmlFor='agreeTerms'
-                            >
-                              <small>
-                                By submitting this form you agree to our{' '}
-                                <a href='#'>terms and conditions </a>{' '}
-                              </small>
-                            </label>
-                          </div>
-                        </div>
                       </div>
                       <div className='form-row'>
                         <Button
@@ -141,6 +96,9 @@ const SignUp = () => {
                       </div>
                     </form>
                   </div>
+                  <div className='text-right mt-2'>
+                    <a href='#'>Reset Password </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -151,4 +109,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
