@@ -8,11 +8,10 @@ import * as Yup from 'yup';
 import styles from './signup.module.css';
 
 const onCreateUser = async (user, { setSubmitting, resetForm }) => {
-  console.log("user: ", user);
   setSubmitting(true);
   const response = await createNewUser(user);
   if (response.status === HttpStatusCodes.CREATED) {
-    console.log('Response:', response); //Modify to render a component or modal
+    console.log('Response:', response); //Modify to render a component or modal and maybe send email activation
   }
   setSubmitting(false);
   resetForm();

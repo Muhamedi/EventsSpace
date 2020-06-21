@@ -15,6 +15,4 @@ const opts = {
 	},
 };
 
-console.log("OPTS:", opts);
-
 export const eventsSpaceApi = axios.create(opts);

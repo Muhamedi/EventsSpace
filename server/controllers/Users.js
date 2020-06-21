@@ -5,10 +5,17 @@ const jwt = require('jsonwebtoken');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
 exports.createNewUser = async (req, res) => {
-  console.log("INNNNN:", req.body);
   try {
-    // Add check if user exists
     const { email, password, confirmPassword } = req.body;
+    const user = await User.findOne({ email });
+    if(user) {
+      res
+        .status(HttpStatusCodes.CONFLICT)
+        .json({
+          success: false,
+          message: `User with email ${email} already exists`,
+        });
+    }
     if (password !== confirmPassword) {
       res
         .status(HttpStatusCodes.BAD_REQUEST)
@@ -39,7 +46,6 @@ exports.createNewUser = async (req, res) => {
       }
     );
   } catch(ex) {
-    console.log("Error:", ex.message);
     return res
       .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: 'Error creating the user.' });
