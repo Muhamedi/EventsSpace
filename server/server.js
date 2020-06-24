@@ -1,7 +1,7 @@
 ﻿/**
  * Module dependencies.
  */
-
+require('dotenv').config();
 const debug = require('debug')('WebTemplateStudioExpress:server');
 const http = require('http');
 const app = require('./app');

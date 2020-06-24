@@ -3,11 +3,9 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const exjwt = require('express-jwt');
 var cors = require('cors')
 const eventsRouter = require("./routes/Events");
 const usersRouter = require("./routes/Users");
-
 const app = express();
 
 app.use(cors());
@@ -16,22 +14,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "build")));
-
-/*========= Here we will set up an express jsonwebtoken middleware(simply required for express to properly utilize the token for requests) You MUST instantiate this with the same secret that will be sent to the client ============*/
-const jwtMW = exjwt({
-  secret: 'Hakuna Matata'
-});
-
-/*========= Here we want to let the server know that we should expect and allow a header with the content-type of 'Authorization' ============*/
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
-  next();
-});
-
-app.get('/', jwtMW /* Using the express jwt MW here */, (req, res) => {
-  console.log("Web Token Checked.")
-  res.send('You are authenticated'); //Sending some response when authenticated
-});
 
 app.use("/api/events", eventsRouter);
 app.use("/api/users", usersRouter);
