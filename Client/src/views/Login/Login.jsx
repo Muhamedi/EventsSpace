@@ -6,13 +6,15 @@ import Button from 'components/Button/Button';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes } from 'constants/enums';
 
-const onLogin = async values => {
-  const token = await login(values.email, values.password);
-  localStorage.setItem('token', token);
-  return true;
+const onLogin = props => async values => {
+  const response = await login(values.email, values.password);
+  if (response.success) {
+    localStorage.setItem('access_token', response.token);
+  }
+  props.history.push('/events');
 };
 
-const Login = () => {
+const Login = props => {
   return (
     <MainLayout>
       <Formik
@@ -23,11 +25,8 @@ const Login = () => {
         validationSchema={Yup.object().shape({
           email: Yup.string().required('Email is required'),
           password: Yup.string().required('Password is required'),
-          confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], "Passwords don't match!")
-            .required('Confirm password is required'),
         })}
-        onSubmit={onLogin}
+        onSubmit={onLogin(props)}
       >
         {formikProps => {
           const {

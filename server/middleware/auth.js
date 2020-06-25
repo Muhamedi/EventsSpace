@@ -1,0 +1,18 @@
+const jwt = require('jsonwebtoken');
+const CONSTANTS = require('../constants');
+
+module.exports = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, CONSTANTS.EXPRESS_JWT_SECRET, (error, user) => {
+      if (error) {
+        return res.status(403).json({ success: false, message: 'Forbidden' });
+      }
+      req.user = user;
+      next();
+    });
+  } else {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+};

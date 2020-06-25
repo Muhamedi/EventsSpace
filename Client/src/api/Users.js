@@ -19,7 +19,7 @@ export const login = (email, password) => {
         password,
       })
       .then(response => {
-        res(response);
+        res(response.data);
       })
       .catch(e => rej(e));
   });
