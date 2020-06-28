@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
-exports.createNewUser = async (req, res) => {
+exports.createNewUser = async (req, res, next) => {
   try {
     const { email, password, confirmPassword } = req.body;
     const user = await User.findOne({ email });
@@ -25,9 +25,7 @@ exports.createNewUser = async (req, res) => {
       CONSTANTS.SALT_ROUNDS,
       async (error, hashedPassword) => {
         if (error) {
-          return res
-            .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-            .json({ success: false, message: 'Error creating the user.' });
+          throw new Error(error);
         }
         const user = new User({
           email,
@@ -41,18 +39,15 @@ exports.createNewUser = async (req, res) => {
         }
       }
     );
-  } catch (ex) {
-    return res
-      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: 'Error creating the user.' });
+  } catch (err) {
+    return next(new Error(err));
   }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    console.log('User:', user);
     if (!user) {
       return res
         .status(HttpStatusCodes.UNAUTHORIZED)
@@ -60,9 +55,7 @@ exports.login = async (req, res) => {
     }
     bcrypt.compare(password, user.password, (error, result) => {
       if (error) {
-        return res
-          .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ success: false, message: 'An error occurred.' });
+        throw new Error(error);
       }
       if (!result) {
         return res
@@ -74,11 +67,9 @@ exports.login = async (req, res) => {
         CONSTANTS.EXPRESS_JWT_SECRET,
         { expiresIn: 129600 }
       );
-      return res.status(HttpStatusCodes.SUCCESS).json({ success: true, token });
+      return res.status(HttpStatusCodes.OK).json({ success: true, token });
     });
-  } catch {
-    return res
-      .status(HttpStatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ success: false, message: 'Log in failed.' });
+  } catch (err) {
+    return next(new Error(err));
   }
 };
