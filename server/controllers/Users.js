@@ -50,7 +50,7 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res
-        .status(HttpStatusCodes.UNAUTHORIZED)
+        .status(HttpStatusCodes.BAD_REQUEST)
         .json({ success: false, message: 'Username or password incorrect!' });
     }
     bcrypt.compare(password, user.password, (error, result) => {
@@ -59,7 +59,7 @@ exports.login = async (req, res, next) => {
       }
       if (!result) {
         return res
-          .status(HttpStatusCodes.UNAUTHORIZED)
+          .status(HttpStatusCodes.BAD_REQUEST)
           .json({ success: false, message: 'Username or password incorrect!' });
       }
       let token = jwt.sign(

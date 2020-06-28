@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
+const { HttpStatusCodes } = require('../enums/enums.js');
 
 module.exports = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -13,6 +14,6 @@ module.exports = (req, res, next) => {
       next();
     });
   } else {
-    res.status(401).json({ success: false, message: 'Unauthorized' });
+    res.status(HttpStatusCodes.NOT_AUTHENTICATED).json({ success: false, message: 'Unauthorized' });
   }
 };
