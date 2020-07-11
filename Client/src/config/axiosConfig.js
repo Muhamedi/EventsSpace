@@ -10,6 +10,15 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
 const opts = {
 	baseURL: APP_CONFIG.URL.eventsSpaceApiBasePath,
 	timeout: 100000,
+	transformRequest: [
+		(data, headers) => {
+			const accessToken = localStorage.getItem('access_token');
+			if (accessToken) {
+				headers['Authorization'] = `Bearer ${accessToken}`;
+			}
+			return JSON.stringify(data);
+		},
+	],
 	headers: {
 		'Content-Type': 'application/json',
 	},

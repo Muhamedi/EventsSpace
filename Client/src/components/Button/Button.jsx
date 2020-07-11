@@ -3,7 +3,7 @@ import Loader from "components/Loader/Loader";
 import PropTypes from "prop-types";
 
 const Button = props => (
-  <button onClick={props.onClick} type='button' disabled={props.disabled} className={props.type}>
+  <button onClick={props.onClick} type='button' disabled={props.disabled} className={props.className}>
     {props.loading && <Loader type={props.spinnerType} />}
     {!props.loading && (
       <span className={props.icon ? "mr-1" : ""}>{props.text}</span>
@@ -16,7 +16,7 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   icon: PropTypes.string,
   onClick: PropTypes.func,
-  type: PropTypes.elementType,
+  className: PropTypes.string,
   loading: PropTypes.bool,
   spinnerType: PropTypes.string,
   disabled: PropTypes.bool

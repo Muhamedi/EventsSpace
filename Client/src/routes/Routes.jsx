@@ -6,7 +6,7 @@ import { Switch, Route } from "react-router-dom";
 
 const Routes = (
   <Switch>
-    <Route exact path="/" component={Login} />
+    <Route exact path="/" component={EventsMain} />
     <Route exact path="/events" component={EventsMain} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/signup" component={SignUp} />

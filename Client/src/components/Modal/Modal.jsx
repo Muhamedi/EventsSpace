@@ -28,7 +28,7 @@ const Modal = props => {
           <div className='modal-footer'>
             {props.secondaryButtonText && (
               <Button
-                type={ButtonTypes.SECONDARY}
+                className={ButtonTypes.SECONDARY}
                 onClick={props.secondaryButtonClick}
                 text={props.secondaryButtonText}
                 icon={props.secondaryButtonIcon}
@@ -36,7 +36,7 @@ const Modal = props => {
             )}
             {props.primaryButtonText && (
               <Button
-                type={ButtonTypes.INFO}
+                className={ButtonTypes.INFO}
                 loading={props.primaryButtonLoading}
                 primaryButtonSpinnerType={props.spinnerType}
                 onClick={props.primaryButtonClick}

@@ -65,7 +65,7 @@ exports.login = async (req, res, next) => {
       let token = jwt.sign(
         { id: user._id, email: user.email },
         CONSTANTS.EXPRESS_JWT_SECRET,
-        { expiresIn: 129600 }
+        { expiresIn: 86400 }
       );
       return res.status(HttpStatusCodes.OK).json({ success: true, token });
     });

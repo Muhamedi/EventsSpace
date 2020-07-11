@@ -19,7 +19,9 @@ const EventsMain = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await getEvents();
-      setEvents(response);
+      if(response.success) {
+        setEvents(response.events);
+      }
     };
     fetchEvents();
   }, []);
@@ -45,7 +47,7 @@ const EventsMain = () => {
         <div className='col-md-3'>
           <Button
             text='Add new'
-            type={ButtonTypes.INFO}
+            className={ButtonTypes.INFO}
             onClick={toggleModalHandler}
             icon='fa fa-plus-square'
           />
