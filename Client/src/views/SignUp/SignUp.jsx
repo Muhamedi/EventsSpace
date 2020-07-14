@@ -1,5 +1,4 @@
 import React from 'react';
-import MainLayout from 'components/Layout/MainLayout';
 import Button from 'components/Button/Button';
 import { createNewUser } from 'api/Users';
 import { Formik } from 'formik';
