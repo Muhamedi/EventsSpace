@@ -26,8 +26,15 @@ const SignUp = () => {
         confirmPassword: '',
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().required('Email is required'),
-        password: Yup.string().required('Password is required'),
+        email: Yup.string()
+          .email('Email address should be valid')
+          .required('Email is required'),
+        password: Yup.string()
+          .required('Please Enter your password')
+          .matches(
+            /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+            'Must Contain 8 Characters, at least one char and one number'
+          ),
         confirmPassword: Yup.string()
           .oneOf([Yup.ref('password'), null], "Passwords don't match!")
           .required('Confirm password is required'),
