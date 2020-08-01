@@ -1,4 +1,4 @@
-const Event = require('../models/Event');
+const Event = require('../models/event.model');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
 exports.createNewEvent = async (req, res, next) => {

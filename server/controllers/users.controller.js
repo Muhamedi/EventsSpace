@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user.model');
 const CONSTANTS = require('../constants');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -9,15 +9,9 @@ exports.createNewUser = async (req, res, next) => {
     const { email, password, confirmPassword } = req.body;
     const user = await User.findOne({ email });
     if (user) {
-      res.status(HttpStatusCodes.CONFLICT).json({
+      return res.status(HttpStatusCodes.CONFLICT).json({
         success: false,
         message: `User with email ${email} already exists`,
-      });
-    }
-    if (password !== confirmPassword) {
-      res.status(HttpStatusCodes.BAD_REQUEST).json({
-        success: false,
-        message: 'Password and confirm password should be equal',
       });
     }
     bcrypt.hash(
@@ -51,7 +45,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       return res
         .status(HttpStatusCodes.BAD_REQUEST)
-        .json({ success: false, message: 'Username or password incorrect!' });
+        .json({ success: false, message: 'Email or password incorrect!' });
     }
     bcrypt.compare(password, user.password, (error, result) => {
       if (error) {
