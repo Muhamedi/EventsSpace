@@ -2,7 +2,9 @@ const User = require('../models/user.model');
 const CONSTANTS = require('../constants');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { HttpStatusCodes } = require('../enums/enums.js');
+const sendEmail = require('../services/sendEmail.service');
+const { readFile } = require('../helpers/readFile');
+const { HttpStatusCodes } = require('../enums/enums');
 
 exports.createNewUser = async (req, res, next) => {
   try {
@@ -27,6 +29,13 @@ exports.createNewUser = async (req, res, next) => {
         });
         const result = await user.save();
         if (result) {
+          const template = readFile('templates/accountcreated.html');
+          const emailContent = {
+            to: email,
+            subject: 'Account created',
+            template
+          }
+          sendEmail(emailContent);
           return res
             .status(HttpStatusCodes.CREATED)
             .json({ success: true, message: 'User created successfully.' });
@@ -47,6 +56,11 @@ exports.login = async (req, res, next) => {
         .status(HttpStatusCodes.BAD_REQUEST)
         .json({ success: false, message: 'Email or password incorrect!' });
     }
+    if(!user.isActive) {
+      return res
+        .status(HttpStatusCodes.FORBIDDEN)
+        .json({ success: false, message: 'Your account has not been activated.' });
+    }
     bcrypt.compare(password, user.password, (error, result) => {
       if (error) {
         throw new Error(error);
@@ -56,12 +70,19 @@ exports.login = async (req, res, next) => {
           .status(HttpStatusCodes.BAD_REQUEST)
           .json({ success: false, message: 'Username or password incorrect!' });
       }
+      const tokenExpirationDate = new Date(
+        new Date().getTime() + Number(CONSTANTS.TOKEN_EXPIRATION_TIME)
+      );
       let token = jwt.sign(
         { id: user._id, email: user.email },
         CONSTANTS.EXPRESS_JWT_SECRET,
-        { expiresIn: 86400 }
+        { expiresIn: tokenExpirationDate }
       );
-      return res.status(HttpStatusCodes.OK).json({ success: true, token });
+      return res.status(HttpStatusCodes.OK).json({
+        success: true,
+        token,
+        expiresIn: tokenExpirationDate,
+      });
     });
   } catch (err) {
     return next(new Error(err));

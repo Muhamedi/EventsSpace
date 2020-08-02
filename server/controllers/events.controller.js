@@ -18,6 +18,7 @@ exports.createNewEvent = async (req, res, next) => {
     
     const event = new Event({
       title,
+      text: title,
       participantsType,
       nrOfTeams,
       nrOfTeamPlayers,

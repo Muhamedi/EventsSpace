@@ -11,6 +11,7 @@ const onLogin = props => async values => {
   const response = await login(values.email, values.password);
   if (response.success) {
     localStorage.setItem('access_token', response.token);
+    localStorage.setItem('expiresIn', response.expiresIn);
   }
   props.history.push('/events');
 };

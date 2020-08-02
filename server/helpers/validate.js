@@ -1,6 +1,6 @@
 const { HttpStatusCodes } = require('../enums/enums');
 
-module.exports = schema => {
+const validate = schema => {
   return (req, res, next) => {
     if (schema.body) {
       const result = schema.body.validate(req.body);
@@ -29,3 +29,5 @@ module.exports = schema => {
     next();
   };
 };
+
+module.exports = validate;
