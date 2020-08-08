@@ -1,19 +1,27 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const accountActivationSchema = new Schema({
-    UserId: {
-        type: String,
-        required: true
+const accountActivationSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
     },
-    Link: {
-        type: String,
-        required: true
+    activationId: {
+      type: String,
+      required: true,
     },
     isValid: {
-        type: Boolean,
-        required: true
-    }
-});
+      type: Boolean,
+      required: true,
+    },
+    expiration: {
+      type: Date,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model('AccountActivation', accountActivationSchema);
