@@ -12,10 +12,6 @@ const accountActivationSchema = new Schema(
       type: String,
       required: true,
     },
-    isValid: {
-      type: Boolean,
-      required: true,
-    },
     expiration: {
       type: Date,
       required: true,

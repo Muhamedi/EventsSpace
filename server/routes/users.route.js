@@ -15,4 +15,9 @@ router
   .route('/login')
   .post(validate(usersValidator.login), usersController.login);
 
+// /api/users/:userId/activation
+router
+  .route('/:userId/activation')
+  .post(validate(usersValidator.activateUser), usersController.activateUser);
+
 module.exports = router;
