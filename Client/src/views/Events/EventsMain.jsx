@@ -5,7 +5,7 @@ import MainLayout from 'components/Layout/MainLayout';
 import EventCard from 'components/EventCard/EventCard';
 import Button from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
-import NoEvents from 'images/NoEvents.png';
+import Empty from 'images/empty.png';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -76,7 +76,7 @@ const EventsMain = () => {
           ))}
         {(!events || !events.length) && (
           <div className='img-fluid w-100 h-100 text-center'>
-            <img className='rounded' src={NoEvents} alt='No Events' />
+            <img className='rounded' src={Empty} alt='No Events' />
           </div>
         )}
       </div>

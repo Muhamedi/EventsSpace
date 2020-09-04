@@ -24,4 +24,7 @@ const opts = {
 	},
 };
 
+
 export const eventsSpaceApi = axios.create(opts);
+
+eventsSpaceApi.interceptors.response.use(response => response, error => Promise.reject(error.response));

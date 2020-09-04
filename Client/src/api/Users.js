@@ -24,3 +24,14 @@ export const login = (email, password) => {
       .catch(e => rej(e));
   });
 };
+
+export const activateUser = (userId, email, activationId) => {
+  return new Promise((res, rej) => {
+    eventsSpaceApi
+      .post(`api/users/${userId}/activation?id=${activationId}&email=${email}`)
+      .then(response => {
+        res(response.data);
+      })
+      .catch(e => rej(e));
+  });
+};

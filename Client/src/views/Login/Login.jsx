@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { login } from 'api/Users';
 import Button from 'components/Button/Button';
+import Alert from 'components/Alert/Alert';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import { ButtonTypes, SpinnerTypes } from 'constants/enums';
 
-const onLogin = props => async values => {
-  const response = await login(values.email, values.password);
-  if (response.success) {
-    localStorage.setItem('access_token', response.token);
-    localStorage.setItem('expiresIn', response.expiresIn);
-  }
-  props.history.push('/events');
-};
-
 const Login = props => {
+  const [error, setError] = useState(null);
+
+  const onLogin = props => async values => {
+    try {
+      const response = await login(values.email, values.password);
+      console.log("response:", response);
+      if (response.success) {
+        localStorage.setItem('access_token', response.token);
+        localStorage.setItem('expiresIn', response.expiresIn);
+      }
+      // eslint-disable-next-line react/prop-types
+      props.history.push('/events');
+    } catch (ex) {
+      console.log("ex:", ex);
+      setError(ex.data.message);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -51,6 +61,12 @@ const Login = props => {
                 />
                 <div>
                   <h4>Log In</h4>
+                  <Alert
+                    display={error}
+                    alertType='alert-danger'
+                    onClose={() => setError(null)}
+                    text={error}
+                  />
                 </div>
                 <div className='mt-4'>
                   <form>

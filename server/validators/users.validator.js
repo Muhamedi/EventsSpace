@@ -20,7 +20,7 @@ module.exports = {
       userId: Joi.objectId().required(),
     }),
     query: Joi.object({
-      activationId: Joi.string().required(),
+      id: Joi.string().required(),
       email: Joi.string().required(),
     })
   }
