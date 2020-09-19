@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-const AccountActivation = require('../models/accountactivation.model');
+const AccountActivation = require('../models/accountActivation.model');
 const CONSTANTS = require('../constants');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
