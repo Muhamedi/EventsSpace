@@ -2,12 +2,12 @@ const participantTypes = {
   model: 'ParticipantType',
   documents: [
     {
-      Id: 1,
-      Name: 'Fixed',
+      id: 1,
+      name: 'Individual',
     },
     {
-      Id: 2,
-      Name: 'Not Fixed',
+      id: 2,
+      name: 'Team',
     },
   ],
 };

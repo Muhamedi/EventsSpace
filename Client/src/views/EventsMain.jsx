@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getEvents, createNewEvent } from 'api/Events';
+import { getParticipantTypes } from 'api/ParticipantTypes';
 import moment from 'moment';
 import MainLayout from 'components/MainLayout';
 import EventCard from 'components/EventCard';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Empty from 'images/empty.png';
+import Select from 'components/Select';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -13,17 +15,27 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const EventsMain = () => {
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [participantTypes, setParticipantTypes] = useState([]);
   const [displayModal, setDisplayModal] = useState(false);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const response = await getEvents();
-      if(response.success) {
-        setEvents(response.events);
-      }
-    };
-    fetchEvents();
+  const fetchEvents = async () => {
+    const response = await getEvents();
+    if (response.success) {
+      setEvents(response.events);
+    }
+  };
+
+  const fetchParticipantTypes = async () => {
+    const response = await getParticipantTypes();
+    if (response.success) {
+      setParticipantTypes(response.participantTypes);
+    }
+  };
+
+  useEffect(async () => {
+    await fetchEvents();
+    await fetchParticipantTypes();
   }, []);
 
   const toggleModalHandler = () => {
@@ -35,7 +47,7 @@ const EventsMain = () => {
     const response = await createNewEvent(event);
     if (response.status === HttpStatusCodes.CREATED) {
       toggleModalHandler();
-      setEvents(await getEvents());
+      await fetchEvents();
     }
     setSubmitting(false);
     resetForm();
@@ -83,7 +95,7 @@ const EventsMain = () => {
       <Formik
         initialValues={{
           title: '',
-          participantsType: 'Fixed',
+          participantsType: '',
           nrOfTeams: 2,
           nrOfTeamPlayers: 5,
           type: 'Sport',
@@ -106,6 +118,7 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
+          console.log("formikProps:", formikProps);
           const {
             values,
             errors,
@@ -155,16 +168,15 @@ const EventsMain = () => {
                   Participants Type
                 </label>
                 <div className='col-sm-9'>
-                  <select
+                  <Select
                     value={values.participantsType}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     name='participantsType'
-                    className='form-control'
-                  >
-                    <option value='Fixed'>Fixed</option>
-                    <option value='Not Fixed'>Not fixed</option>
-                  </select>
+                    textField='name'
+                    valueField='id'
+                    items={participantTypes}
+                  />
                 </div>
                 {errors.participantsType && touched.participantsType && (
                   <p className='text-danger'>{errors.participantsType}</p>
@@ -172,7 +184,7 @@ const EventsMain = () => {
               </div>
               <div className='form-group row'>
                 <label htmlFor='type' className='col-sm-3'>
-                  Nr. of teams
+                  Nr. of participants
                 </label>
                 <div className='col-sm-3'>
                   <select
@@ -204,6 +216,7 @@ const EventsMain = () => {
                   >
                     <option value='5'>5</option>
                     <option value='6'>6</option>
+                    <option value='6'>7</option>
                   </select>
                 </div>
                 {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
@@ -222,7 +235,6 @@ const EventsMain = () => {
                     name='type'
                     className='form-control'
                   >
-                    <option value='Strategy'>Strategy</option>
                     <option value='Computer Gaming'>Computer Gaming</option>
                     <option value='Sport'>Sport</option>
                     <option value='Other'>Other</option>

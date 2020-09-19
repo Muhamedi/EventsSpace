@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const participantTypeSchema = new Schema({
-  Id: {
+  id: {
     type: Number,
     required: true,
   },
-  Name: {
+  name: {
     type: String,
     required: true,
   },

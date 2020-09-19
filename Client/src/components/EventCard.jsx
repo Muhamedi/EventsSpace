@@ -20,7 +20,7 @@ const EventCard = props => (
       <div className='col-md-8'>
         <div className='card-body'>
           <h5 className='card-title'>{props.title}</h5>
-          <p className='card-text'>{props.text}</p>
+          <p className='card-text'>{props.title}</p>
           <div className='card-text'>
             <div className='row'>
               <small className='text-muted'>Type: {props.type}</small>
