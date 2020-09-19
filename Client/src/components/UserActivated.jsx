@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Alert from 'components/Alert/Alert';
+import Alert from 'components/Alert';
 import Confirmation from 'images/confirmation.png';
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader';
 import { activateUser } from 'api/Users';
 // import PropTypes from 'prop-types';
 

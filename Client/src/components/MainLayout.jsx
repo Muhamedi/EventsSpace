@@ -1,8 +1,7 @@
 import React from "react";
-import NavBar from "components/NavBar/NavBar";
-import Footer from "components/Footer/Footer";
+import NavBar from "components/NavBar";
+import Footer from "components/Footer";
 import PropTypes from "prop-types";
-import styles from "./mainlayout.module.css";
 import { isAuthenticated } from 'common/auth';
 import { Redirect } from "react-router-dom";
 
@@ -13,7 +12,7 @@ const MainLayout = props => {
   return (
     <>
       <NavBar />
-      <div className={styles.mainBody}>{props.children}</div>
+      <div>{props.children}</div>
       <Footer />
     </>
   );

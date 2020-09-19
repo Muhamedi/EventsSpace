@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { getEvents, createNewEvent } from 'api/Events';
 import moment from 'moment';
-import MainLayout from 'components/Layout/MainLayout';
-import EventCard from 'components/EventCard/EventCard';
-import Button from 'components/Button/Button';
-import Modal from 'components/Modal/Modal';
+import MainLayout from 'components/MainLayout';
+import EventCard from 'components/EventCard';
+import Button from 'components/Button';
+import Modal from 'components/Modal';
 import Empty from 'images/empty.png';
 import { Formik } from 'formik';
 import * as Yup from 'yup';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { login } from 'api/Users';
-import Button from 'components/Button/Button';
-import Alert from 'components/Alert/Alert';
+import Button from 'components/Button';
+import Alert from 'components/Alert';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import classNames from 'classnames/bind';

@@ -11,4 +11,16 @@
     align-items: center;
 }
 
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 50px;
+  border: 1px solid lightgrey;
+  display: flex;
+}
 
+.footer-text {
+  margin: auto;
+}

@@ -1,10 +1,9 @@
 import React from 'react';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import { createNewUser } from 'api/Users';
 import { Formik } from 'formik';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import * as Yup from 'yup';
-import styles from './signup.module.css';
 
 const onCreateUser = async (user, { setSubmitting, resetForm }) => {
   setSubmitting(true);
@@ -52,7 +51,7 @@ const SignUp = () => {
           isValid,
         } = formikProps;
         return (
-          <div className={`col-md-4 offset-md-4 text-center ${styles.login}`}>
+          <div className={`col-md-4 offset-md-4 text-center`}>
             <div className='card'>
               <div className='card-body'>
                 <img

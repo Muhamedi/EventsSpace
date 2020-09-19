@@ -1,8 +1,8 @@
 import React from "react";
-import EventsMain from "views/Events/EventsMain";
-import SignUp from "views/SignUp/SignUp";
-import Login from "views/Login/Login";
-import UserActivated from "components/UserActivated/UserActivated";
+import EventsMain from "views/EventsMain";
+import SignUp from "views/SignUp";
+import Login from "views/Login";
+import UserActivated from "components/UserActivated";
 import { Switch, Route } from "react-router-dom";
 
 const Routes = (

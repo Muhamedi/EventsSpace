@@ -1,7 +1,6 @@
 import React from 'react';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import classNames from 'classnames/bind';
-import styles from './modal.module.css';
 import PropTypes from 'prop-types';
 import { ButtonTypes } from 'constants/enums';
 
@@ -15,7 +14,6 @@ const Modal = props => {
       onClick={handleBackgroundClick}
       className={classNames(
         'modal',
-        styles.modalFade,
         props.display ? 'd-block modal-backdrop' : 'd-none'
       )}
     >
