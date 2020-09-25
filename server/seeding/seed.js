@@ -2,10 +2,11 @@ const seeder = require('mongoose-seed');
 require('dotenv').config();
 const CONSTANTS = require('../constants');
 const participantsTypesData = require('./data/participantTypes');
+const eventTypesData = require('./data/eventTypes');
 
-const seedData = [participantsTypesData];
-const loadModels = ['models/participantType.model'];
-const clearModels = ['ParticipantType'];
+const seedData = [participantsTypesData, eventTypesData];
+const loadModels = ['models/participantType.model', 'models/eventType.model'];
+const clearModels = ['ParticipantType', 'EventType'];
 
 seeder.connect(
   CONSTANTS.MONGODB_CONNECTION_STRING,

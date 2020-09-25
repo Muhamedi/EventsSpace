@@ -1,4 +1,5 @@
 const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 
 module.exports = {
   createNewEvent: {
@@ -7,8 +8,9 @@ module.exports = {
       participantsType: Joi.string().required(),
       nrOfTeams: Joi.number().required(),
       nrOfTeamPlayers: Joi.number().required(),
-      type: Joi.string().required(),
+      eventType: Joi.string().required(),
       location: Joi.string().required(),
+      createdBy:  Joi.objectId().required(),
       startDateTime: Joi.date().required(),
     }),
   },

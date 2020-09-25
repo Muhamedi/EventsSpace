@@ -8,7 +8,7 @@ exports.createNewEvent = async (req, res, next) => {
       participantsType,
       nrOfTeams,
       nrOfTeamPlayers,
-      type,
+      eventType,
       location,
       startDateTime,
     } = req.body;
@@ -22,7 +22,7 @@ exports.createNewEvent = async (req, res, next) => {
       participantsType,
       nrOfTeams,
       nrOfTeamPlayers,
-      type,
+      eventType,
       location,
       startDateTime,
       imgUrl,

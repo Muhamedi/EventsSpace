@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getEvents, createNewEvent } from 'api/Events';
 import { getParticipantTypes } from 'api/ParticipantTypes';
+import { getEventTypes } from 'api/EventTypes';
 import moment from 'moment';
 import MainLayout from 'components/MainLayout';
 import EventCard from 'components/EventCard';
@@ -17,6 +18,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const EventsMain = () => {
   const [events, setEvents] = useState([]);
   const [participantTypes, setParticipantTypes] = useState([]);
+  const [eventTypes, setEventTypes] = useState([]);
   const [displayModal, setDisplayModal] = useState(false);
 
   const fetchEvents = async () => {
@@ -33,9 +35,17 @@ const EventsMain = () => {
     }
   };
 
+  const fetchEventTypes = async () => {
+    const response = await getEventTypes();
+    if (response.success) {
+      setEventTypes(response.eventTypes);
+    }
+  };
+
   useEffect(async () => {
     await fetchEvents();
     await fetchParticipantTypes();
+    await fetchEventTypes();
   }, []);
 
   const toggleModalHandler = () => {
@@ -98,7 +108,7 @@ const EventsMain = () => {
           participantsType: '',
           nrOfTeams: 2,
           nrOfTeamPlayers: 5,
-          type: 'Sport',
+          eventType: '',
           location: '',
           startDateTime: new Date(),
           // customEventImage: '',
@@ -110,6 +120,7 @@ const EventsMain = () => {
           nrOfTeamPlayers: Yup.string().required(
             'Number of players are required'
           ),
+          eventType: Yup.string().required('Event type is required'),
           location: Yup.string().required('Location is required'),
           startDateTime: Yup.string().required(
             'Start date and time is required'
@@ -118,7 +129,7 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
-          console.log("formikProps:", formikProps);
+          console.log('formikProps:', formikProps);
           const {
             values,
             errors,
@@ -228,20 +239,18 @@ const EventsMain = () => {
                   Type
                 </label>
                 <div className='col-sm-9'>
-                  <select
-                    value={values.type}
+                  <Select
+                    value={values.eventType}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name='type'
-                    className='form-control'
-                  >
-                    <option value='Computer Gaming'>Computer Gaming</option>
-                    <option value='Sport'>Sport</option>
-                    <option value='Other'>Other</option>
-                  </select>
+                    name='eventType'
+                    textField='name'
+                    valueField='id'
+                    items={eventTypes}
+                  />
                 </div>
-                {errors.type && touched.type && (
-                  <p className='text-danger'>{errors.type}</p>
+                {errors.eventType && touched.eventType && (
+                  <p className='text-danger'>{errors.eventType}</p>
                 )}
               </div>
               <div className='form-group row'>
