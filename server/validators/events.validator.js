@@ -10,7 +10,6 @@ module.exports = {
       nrOfTeamPlayers: Joi.number().required(),
       eventType: Joi.string().required(),
       location: Joi.string().required(),
-      createdBy:  Joi.objectId().required(),
       startDateTime: Joi.date().required(),
     }),
   },

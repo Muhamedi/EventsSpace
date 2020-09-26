@@ -23,7 +23,7 @@ const EventCard = props => (
           <p className='card-text'>{props.title}</p>
           <div className='card-text'>
             <div className='row'>
-              <small className='text-muted'>Type: {props.type}</small>
+              <small className='text-muted'>Type: {props.eventType}</small>
             </div>
             <div className='row'>
               <small className='text-muted'>Location: {props.location}</small>
@@ -48,7 +48,7 @@ const EventCard = props => (
 EventCard.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  eventType: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   startDateTime: PropTypes.string.isRequired,
   //lastUpdated: PropTypes.string,

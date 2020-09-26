@@ -1,5 +1,6 @@
 const Event = require('../models/event.model');
 const { HttpStatusCodes } = require('../enums/enums.js');
+const io = require('../socket');
 
 exports.createNewEvent = async (req, res, next) => {
   try {
@@ -23,6 +24,7 @@ exports.createNewEvent = async (req, res, next) => {
       nrOfTeams,
       nrOfTeamPlayers,
       eventType,
+      createdBy: req.user.id,
       location,
       startDateTime,
       imgUrl,
@@ -30,6 +32,7 @@ exports.createNewEvent = async (req, res, next) => {
 
     const result = await event.save();
     if (result) {
+      io.getIO().emit('events', { action: 'create', event });
       return res.status(HttpStatusCodes.CREATED).json({
         success: true,
         message: 'Event created successfully.',
@@ -42,9 +45,10 @@ exports.createNewEvent = async (req, res, next) => {
 
 exports.getUpcomingEvents = async (req, res, next) => {
   try {
-    const upcomingEvents = Event.find(
+    const upcomingEvents = Event.find().populate('EventType').exec(
       { startDateTime: { $gt: new Date() } },
       (err, events) => {
+        console.log("Events:", events);
         if (err) throw new Error(err);
         return res.status(HttpStatusCodes.OK).json({
           success: true,

@@ -12,6 +12,7 @@ import Select from 'components/Select';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
+import openSocket from 'socket.io-client';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -21,31 +22,32 @@ const EventsMain = () => {
   const [eventTypes, setEventTypes] = useState([]);
   const [displayModal, setDisplayModal] = useState(false);
 
-  const fetchEvents = async () => {
-    const response = await getEvents();
-    if (response.success) {
-      setEvents(response.events);
-    }
-  };
-
-  const fetchParticipantTypes = async () => {
-    const response = await getParticipantTypes();
-    if (response.success) {
-      setParticipantTypes(response.participantTypes);
-    }
-  };
-
-  const fetchEventTypes = async () => {
-    const response = await getEventTypes();
-    if (response.success) {
-      setEventTypes(response.eventTypes);
-    }
-  };
-
-  useEffect(async () => {
-    await fetchEvents();
-    await fetchParticipantTypes();
-    await fetchEventTypes();
+  useEffect(() => {
+    (async () => {
+      const response = await getEvents();
+      if (response.success) {
+        setEvents(response.events);
+      }
+    })();
+    (async () => {
+      const response = await getParticipantTypes();
+      if (response.success) {
+        setParticipantTypes(response.participantTypes);
+      }
+    })();
+    (async () => {
+      const response = await getEventTypes();
+      if (response.success) {
+        setEventTypes(response.eventTypes);
+      }
+    })();
+    const socket = openSocket('http://localhost:5000');
+    socket.on('events', data => {
+      if (data.action === 'create') {
+        const newEvents = [...events, data.event];
+        setEvents(newEvents);
+      }
+    });
   }, []);
 
   const toggleModalHandler = () => {
@@ -57,7 +59,6 @@ const EventsMain = () => {
     const response = await createNewEvent(event);
     if (response.status === HttpStatusCodes.CREATED) {
       toggleModalHandler();
-      await fetchEvents();
     }
     setSubmitting(false);
     resetForm();
@@ -85,7 +86,7 @@ const EventsMain = () => {
                 participantsType={event.participantsType}
                 nrOfTeams={event.nrOfTeams}
                 nrOfTeamPlayers={event.nrOfTeamPlayers}
-                type={event.type}
+                eventType={event.eventType}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(
                   'HH:mm DD-MM-YYYY'
@@ -185,7 +186,7 @@ const EventsMain = () => {
                     onBlur={handleBlur}
                     name='participantsType'
                     textField='name'
-                    valueField='id'
+                    valueField='_id'
                     items={participantTypes}
                   />
                 </div>
@@ -245,7 +246,7 @@ const EventsMain = () => {
                     onBlur={handleBlur}
                     name='eventType'
                     textField='name'
-                    valueField='id'
+                    valueField='_id'
                     items={eventTypes}
                   />
                 </div>

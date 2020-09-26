@@ -31,33 +31,35 @@ const UserActivated = props => {
       }
     };
     activate();
-  }, []);
+  }, [activationId, email, userId]);
 
   return (
-    <div className='col-md-4 offset-md-4 h-100'>
-      {loading && <Loader />}
-      {!loading && (
-        <div className={'card'}>
-          <Alert
-            display={error}
-            alertType='alert-danger'
-            onClose={() => setError(null)}
-            text={error}
-          />
-          <img
-            className='card-img-top'
-            src={Confirmation}
-            alt='User activated'
-          />
-          <div className='card-body'>
-            <h5 className='card-title'>Success</h5>
-            <p className='card-text'>User has been successfully activated</p>
-            <a href='/login' className='btn btn-primary'>
-              Continue to login
-            </a>
+    <div className='login-card-wrapper row'>
+      <div className='col-md-4'>
+        {loading && <Loader />}
+        {!loading && (
+          <div className={'card'}>
+            <Alert
+              display={error}
+              alertType='alert-danger'
+              onClose={() => setError(null)}
+              text={error}
+            />
+            <img
+              className='card-img-top'
+              src={Confirmation}
+              alt='User activated'
+            />
+            <div className='card-body'>
+              <h5 className='card-title'>Success</h5>
+              <p className='card-text'>User has been successfully activated</p>
+              <a href='/login' className='btn btn-primary'>
+                Continue to login
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

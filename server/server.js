@@ -28,10 +28,12 @@ mongoose
     CONSTANTS.MONGODB_CONNECTION_STRING,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
-  .then(result => {
-    console.log('Connected:', result);
-    console.log('#####################################################');
+  .then(() => {
     server.listen(port);
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+      console.log('Client connected');
+    })
   })
   .catch(err => {
     console.log(err);

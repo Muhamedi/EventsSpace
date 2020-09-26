@@ -21,8 +21,8 @@ app.use(express.static(path.resolve(__dirname, "build")));
 
 app.use("/api/events", authMiddleware, eventsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/participant-types", participantTypesRouter);
-app.use("/api/event-types", eventTypesRouter);
+app.use("/api/participant-types", authMiddleware, participantTypesRouter);
+app.use("/api/event-types", authMiddleware, eventTypesRouter);
 
 app.use(errorHandler);
 
