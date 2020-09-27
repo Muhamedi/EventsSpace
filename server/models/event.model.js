@@ -8,7 +8,8 @@ const eventSchema = new Schema(
       required: true,
     },
     participantsType: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'ParticipantType',
       required: true,
     },
     nrOfTeams: {
@@ -20,7 +21,8 @@ const eventSchema = new Schema(
       required: true,
     },
     eventType: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'EventType',
       required: true,
     },
     startDateTime: {

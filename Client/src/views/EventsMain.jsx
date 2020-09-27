@@ -85,10 +85,10 @@ const EventsMain = () => {
               <EventCard
                 title={event.title}
                 text={event.text}
-                participantsType={event.participantsType}
+                participantsType={event.participantsType.name}
                 nrOfTeams={event.nrOfTeams}
                 nrOfTeamPlayers={event.nrOfTeamPlayers}
-                eventType={event.eventType}
+                eventType={event.eventType.name}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(
                   'HH:mm DD-MM-YYYY'

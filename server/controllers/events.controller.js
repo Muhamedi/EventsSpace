@@ -13,10 +13,10 @@ exports.createNewEvent = async (req, res, next) => {
       location,
       startDateTime,
     } = req.body;
-    
+
     const imgUrl =
       'https://www.logolynx.com/images/logolynx/b5/b5e6c595e4c915f3ce0e3e7a50fa68d0.jpeg'; //req.body.imgUrl;
-    
+
     const event = new Event({
       title,
       text: title,
@@ -32,7 +32,11 @@ exports.createNewEvent = async (req, res, next) => {
 
     const result = await event.save();
     if (result) {
-      io.getIO().emit('events', { action: 'create', event });
+      const createdEvent = await Event.findById(result._id)
+        .populate('eventType')
+        .populate('participantsType')
+        .populate('createdBy');
+      io.getIO().emit('events', { action: 'create', event: createdEvent });
       return res.status(HttpStatusCodes.CREATED).json({
         success: true,
         message: 'Event created successfully.',
@@ -45,18 +49,15 @@ exports.createNewEvent = async (req, res, next) => {
 
 exports.getUpcomingEvents = async (req, res, next) => {
   try {
-    const upcomingEvents = Event.find().populate('EventType').exec(
-      { startDateTime: { $gt: new Date() } },
-      (err, events) => {
-        console.log("Events:", events);
-        if (err) throw new Error(err);
-        return res.status(HttpStatusCodes.OK).json({
-          success: true,
-          events,
-        });
-      }
-    );
-    return upcomingEvents;
+    const upcomingEvents = await Event.find()
+      .populate('eventType')
+      .populate('participantsType')
+      .populate('createdBy')
+      .exec({ startDateTime: { $gt: new Date() } });
+    return res.status(HttpStatusCodes.OK).json({
+      success: true,
+      events: upcomingEvents,
+    });
   } catch (err) {
     return next(new Error(err));
   }
