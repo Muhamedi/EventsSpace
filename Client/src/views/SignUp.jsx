@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom'
 import Button from 'components/Button';
 import { createNewUser } from 'api/Users';
 import { Formik } from 'formik';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import * as Yup from 'yup';
 
-const onCreateUser = async (user, { setSubmitting, resetForm }) => {
-  setSubmitting(true);
-  const response = await createNewUser(user);
-  if (response.status === HttpStatusCodes.CREATED) {
-    console.log('Response:', response); //Modify to render a component or modal and maybe send email activation
-  }
-  setSubmitting(false);
-  resetForm();
-};
-
 const SignUp = () => {
+  const [success, setSuccess] = useState(false);
+  const onCreateUser = async (user, { setSubmitting, resetForm }) => {
+    setSubmitting(true);
+    const response = await createNewUser(user);
+    if (response.status === HttpStatusCodes.CREATED) {
+      setSuccess(true);
+    }
+    setSubmitting(false);
+    resetForm();
+  };
+  if (success) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/user/created',
+          state: { success: true },
+        }}
+      />
+    );
+  }
   return (
     <Formik
       initialValues={{

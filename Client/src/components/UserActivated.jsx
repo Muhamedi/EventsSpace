@@ -3,7 +3,6 @@ import Alert from 'components/Alert';
 import Confirmation from 'images/confirmation.png';
 import Loader from 'components/Loader';
 import { activateUser } from 'api/Users';
-// import PropTypes from 'prop-types';
 
 const UserActivated = props => {
   const search = window.location.search;
@@ -63,9 +62,5 @@ const UserActivated = props => {
     </div>
   );
 };
-
-// UserActivated.propTypes = {
-//     text: PropTypes.string.isRequired,
-// };
 
 export default UserActivated;

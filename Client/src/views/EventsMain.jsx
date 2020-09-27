@@ -113,7 +113,7 @@ const EventsMain = () => {
           nrOfTeamPlayers: 5,
           eventType: '',
           location: '',
-          startDateTime: new Date(),
+          startDateTime: moment().add(60, 'minute').toDate(),
           // customEventImage: '',
         }}
         validationSchema={Yup.object().shape({
