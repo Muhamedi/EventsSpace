@@ -13,6 +13,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
 import openSocket from 'socket.io-client';
+import { APP_CONFIG } from 'config/axiosConfig';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -21,6 +22,14 @@ const EventsMain = () => {
   const [participantTypes, setParticipantTypes] = useState([]);
   const [eventTypes, setEventTypes] = useState([]);
   const [displayModal, setDisplayModal] = useState(false);
+
+  const socket = openSocket(APP_CONFIG.URL.eventsSpaceApiBasePath);
+  socket.on('events', data => {
+    if (data.action === 'create') {
+      const newEvents = [...events, data.event];
+      setEvents(newEvents);
+    }
+  });
 
   useEffect(() => {
     (async () => {
@@ -41,13 +50,6 @@ const EventsMain = () => {
         setEventTypes(response.eventTypes);
       }
     })();
-    const socket = openSocket('http://localhost:5000');
-    socket.on('events', data => {
-      if (data.action === 'create') {
-        const newEvents = [...events, data.event];
-        setEvents(newEvents);
-      }
-    });
   }, []);
 
   const toggleModalHandler = () => {
@@ -130,7 +132,6 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
-          console.log('formikProps:', formikProps);
           const {
             values,
             errors,

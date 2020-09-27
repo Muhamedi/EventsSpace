@@ -47,7 +47,6 @@ const EventCard = props => (
 
 EventCard.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
   eventType: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   startDateTime: PropTypes.string.isRequired,
