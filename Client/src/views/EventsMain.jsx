@@ -10,6 +10,7 @@ import Modal from 'components/Modal';
 import Empty from 'images/empty.png';
 import Select from 'components/Select';
 import { ParticipantTypes } from 'constants/enums';
+import GoogleMapContainer from 'containers/GoogleMapContainer';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -114,7 +115,7 @@ const EventsMain = () => {
           nrOfTeamPlayers: 5,
           eventType: '',
           location: '',
-          startDateTime: moment().add(60, 'minute').toDate(),
+          startDateTime: moment().add(1, 'day').toDate(),
           // customEventImage: '',
         }}
         validationSchema={Yup.object().shape({
@@ -172,10 +173,10 @@ const EventsMain = () => {
                     id='title'
                     name='title'
                   />
+                  {errors.title && touched.title && (
+                    <span className='text-danger'>{errors.title}</span>
+                  )}
                 </div>
-                {errors.title && touched.title && (
-                  <p className='text-danger'>{errors.title}</p>
-                )}
               </div>
               <div className='form-group row'>
                 <label htmlFor='type' className='col-sm-3'>
@@ -191,10 +192,10 @@ const EventsMain = () => {
                     valueField='_id'
                     items={participantTypes}
                   />
+                  {errors.participantsType && touched.participantsType && (
+                    <span className='text-danger'>{errors.participantsType}</span>
+                  )}
                 </div>
-                {errors.participantsType && touched.participantsType && (
-                  <p className='text-danger'>{errors.participantsType}</p>
-                )}
               </div>
               <div className='form-group row'>
                 <label htmlFor='type' className='col-sm-3'>
@@ -211,10 +212,10 @@ const EventsMain = () => {
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                   </select>
+                  {errors.nrOfTeams && touched.nrOfTeams && (
+                    <span className='text-danger'>{errors.nrOfTeams}</span>
+                  )}
                 </div>
-                {errors.nrOfTeams && touched.nrOfTeams && (
-                  <p className='text-danger'>{errors.nrOfTeams}</p>
-                )}
               </div>
               {values.participantsType === ParticipantTypes.TEAM.toString() && (
                 <div className='form-group row'>
@@ -233,10 +234,10 @@ const EventsMain = () => {
                       <option value='6'>6</option>
                       <option value='6'>7</option>
                     </select>
+                    {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
+                      <span className='text-danger'>{errors.nrOfTeamPlayers}</span>
+                    )}
                   </div>
-                  {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
-                    <p className='text-danger'>{errors.nrOfTeamPlayers}</p>
-                  )}
                 </div>
               )}
               <div className='form-group row'>
@@ -253,10 +254,10 @@ const EventsMain = () => {
                     valueField='_id'
                     items={eventTypes}
                   />
+                  {errors.eventType && touched.eventType && (
+                    <span className='text-danger'>{errors.eventType}</span>
+                  )}
                 </div>
-                {errors.eventType && touched.eventType && (
-                  <p className='text-danger'>{errors.eventType}</p>
-                )}
               </div>
               <div className='form-group row'>
                 <label htmlFor='location' className='col-sm-3'>
@@ -273,10 +274,10 @@ const EventsMain = () => {
                     id='location'
                     name='location'
                   />
+                  {errors.location && touched.location && (
+                    <span className='text-danger'>{errors.location}</span>
+                  )}
                 </div>
-                {errors.location && touched.location && (
-                  <p className='text-danger'>{errors.location}</p>
-                )}
               </div>
               <div className='form-group row'>
                 <label htmlFor='startDateTime' className='col-sm-3'>
@@ -293,11 +294,12 @@ const EventsMain = () => {
                     name='startDateTime'
                     onChange={value => setFieldValue('startDateTime', value)}
                   />
+                  {errors.startDateTime && touched.startDateTime && (
+                    <span className='text-danger'>{errors.startDateTime}</span>
+                  )}
                 </div>
-                {errors.startDateTime && touched.startDateTime && (
-                  <p className='text-danger'>{errors.startDateTime}</p>
-                )}
               </div>
+              {/* <GoogleMapContainer /> */}
             </Modal>
           );
         }}
