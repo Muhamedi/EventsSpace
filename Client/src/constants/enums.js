@@ -14,3 +14,8 @@ export const SpinnerTypes = {
 export const HttpStatusCodes = {
   CREATED: 201,
 }
+
+export const ParticipantTypes = { 
+  INDIVIDUAL: 1,
+  TEAM: 2
+}

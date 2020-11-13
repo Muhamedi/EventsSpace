@@ -9,6 +9,7 @@ import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Empty from 'images/empty.png';
 import Select from 'components/Select';
+import { ParticipantTypes } from 'constants/enums';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -215,27 +216,29 @@ const EventsMain = () => {
                   <p className='text-danger'>{errors.nrOfTeams}</p>
                 )}
               </div>
-              <div className='form-group row'>
-                <label htmlFor='type' className='col-sm-3'>
-                  Nr. team players
-                </label>
-                <div className='col-sm-3'>
-                  <select
-                    value={values.nrOfTeamPlayers}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    name='nrOfTeamPlayers'
-                    className='form-control'
-                  >
-                    <option value='5'>5</option>
-                    <option value='6'>6</option>
-                    <option value='6'>7</option>
-                  </select>
+              {values.participantsType === ParticipantTypes.TEAM.toString() && (
+                <div className='form-group row'>
+                  <label htmlFor='type' className='col-sm-3'>
+                    Nr. team players
+                  </label>
+                  <div className='col-sm-3'>
+                    <select
+                      value={values.nrOfTeamPlayers}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name='nrOfTeamPlayers'
+                      className='form-control'
+                    >
+                      <option value='5'>5</option>
+                      <option value='6'>6</option>
+                      <option value='6'>7</option>
+                    </select>
+                  </div>
+                  {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
+                    <p className='text-danger'>{errors.nrOfTeamPlayers}</p>
+                  )}
                 </div>
-                {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
-                  <p className='text-danger'>{errors.nrOfTeamPlayers}</p>
-                )}
-              </div>
+              )}
               <div className='form-group row'>
                 <label htmlFor='type' className='col-sm-3'>
                   Type

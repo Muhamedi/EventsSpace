@@ -8,7 +8,7 @@ const eventSchema = new Schema(
       required: true,
     },
     participantsType: {
-      type: Schema.Types.ObjectId,
+      type: Number,
       ref: 'ParticipantType',
       required: true,
     },
@@ -21,7 +21,7 @@ const eventSchema = new Schema(
       required: true,
     },
     eventType: {
-      type: Schema.Types.ObjectId,
+      type: Number,
       ref: 'EventType',
       required: true,
     },
