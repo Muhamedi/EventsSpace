@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:v="urn:schemas-microsoft-com:vml"
+>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width" name="viewport" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <title></title>
+
+    <style type="text/css">
+      .btn-reject {
+        box-shadow: inset 0px 1px 0px 0px #cf866c;
+        background: linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+        background-color: #d0451b;
+        border-radius: 3px;
+        border: 1px solid #942911;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 13px;
+        padding: 6px 24px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #854629;
+      }
+      .btn-reject:hover {
+        background: linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+        background-color: #bc3315;
+      }
+      .btn-reject:active {
+        position: relative;
+        top: 1px;
+      }
+
+      .btn-accept {
+        box-shadow: inset 0px 1px 0px 0px #54a3f7;
+        background: linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+        background-color: #007dc1;
+        border-radius: 3px;
+        border: 1px solid #124d77;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 13px;
+        padding: 6px 24px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #154682;
+      }
+      .btn-accept:hover {
+        background: linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+        background-color: #0061a7;
+      }
+      .btn-accept:active {
+        position: relative;
+        top: 1px;
+      }
+      .evt-details {
+        padding-right: 5px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <p>You have been invited to the following event:</p>
+    <p><span class="evt-details">Event:</span>[title]</span></p>
+    <p><span class="evt-details">Location:</span>[location]</span></p>
+    <p><span class="evt-details">Start time:</span>[startDateTime]</span></p>
+    <a class="btn-accept" href="[invitationUrl]&status=1">Accept</a>
+	<a class="btn-reject" href="[invitationUrl]&status=2">Reject</a>
+    <p>&copy;Events Space</p>
+  </body>
+</html>

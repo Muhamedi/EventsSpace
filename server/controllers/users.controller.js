@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
-const { ObjectId } = require('mongoose').Schema.Types;
 const sendEmail = require('../services/sendEmail.service');
 const { readFile } = require('../helpers/readFile');
 const { HttpStatusCodes } = require('../enums/enums');

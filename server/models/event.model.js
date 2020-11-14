@@ -12,11 +12,7 @@ const eventSchema = new Schema(
       ref: 'ParticipantType',
       required: true,
     },
-    nrOfTeams: {
-      type: Number,
-      required: true,
-    },
-    nrOfTeamPlayers: {
+    nrOfParticipants: {
       type: Number,
       required: true,
     },
@@ -25,12 +21,16 @@ const eventSchema = new Schema(
       ref: 'EventType',
       required: true,
     },
-    startDateTime: {
-      type: Date,
+    inviteAll: {
+      type: Boolean,
       required: true,
     },
     location: {
       type: String,
+      required: true,
+    },
+    startDateTime: {
+      type: Date,
       required: true,
     },
     imgUrl: {

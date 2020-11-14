@@ -112,6 +112,7 @@ const EventsMain = () => {
           participantsType: '',
           nrOfTeams: 2,
           nrOfTeamPlayers: 5,
+          inviteAll: false,
           eventType: '',
           location: '',
           startDateTime: moment().add(1, 'day').toDate(),
@@ -120,9 +121,8 @@ const EventsMain = () => {
         validationSchema={Yup.object().shape({
           title: Yup.string().required('Title is required'),
           participantsType: Yup.string().required('Participants are required'),
-          nrOfTeams: Yup.string().required('Number of teams are required'),
-          nrOfTeamPlayers: Yup.string().required(
-            'Number of players are required'
+          nrOfParticipants: Yup.string().required(
+            'Number of participants are required'
           ),
           eventType: Yup.string().required('Event type is required'),
           location: Yup.string().required('Location is required'),
@@ -223,18 +223,18 @@ const EventsMain = () => {
                   </label>
                   <div className='col-sm-3'>
                     <select
-                      value={values.nrOfTeamPlayers}
+                      value={values.nrOfParticipants}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      name='nrOfTeamPlayers'
+                      name='nrOfParticipants'
                       className='form-control'
                     >
                       <option value='5'>5</option>
                       <option value='6'>6</option>
                       <option value='6'>7</option>
                     </select>
-                    {errors.nrOfTeamPlayers && touched.nrOfTeamPlayers && (
-                      <span className='text-danger'>{errors.nrOfTeamPlayers}</span>
+                    {errors.nrOfParticipants && touched.nrOfParticipants && (
+                      <span className='text-danger'>{errors.nrOfParticipants}</span>
                     )}
                   </div>
                 </div>
@@ -255,6 +255,23 @@ const EventsMain = () => {
                   />
                   {errors.eventType && touched.eventType && (
                     <span className='text-danger'>{errors.eventType}</span>
+                  )}
+                </div>
+              </div>
+              <div className='form-group row'>
+                <div className='offset-sm-3 col-sm-9'>
+                  <input
+                    type='checkbox'
+                    value={values.inviteAll}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    id='inviteAll'
+                    name='inviteAll'
+                    className='mr-1'
+                  />
+                  <span>Invite all users</span>
+                  {errors.inviteAll && touched.inviteAll && (
+                    <span className='text-danger'>{errors.inviteAll}</span>
                   )}
                 </div>
               </div>

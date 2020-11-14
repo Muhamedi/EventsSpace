@@ -5,8 +5,8 @@ const participantsTypesData = require('./data/participantTypes');
 const eventTypesData = require('./data/eventTypes');
 
 const seedData = [participantsTypesData, eventTypesData];
-const loadModels = ['models/participantType.model', 'models/eventType.model'];
-const clearModels = ['ParticipantType', 'EventType'];
+const loadModels = ['models/participantType.model', 'models/eventType.model', 'models/invitationStatus.model'];
+const clearModels = ['ParticipantType', 'EventType', 'InvitationStatus'];
 
 seeder.connect(
   CONSTANTS.MONGODB_CONNECTION_STRING,
