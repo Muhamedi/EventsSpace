@@ -10,7 +10,6 @@ import Modal from 'components/Modal';
 import Empty from 'images/empty.png';
 import Select from 'components/Select';
 import { ParticipantTypes } from 'constants/enums';
-import GoogleMapContainer from 'containers/GoogleMapContainer';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -299,7 +298,6 @@ const EventsMain = () => {
                   )}
                 </div>
               </div>
-              {/* <GoogleMapContainer /> */}
             </Modal>
           );
         }}
