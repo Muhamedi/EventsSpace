@@ -34,14 +34,15 @@ const EventCard = props => (
               </small>
             </div>
             <div className='row'>
-              <small className='text-muted'>
-                Last updated 2 mins ago
-              </small>
+              <small className='text-muted'>Last updated 2 mins ago</small>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <button type='button' className='close card-close-icon' aria-label='Close'>
+      <span aria-hidden='true'>&times;</span>
+    </button>
   </div>
 );
 

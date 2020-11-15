@@ -25,3 +25,8 @@
 .footer-text {
   margin: auto;
 }
+
+.card-close-icon {
+  position: absolute;
+  right: 5px;
+}
