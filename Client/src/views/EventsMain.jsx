@@ -87,8 +87,7 @@ const EventsMain = () => {
                 title={event.title}
                 text={event.text}
                 participantsType={event.participantsType.name}
-                nrOfTeams={event.nrOfTeams}
-                nrOfTeamPlayers={event.nrOfTeamPlayers}
+                nrOfParticipants={event.nrOfParticipants}
                 eventType={event.eventType.name}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(
@@ -110,8 +109,7 @@ const EventsMain = () => {
         initialValues={{
           title: '',
           participantsType: '',
-          nrOfTeams: 2,
-          nrOfTeamPlayers: 5,
+          nrOfParticipants: 5,
           inviteAll: false,
           eventType: '',
           location: '',
@@ -133,6 +131,7 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
+          console.log("props:", formikProps);
           const {
             values,
             errors,
@@ -202,17 +201,17 @@ const EventsMain = () => {
                 </label>
                 <div className='col-sm-3'>
                   <select
-                    value={values.nrOfTeams}
+                    value={values.nrOfParticipants}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    name='nrOfTeams'
+                    name='nrOfParticipants'
                     className='form-control'
                   >
                     <option value='2'>2</option>
                     <option value='3'>3</option>
                   </select>
-                  {errors.nrOfTeams && touched.nrOfTeams && (
-                    <span className='text-danger'>{errors.nrOfTeams}</span>
+                  {errors.nrOfParticipants && touched.nrOfParticipants && (
+                    <span className='text-danger'>{errors.nrOfParticipants}</span>
                   )}
                 </div>
               </div>
@@ -270,9 +269,6 @@ const EventsMain = () => {
                     className='mr-1'
                   />
                   <span>Invite all users</span>
-                  {errors.inviteAll && touched.inviteAll && (
-                    <span className='text-danger'>{errors.inviteAll}</span>
-                  )}
                 </div>
               </div>
               <div className='form-group row'>

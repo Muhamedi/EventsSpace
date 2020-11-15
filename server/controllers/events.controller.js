@@ -1,9 +1,11 @@
 const Event = require('../models/event.model');
 const User = require('../models/user.model');
+const Invitation = require('../models/invitation.model');
 const moment = require('moment');
-const { InvitationStatus } = require('../enums/enums');
+const CONSTANTS = require('../constants');
+const { HttpStatusCodes, InvitationStatus } = require('../enums/enums');
 const sendEmail = require('../services/sendEmail.service');
-const { HttpStatusCodes } = require('../enums/enums.js');
+const { readFile } = require('../helpers/readFile');
 const io = require('../socket');
 
 exports.createNewEvent = async (req, res, next) => {
@@ -40,14 +42,12 @@ exports.createNewEvent = async (req, res, next) => {
         .populate('participantsType')
         .populate('createdBy');
       io.getIO().emit('events', { action: 'create', event: createdEvent });
-      return res.status(HttpStatusCodes.CREATED).json({
-        success: true,
-        message: 'Event created successfully.',
-      });
     }
     if (inviteAll) {
-      const users = await User.find().toArray();
+      let users = await User.find({});
+      users = users.filter(user => user._id !== req.user.id);
       const invitations = [];
+      const templateFile = readFile('templates/eventinvitation.html');
       for (user of users) {
         const invitation = new Invitation({
           eventId: event.id,
@@ -56,33 +56,35 @@ exports.createNewEvent = async (req, res, next) => {
           expiration: event.startDateTime,
         });
         invitations.push(invitation);
-        const invitationResult = await Invitation.InsertMany(invitations);
-        if (!invitationResult) {
-          return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: 'Failed to create invitation.',
-          });
-        }
-      }
-      const templateFile = readFile('templates/eventinvitation.html');
-      const template = templateFile
-        .replace(
-          /\[invitationUrl\]/g,
-          CONSTANTS.EVENTS_SPACE_CLIENT_BASE_URL.concat(
-            `users/${userId}/invitation?id=${invitationId}&eventId=${event.id}`
+        const template = templateFile
+          .replace(
+            /\[invitationUrl\]/g,
+            CONSTANTS.EVENTS_SPACE_CLIENT_BASE_URL.concat(
+              `users/${user._id}/invitation?id=${invitation._id}&eventId=${event.id}`
+            )
           )
-        )
-        .replace(/\[title\]/g, title)
-        .replace(/\[location\]/g, location)
-        .replace(/\[startDateTime\]/g, startDateTime);
-
-      const emailContent = {
-        to: users.map(user => user.email),
-        subject: 'Event invitation',
-        template,
-      };
-      sendEmail(emailContent);
+          .replace(/\[title\]/g, title)
+          .replace(/\[location\]/g, location)
+          .replace(/\[startDateTime\]/g, startDateTime);
+        const emailContent = {
+          to: user.email,
+          subject: 'Event invitation',
+          template,
+        };
+        sendEmail(emailContent);
+      }
+      const invitationResult = await Invitation.insertMany(invitations);
+      if (!invitationResult) {
+        return res.status(HttpStatusCodes.INTERNAL_SERVER_ERROR).json({
+          success: false,
+          message: 'Failed to create invitation.',
+        });
+      }
     }
+    return res.status(HttpStatusCodes.CREATED).json({
+      success: true,
+      message: 'Event created successfully.',
+    });
   } catch (err) {
     return next(new Error(err));
   }
