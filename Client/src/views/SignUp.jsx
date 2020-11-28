@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 import Button from 'components/Button';
+import Alert from 'components/Alert';
 import { createNewUser } from 'api/Users';
 import { Formik } from 'formik';
 import { ButtonTypes, SpinnerTypes, HttpStatusCodes } from 'constants/enums';
@@ -8,15 +9,23 @@ import * as Yup from 'yup';
 
 const SignUp = () => {
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+
   const onCreateUser = async (user, { setSubmitting, resetForm }) => {
-    setSubmitting(true);
-    const response = await createNewUser(user);
-    if (response.status === HttpStatusCodes.CREATED) {
-      setSuccess(true);
+    try {
+      setSubmitting(true);
+      const response = await createNewUser(user);
+      if (response.status === HttpStatusCodes.CREATED) {
+        setSuccess(true);
+      }
+      resetForm();
+    } catch (ex) {
+      setError(ex.data.message);
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
-    resetForm();
   };
+
   if (success) {
     return (
       <Redirect
@@ -73,6 +82,12 @@ const SignUp = () => {
                   />
                   <div>
                     <h4>Sign Up</h4>
+                    <Alert
+                      display={error}
+                      alertType='alert-danger'
+                      onClose={() => setError(null)}
+                      text={error}
+                    />
                   </div>
                   <div className='mt-4'>
                     <form>
@@ -88,7 +103,7 @@ const SignUp = () => {
                             onBlur={handleBlur}
                           />
                           {errors.email && touched.email && (
-                            <p className='text-danger'>{errors.email}</p>
+                            <span className='text-danger'>{errors.email}</span>
                           )}
                         </div>
                         <div className='form-group col-md-12'>
@@ -102,7 +117,7 @@ const SignUp = () => {
                             onBlur={handleBlur}
                           />
                           {errors.password && touched.password && (
-                            <p className='text-danger'>{errors.password}</p>
+                            <span className='text-danger'>{errors.password}</span>
                           )}
                         </div>
                         <div className='form-group col-md-12'>
@@ -117,9 +132,9 @@ const SignUp = () => {
                           />
                           {errors.confirmPassword &&
                             touched.confirmPassword && (
-                              <p className='text-danger'>
+                              <span className='text-danger'>
                                 {errors.confirmPassword}
-                              </p>
+                              </span>
                             )}
                         </div>
                       </div>
