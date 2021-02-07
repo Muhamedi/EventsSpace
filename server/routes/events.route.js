@@ -16,4 +16,12 @@ router
 // /api/events/upcoming
 router.route('/upcoming').get(eventsController.getUpcomingEvents);
 
+// /api/events/:eventId/details
+router
+  .route('/:eventId/details')
+  .get(
+    validate(eventsValidator.getEventDetails),
+    eventsController.getEventDetails
+  );
+
 module.exports = router;

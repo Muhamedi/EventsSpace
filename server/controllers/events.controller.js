@@ -1,7 +1,7 @@
 const Event = require('../models/event.model');
 const User = require('../models/user.model');
 const Invitation = require('../models/invitation.model');
-const moment = require('moment');
+const EventParticipant = require('../models/eventParticipant.model');
 const CONSTANTS = require('../constants');
 const { HttpStatusCodes, InvitationStatus } = require('../enums/enums');
 const sendEmail = require('../services/sendEmail.service');
@@ -92,14 +92,48 @@ exports.createNewEvent = async (req, res, next) => {
 
 exports.getUpcomingEvents = async (req, res, next) => {
   try {
-    const upcomingEvents = await Event.find()
-      .populate('eventType')
-      .populate('participantsType')
-      .populate('createdBy')
+    const upcomingEvents = await Event.find({ isActive: true })
+      .populate({ path: 'eventType', select: 'name' })
       .exec({ startDateTime: { $gt: new Date() } });
+
     return res.status(HttpStatusCodes.OK).json({
       success: true,
       events: upcomingEvents,
+    });
+  } catch (err) {
+    return next(new Error(err));
+  }
+};
+
+exports.getEventDetails = async (req, res, next) => {
+  try {
+    const event = await Event.findOne(
+      {
+        _id: req.params.eventId,
+        isActive: true,
+      },
+      { __v: false }
+    )
+      .populate({ path: 'eventType', select: 'name' })
+      .populate({ path: 'participantsType', select: 'name' })
+      .populate({ path: 'createdBy', select: 'email' })
+      .exec();
+
+    let participants = await EventParticipant.find(
+      {
+        eventId: req.params.eventId,
+        isActive: true,
+      },
+      { _id: false }
+    )
+      .populate({ path: 'userId', select: 'email' })
+      .select('userId');
+
+    participants = participants.map(user => user.userId);
+
+    return res.status(HttpStatusCodes.OK).json({
+      success: true,
+      eventDetails: { event, participants },
     });
   } catch (err) {
     return next(new Error(err));

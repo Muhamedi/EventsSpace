@@ -46,6 +46,11 @@ const eventSchema = new Schema(
       type: Date,
       required: false,
     },
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: true
+    },
   },
   { timestamps: true }
 );

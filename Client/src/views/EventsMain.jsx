@@ -90,10 +90,9 @@ const EventsMain = () => {
           events.map(event => (
             <div className='col-md-3' key={event._id}>
               <EventCard
+                id = {event._id}
                 title={event.title}
                 text={event.text}
-                participantsType={event.participantsType.name}
-                nrOfParticipants={event.nrOfParticipants}
                 eventType={event.eventType.name}
                 location={event.location}
                 startDateTime={moment(event.startDateTime).format(

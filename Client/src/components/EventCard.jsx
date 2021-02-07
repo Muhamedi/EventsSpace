@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const EventCard = props => (
@@ -14,7 +15,7 @@ const EventCard = props => (
           />
         </div>
         <div className='split mt-2'>
-          <button className='btn btn-info'>Details</button>
+          <Link className='btn btn-info' to={`events/${props.id}/details`}>Details</Link>
         </div>
       </div>
       <div className='col-md-8'>
@@ -47,6 +48,7 @@ const EventCard = props => (
 );
 
 EventCard.propTypes = {
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   eventType: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,

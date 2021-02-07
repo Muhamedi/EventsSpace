@@ -21,3 +21,12 @@ export const createNewEvent = event => {
       .catch(e => rej(e));
   });
 };
+
+export const getEventDetails = async eventId => {
+  try {
+    const { data } = await eventsSpaceApi.get(`api/events/${eventId}/details`);
+    return data;
+  } catch (error) {
+    return { error };
+  }
+};

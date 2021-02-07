@@ -5,6 +5,7 @@ import Login from "views/Login";
 import UserActivated from "views/UserActivated";
 import UserCreated from "views/UserCreated";
 import EventInvite from "views/EventInvite";
+import EventDetails from "components/EventDetails";
 import { Switch, Route } from "react-router-dom";
 
 const Routes = (
@@ -16,6 +17,7 @@ const Routes = (
     <Route exact path="/users/:userId/activation" component={UserActivated} />
     <Route exact path="/user/created" component={UserCreated} />
     <Route exact path="/users/:userId/invitation" component={EventInvite} />
+    <Route exact path="/events/:eventId/details" component={EventDetails} />
   </Switch>
 );
 

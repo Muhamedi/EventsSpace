@@ -13,4 +13,9 @@ module.exports = {
       startDateTime: Joi.date().required(),
     }),
   },
+  getEventDetails: {
+    params: Joi.object({
+      eventId: Joi.objectId().required(),
+    }),
+  },
 };

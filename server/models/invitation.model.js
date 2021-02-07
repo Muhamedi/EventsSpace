@@ -13,7 +13,7 @@ const invitationSchema = new Schema(
       required: true,
       ref: 'User',
     },
-    invitationStatusId: {
+    statusId: {
       type: Number,
       ref: 'InvitationStatus',
       required: true,
