@@ -7,7 +7,7 @@ const router = express.Router();
 
 // /api/invites
 router
-  .route('/update-invite')
+  .route('/:inviteId')
   .get(
     validate(invitesValidator.updateInvite),
     invitesController.updateInvite

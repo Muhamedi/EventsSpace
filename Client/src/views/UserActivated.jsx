@@ -15,22 +15,23 @@ const UserActivated = props => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    const activate = async () => {
-      try {
-        const response = await activateUser(userId, email, activationId);
-        if (response.success) {
-          setLoading(false);
-        }
-      } catch (ex) {
-        setError(ex.data.message);
-      } finally {
+  const activate = async () => {
+    try {
+      const response = await activateUser(userId, email, activationId);
+      if (response.success) {
         setLoading(false);
       }
-    };
+    } catch (ex) {
+      setError(ex.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
     activate();
-  }, [activationId, email, userId]);
+  }, []);
 
   return (
     <div className='login-card-wrapper row'>

@@ -32,25 +32,31 @@ const EventsMain = () => {
     }
   });
 
+  const fetchEvents = async () => {
+    const response = await getEvents();
+    if (response.success) {
+      setEvents(response.events);
+    }
+  };
+
+  const fetchParticipantTypes = async () => {
+    const response = await getParticipantTypes();
+    if (response.success) {
+      setParticipantTypes(response.participantTypes);
+    }
+  };
+
+  const fetchEventTypes = async () => {
+    const response = await getEventTypes();
+    if (response.success) {
+      setEventTypes(response.eventTypes);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      const response = await getEvents();
-      if (response.success) {
-        setEvents(response.events);
-      }
-    })();
-    (async () => {
-      const response = await getParticipantTypes();
-      if (response.success) {
-        setParticipantTypes(response.participantTypes);
-      }
-    })();
-    (async () => {
-      const response = await getEventTypes();
-      if (response.success) {
-        setEventTypes(response.eventTypes);
-      }
-    })();
+    fetchEvents();
+    fetchParticipantTypes();
+    fetchEventTypes();
   }, []);
 
   const toggleModalHandler = () => {
@@ -131,7 +137,7 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
-          console.log("props:", formikProps);
+          console.log('props:', formikProps);
           const {
             values,
             errors,
@@ -191,7 +197,9 @@ const EventsMain = () => {
                     items={participantTypes}
                   />
                   {errors.participantsType && touched.participantsType && (
-                    <span className='text-danger'>{errors.participantsType}</span>
+                    <span className='text-danger'>
+                      {errors.participantsType}
+                    </span>
                   )}
                 </div>
               </div>
@@ -211,7 +219,9 @@ const EventsMain = () => {
                     <option value='3'>3</option>
                   </select>
                   {errors.nrOfParticipants && touched.nrOfParticipants && (
-                    <span className='text-danger'>{errors.nrOfParticipants}</span>
+                    <span className='text-danger'>
+                      {errors.nrOfParticipants}
+                    </span>
                   )}
                 </div>
               </div>
@@ -233,7 +243,9 @@ const EventsMain = () => {
                       <option value='6'>7</option>
                     </select>
                     {errors.nrOfParticipants && touched.nrOfParticipants && (
-                      <span className='text-danger'>{errors.nrOfParticipants}</span>
+                      <span className='text-danger'>
+                        {errors.nrOfParticipants}
+                      </span>
                     )}
                   </div>
                 </div>

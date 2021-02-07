@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Confirmation from 'images/confirmation.png';
-import { useParams } from "react-router-dom";
+import { updateInvite } from 'api/invites';
 
-const EventInvite = () => {
-    const { id, eventId, status } = useParams();
-    console.log({eventId});
-    return  (
-        <div className='login-card-wrapper row'>
-        <div className='col-md-4'>
+const EventInvite = props => {
+  const [success, setSuccess] = useState(false);
+
+  const updateEventInvite = async ({ userId, inviteId, eventId, status }) => {
+    const response = await updateInvite({ userId, inviteId, eventId, status });
+    setSuccess(response.success);
+  };
+
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const inviteId = params.get('id');
+  const eventId = params.get('eventId');
+  const status = params.get('status');
+  const { userId } = props.match.params;
+
+  updateEventInvite(userId, inviteId, eventId, status);
+
+  return (
+    <div className='login-card-wrapper row'>
+      <div className='col-md-4'>
         <div className={'card'}>
           <img
             className='card-img-top'
@@ -15,15 +29,13 @@ const EventInvite = () => {
             alt='User activated'
           />
           <div className='card-body'>
-            <h5 className='card-title'>Success</h5>
-            <p className='card-text'>
-              Your response has been recorded.
-            </p>
+            <h5 className='card-title'>{success ? 'Success' : 'Error'}</h5>
+            <p className='card-text'>{success ? 'Your response has been recorded.' : 'An error occured.'}</p>
           </div>
         </div>
-        </div>
       </div>
-    );
-}
+    </div>
+  );
+};
 
 export default EventInvite;
