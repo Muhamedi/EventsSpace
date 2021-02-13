@@ -17,11 +17,16 @@ const eventParticipantSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Team',
     },
+    statusId: {
+      type: Number,
+      required: true,
+      ref: 'ParticipantStatus'
+    },
     isActive: {
       type: Boolean,
       required: true,
       default: true
-    }
+    },
   },
   { timestamps: true }
 );

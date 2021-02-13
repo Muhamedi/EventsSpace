@@ -40,7 +40,7 @@ const EventDetails = props => {
         {isLoading && <Loader type={SpinnerTypes.PRIMARY} />}
         {!isLoading && (
           <div className='row'>
-            <div className='col-md-6'>
+            <div className='col-md-5 offset-md-1'>
               <ul className='list-group'>
                 <li className='list-group-item'>
                   <h4>
@@ -89,7 +89,7 @@ const EventDetails = props => {
                 </li>
               </ul>
             </div>
-            <div className='col-md-6'>
+            <div className='col-md-5 mr-2'>
               <li className='list-group-item'>
                 <h4>Participants</h4>
               </li>

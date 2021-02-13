@@ -16,4 +16,11 @@ exports.InvitationStatus = {
   ACCEPTED: 1,
   PENDING: 2,
   REJECTED: 3,
+  NOT_SURE: 4
+};
+
+exports.ParticipantStatus = {
+  IN: 1,
+  OUT: 2,
+  MAYBE: 3,
 };

@@ -1,6 +1,10 @@
 const Invitation = require('../models/invitation.model');
 const EventParticipant = require('../models/eventParticipant.model');
-const { HttpStatusCodes, InvitationStatus } = require('../enums/enums.js');
+const {
+  HttpStatusCodes,
+  InvitationStatus,
+  ParticipantStatus,
+} = require('../enums/enums.js');
 const moment = require('moment');
 
 exports.updateInvite = async (req, res, next) => {
@@ -23,6 +27,7 @@ exports.updateInvite = async (req, res, next) => {
     const event = new EventParticipant({
       userId,
       eventId,
+      statusId: mapParticipantStatus(status),
       isActive: true,
     });
     event.save();
@@ -32,5 +37,18 @@ exports.updateInvite = async (req, res, next) => {
     });
   } catch (err) {
     return next(new Error(err));
+  }
+};
+
+const mapParticipantStatus = invitationStatus => {
+  switch (invitationStatus) {
+    case InvitationStatus.ACCEPTED:
+      return ParticipantStatus.IN;
+    case InvitationStatus.REJECTED:
+      return ParticipantStatus.OUT;
+    case InvitationStatus.NOT_SURE:
+      return ParticipantStatus.MAYBE;
+    default:
+      return InvitationStatus.PENDING;
   }
 };
