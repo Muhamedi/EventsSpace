@@ -24,7 +24,7 @@ exports.updateInvite = async (req, res, next) => {
     }
     invitation.statusId = Number(status);
     invitation.save();
-    
+
     const eventParticipant = new EventParticipant({
       userId,
       eventId,
@@ -52,8 +52,8 @@ const mapParticipantStatus = invitationStatus => {
       return ParticipantStatus.IN;
     case InvitationStatus.REJECTED:
       return ParticipantStatus.OUT;
-    case InvitationStatus.NOT_SURE:
-      return ParticipantStatus.MAYBE;
+    case InvitationStatus.UNDECIDED:
+      return ParticipantStatus.NOT_SURE;
     default:
       return InvitationStatus.PENDING;
   }

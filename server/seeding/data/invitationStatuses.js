@@ -13,6 +13,10 @@ const invitationStatuses = {
         _id: 3,
         name: 'Rejected',
       },
+      {
+        _id: 4,
+        name: 'Undecided',
+      },
     ],
   };
   

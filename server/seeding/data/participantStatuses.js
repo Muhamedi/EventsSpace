@@ -11,7 +11,7 @@ const participantStatuses = {
       },
       {
         _id: 3,
-        name: 'Maybe',
+        name: 'Not Sure',
       },
     ],
   };

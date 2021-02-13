@@ -33,5 +33,5 @@ export const ParticipantTypes = {
 export const ParticipantStatus = {
   IN: 1,
   OUT: 2,
-  MAYBE: 3,
+  NOT_SURE: 3,
 };

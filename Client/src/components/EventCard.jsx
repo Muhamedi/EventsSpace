@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const EventCard = props => (
   <div className='card mb-3'>
@@ -15,7 +16,9 @@ const EventCard = props => (
           />
         </div>
         <div className='split mt-2'>
-          <Link className='btn btn-info' to={`events/${props.id}/details`}>Details</Link>
+          <Link className='btn btn-info' to={`events/${props.id}/details`}>
+            Details
+          </Link>
         </div>
       </div>
       <div className='col-md-8'>
@@ -31,11 +34,15 @@ const EventCard = props => (
             </div>
             <div className='row'>
               <small className='text-muted'>
-                Start time: {props.startDateTime}
+                Start time:{' '}
+                {moment(props.startDateTime).format('HH:mm DD/MM/YYYY')}
               </small>
             </div>
             <div className='row'>
-              <small className='text-muted'>{props.lastUpdated}</small>
+              <small className='text-muted'>
+                Last updated: {' '}
+                {moment(props.lastUpdatedAt).fromNow()}
+              </small>
             </div>
           </div>
         </div>
@@ -53,7 +60,7 @@ EventCard.propTypes = {
   eventType: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   startDateTime: PropTypes.string.isRequired,
-  lastUpdated: PropTypes.string,
+  lastUpdatedAt: PropTypes.string,
   imgUrl: PropTypes.string.isRequired,
   imgAlt: PropTypes.string,
 };

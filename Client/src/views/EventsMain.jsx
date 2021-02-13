@@ -95,10 +95,8 @@ const EventsMain = () => {
                 text={event.text}
                 eventType={event.eventType.name}
                 location={event.location}
-                startDateTime={moment(event.startDateTime).format(
-                  'HH:mm DD-MM-YYYY'
-                )}
-                lastUpdated={moment(event.updatedAt).format('HH:mm DD-MM-YYYY')}
+                startDateTime={event.startDateTime}
+                lastUpdatedAt={event.updatedAt}
                 imgUrl={event.imgUrl}
                 imgAlt={event.title}
               ></EventCard>
