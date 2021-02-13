@@ -136,7 +136,6 @@ const EventsMain = () => {
         onSubmit={onCreateEvent}
       >
         {formikProps => {
-          console.log('props:', formikProps);
           const {
             values,
             errors,

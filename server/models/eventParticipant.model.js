@@ -19,13 +19,13 @@ const eventParticipantSchema = new Schema(
     },
     statusId: {
       type: Number,
+      ref: 'ParticipantStatus',
       required: true,
-      ref: 'ParticipantStatus'
     },
     isActive: {
       type: Boolean,
       required: true,
-      default: true
+      default: true,
     },
   },
   { timestamps: true }

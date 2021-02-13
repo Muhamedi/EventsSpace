@@ -5,7 +5,6 @@ const {
   InvitationStatus,
   ParticipantStatus,
 } = require('../enums/enums.js');
-const moment = require('moment');
 
 exports.updateInvite = async (req, res, next) => {
   const { inviteId } = req.params;
@@ -22,12 +21,12 @@ exports.updateInvite = async (req, res, next) => {
         message: 'Invitation is not found or invalid',
       });
     }
-    invitation.statusId = status;
+    invitation.statusId = Number(status);
     invitation.save();
     const event = new EventParticipant({
       userId,
       eventId,
-      statusId: mapParticipantStatus(status),
+      statusId: mapParticipantStatus(Number(status)),
       isActive: true,
     });
     event.save();

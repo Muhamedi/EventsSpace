@@ -1,7 +1,8 @@
+const EventParticipant = require('../models/eventParticipant.model');
 const Event = require('../models/event.model');
 const User = require('../models/user.model');
 const Invitation = require('../models/invitation.model');
-const EventParticipant = require('../models/eventParticipant.model');
+const ParticipantStatus = require('../models/participantStatus.model');
 const CONSTANTS = require('../constants');
 const { HttpStatusCodes, InvitationStatus } = require('../enums/enums');
 const sendEmail = require('../services/sendEmail.service');
@@ -52,7 +53,7 @@ exports.createNewEvent = async (req, res, next) => {
         const invitation = new Invitation({
           eventId: event.id,
           userId: user._id,
-          invitationStatusId: InvitationStatus.PENDING,
+          statusId: InvitationStatus.PENDING,
           expiration: event.startDateTime,
         });
         invitations.push(invitation);
@@ -93,7 +94,7 @@ exports.createNewEvent = async (req, res, next) => {
 exports.getUpcomingEvents = async (req, res, next) => {
   try {
     const upcomingEvents = await Event.find({ isActive: true })
-      .populate({ path: 'eventType', select: 'name' })
+      .populate('eventType', 'name')
       .exec({ startDateTime: { $gt: new Date() } });
 
     return res.status(HttpStatusCodes.OK).json({
@@ -114,22 +115,26 @@ exports.getEventDetails = async (req, res, next) => {
       },
       { __v: false }
     )
-      .populate({ path: 'eventType', select: 'name' })
-      .populate({ path: 'participantsType', select: 'name' })
-      .populate({ path: 'createdBy', select: 'email' })
+      .populate('eventType', 'name')
+      .populate('participantsType', 'name')
+      .populate('createdBy', 'email')
       .exec();
 
     let participants = await EventParticipant.find(
       {
         eventId: req.params.eventId,
         isActive: true,
-      },
-      { _id: false }
+      }
     )
-      .populate({ path: 'userId', select: 'email' })
-      .select('userId');
+      .populate('userId', 'email')
+      .populate('statusId', 'name')
+      .select('userId statusId');
 
-    participants = participants.map(user => user.userId);
+    participants = participants.map(participant => ({
+      _id: participant._id,
+      user: { ...participant.userId._doc },
+      status: { ...participant.statusId._doc }
+    }));
 
     return res.status(HttpStatusCodes.OK).json({
       success: true,

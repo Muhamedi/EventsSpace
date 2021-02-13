@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Loader from 'components/Loader';
 import Alert from 'components/Alert';
 import MainLayout from 'components/MainLayout';
-import { SpinnerTypes, ParticipantTypes } from 'constants/enums';
+import {
+  SpinnerTypes,
+  ParticipantTypes,
+  ParticipantStatus,
+  ColorTypes,
+} from 'constants/enums';
 import { getEventDetails } from 'api/Events';
 import moment from 'moment';
 
@@ -23,9 +28,21 @@ const EventDetails = props => {
 
   useEffect(() => {
     const { eventId } = props.match.params;
-    console.log({ eventId });
     fetchEventDetails(eventId);
   }, []);
+
+  const getStatusColor = status => {
+    switch (status) {
+      case ParticipantStatus.IN:
+        return ColorTypes.SUCCESS;
+      case ParticipantStatus.OUT:
+        return ColorTypes.DANGER;
+      case ParticipantStatus.MAYBE:
+        return ColorTypes.SECONDARY;
+      default:
+        return '';
+    }
+  };
 
   return (
     <MainLayout>
@@ -94,11 +111,19 @@ const EventDetails = props => {
                 <h4>Participants</h4>
               </li>
               <li className='list-group-item'>
-                <ol>
+                <ul>
                   {eventDetails?.participants.map(participant => (
-                    <li key={participant._id}>{participant.email}</li>
+                    <li
+                      className={`list-group-item list-group-item-${getStatusColor(
+                        participant.status._id
+                      )}`}
+                      key={participant._id}
+                    >
+                      {participant.user.email}
+                      <span className='ml-5 float-right'>{participant.status.name.toUpperCase()}</span>
+                    </li>
                   ))}
-                </ol>
+                </ul>
               </li>
             </div>
           </div>
