@@ -25,13 +25,23 @@ exports.updateInvite = async (req, res, next) => {
     invitation.statusId = Number(status);
     invitation.save();
 
-    const eventParticipant = new EventParticipant({
-      userId,
+    const eventParticipant = EventParticipant.findOne({
       eventId,
-      statusId: mapParticipantStatus(Number(status)),
+      userId,
       isActive: true,
     });
-    eventParticipant.save();
+    if (eventParticipant) {
+      eventParticipant.statusId = Number(status);
+      eventParticipant.save();
+    } else {
+      const newEventParticipant = new EventParticipant({
+        userId,
+        eventId,
+        statusId: mapParticipantStatus(Number(status)),
+        isActive: true,
+      });
+      newEventParticipant.save();
+    }
 
     const event = Event.findById(eventId);
     event.updatedAt = new Date();

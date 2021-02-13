@@ -9,6 +9,7 @@ const usersRouter = require("./routes/users.route");
 const participantTypesRouter = require("./routes/participantTypes.route");
 const eventTypesRouter = require("./routes/eventTypes.route");
 const invitesRouter = require("./routes/invites.route");
+const eventParticipantsRouter = require("./routes/eventParticipants.route");
 const app = express();
 const errorHandler = require("./middleware/errorhandler");
 const authMiddleware = require('./middleware/auth');
@@ -25,6 +26,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/participant-types", authMiddleware, participantTypesRouter);
 app.use("/api/event-types", authMiddleware, eventTypesRouter);
 app.use("/api/invites", authMiddleware, invitesRouter);
+app.use("/api/event-participants", authMiddleware, eventParticipantsRouter);
 
 app.use(errorHandler);
 
