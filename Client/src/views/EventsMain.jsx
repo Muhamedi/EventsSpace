@@ -90,7 +90,7 @@ const EventsMain = () => {
           events.map(event => (
             <div className='col-md-3' key={event._id}>
               <EventCard
-                id = {event._id}
+                id={event._id}
                 title={event.title}
                 text={event.text}
                 eventType={event.eventType.name}
@@ -98,7 +98,7 @@ const EventsMain = () => {
                 startDateTime={moment(event.startDateTime).format(
                   'HH:mm DD-MM-YYYY'
                 )}
-                lastUpdated='3'
+                lastUpdated={moment(event.updatedAt).format('HH:mm DD-MM-YYYY')}
                 imgUrl={event.imgUrl}
                 imgAlt={event.title}
               ></EventCard>

@@ -1,4 +1,5 @@
 const Invitation = require('../models/invitation.model');
+const Event = require('../models/event.model');
 const EventParticipant = require('../models/eventParticipant.model');
 const {
   HttpStatusCodes,
@@ -23,13 +24,19 @@ exports.updateInvite = async (req, res, next) => {
     }
     invitation.statusId = Number(status);
     invitation.save();
-    const event = new EventParticipant({
+    
+    const eventParticipant = new EventParticipant({
       userId,
       eventId,
       statusId: mapParticipantStatus(Number(status)),
       isActive: true,
     });
+    eventParticipant.save();
+
+    const event = Event.findById(eventId);
+    event.updatedAt = new Date();
     event.save();
+
     return res.status(HttpStatusCodes.OK).json({
       success: true,
       message: 'You have been added as event participant',

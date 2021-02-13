@@ -35,7 +35,7 @@ const EventCard = props => (
               </small>
             </div>
             <div className='row'>
-              <small className='text-muted'>Last updated 2 mins ago</small>
+              <small className='text-muted'>{props.lastUpdated}</small>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ EventCard.propTypes = {
   eventType: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   startDateTime: PropTypes.string.isRequired,
-  //lastUpdated: PropTypes.string,
+  lastUpdated: PropTypes.string,
   imgUrl: PropTypes.string.isRequired,
   imgAlt: PropTypes.string,
 };
