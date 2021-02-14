@@ -52,7 +52,7 @@ const EventDetails = props => {
     setEventDetails(prevState => {
       return {
         ...prevState,
-        participants
+        participants,
       };
     });
   };
@@ -92,43 +92,48 @@ const EventDetails = props => {
         )}
         {!isLoading && (
           <>
-            <div className='row form-group col-md-3 offset-md-5'>
-              <Button
-                className={`btn btn-outline-success m-1 ${
-                  myEventStatus._id === ParticipantStatus.IN && 'active'
-                }`}
-                type={SpinnerTypes.LIGHT}
-                text='IN'
-                onClick={() =>
-                  updateMyStatus({ _id: ParticipantStatus.IN, name: 'IN' })
-                }
-              />
-              <Button
-                className={`btn btn-outline-danger m-1 ${
-                  myEventStatus._id === ParticipantStatus.OUT && 'active'
-                }`}
-                type={SpinnerTypes.LIGHT}
-                text='OUT'
-                onClick={() =>
-                  updateMyStatus({ _id: ParticipantStatus.OUT, name: 'OUT' })
-                }
-              />
-              <Button
-                className={`btn btn-outline-secondary m-1 ${
-                  myEventStatus._id === ParticipantStatus.NOT_SURE && 'active'
-                }`}
-                type={SpinnerTypes.LIGHT}
-                text='NOT SURE'
-                onClick={() =>
-                  updateMyStatus({
-                    _id: ParticipantStatus.NOT_SURE,
-                    name: 'NOT SURE',
-                  })
-                }
-              />
+            <div className='row form-group'>
+              <div className='col-md-3 offset-md-2'>
+                <h5 className="float-right">Your status:</h5>
+              </div>
+              <div className='col-md-3'>
+                <Button
+                  className={`btn btn-outline-success m-1 ${
+                    myEventStatus._id === ParticipantStatus.IN && 'active'
+                  }`}
+                  type={SpinnerTypes.LIGHT}
+                  text='IN'
+                  onClick={() =>
+                    updateMyStatus({ _id: ParticipantStatus.IN, name: 'IN' })
+                  }
+                />
+                <Button
+                  className={`btn btn-outline-danger m-1 ${
+                    myEventStatus._id === ParticipantStatus.OUT && 'active'
+                  }`}
+                  type={SpinnerTypes.LIGHT}
+                  text='OUT'
+                  onClick={() =>
+                    updateMyStatus({ _id: ParticipantStatus.OUT, name: 'OUT' })
+                  }
+                />
+                <Button
+                  className={`btn btn-outline-secondary m-1 ${
+                    myEventStatus._id === ParticipantStatus.NOT_SURE && 'active'
+                  }`}
+                  type={SpinnerTypes.LIGHT}
+                  text='NOT SURE'
+                  onClick={() =>
+                    updateMyStatus({
+                      _id: ParticipantStatus.NOT_SURE,
+                      name: 'NOT SURE',
+                    })
+                  }
+                />
+              </div>
             </div>
             <div className='row'>
-              <div className='col-md-5 offset-md-1'>
+              <div className='col-md-4 offset-md-1'>
                 <div className='card'>
                   <div className='card-header'>
                     <div className='card-body'>
@@ -183,13 +188,13 @@ const EventDetails = props => {
                   </ul>
                 </div>
               </div>
-              <div className='col-md-5 mr-2'>
+              <div className='col-md-6 mr-2'>
                 <div className='card'>
                   <div className='card-header'>
                     <h4>Participants</h4>
                   </div>
                   <div className='card-body'>
-                    <ul>
+                    <ul style={{ padding: '0' }}>
                       {eventDetails?.participants.map(participant => (
                         <li
                           className={`list-group-item list-group-item-${getStatusColor(
@@ -198,8 +203,14 @@ const EventDetails = props => {
                           key={participant._id}
                         >
                           {participant.user.email}
-                          <span className='ml-5 float-right'>
+                          <span className='ml-5'>
                             {participant.status.name.toUpperCase()}
+                          </span>
+
+                          <span className='ml-5'>
+                            {moment(participant.createdAt).format(
+                              'HH:mm DD/MM/YYYY'
+                            )}
                           </span>
                         </li>
                       ))}

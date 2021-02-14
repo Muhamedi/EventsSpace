@@ -128,12 +128,13 @@ exports.getEventDetails = async (req, res, next) => {
     )
       .populate('userId', 'email')
       .populate('statusId', 'name')
-      .select('userId statusId');
+      .select('userId statusId createdAt');
 
     participants = participants.map(participant => ({
       _id: participant._id,
       user: { ...participant.userId._doc },
-      status: { ...participant.statusId._doc }
+      status: { ...participant.statusId._doc },
+      createdAt: participant.createdAt
     }));
 
     return res.status(HttpStatusCodes.OK).json({

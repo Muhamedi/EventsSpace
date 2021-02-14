@@ -1,10 +1,18 @@
 const EventParticipant = require('../models/eventParticipant.model');
+const Event = require('../models/event.model');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
 exports.updateMyEventStatus = async (req, res, next) => {
   try {
     const { eventId, userId } = req.params;
     const { statusId } = req.body;
+    const event = await Event.findOne({ _id: eventId, isActive: true });
+    if(!event) {
+      return res.status(HttpStatusCodes.NOT_FOUND).json({
+        success: false,
+        message: 'Event not found',
+      });
+    }
     const eventParticipant = await EventParticipant.findOne({
       eventId,
       userId,
@@ -22,6 +30,8 @@ exports.updateMyEventStatus = async (req, res, next) => {
       eventParticipant.statusId = statusId;
       eventParticipant.save();
     }
+    event.updatedAt = new Date();
+    event.save();
     return res.status(HttpStatusCodes.OK).json({
       success: true,
       message: 'Event status updated successfully',
