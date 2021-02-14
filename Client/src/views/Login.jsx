@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import classNames from 'classnames/bind';
 import { ButtonTypes, SpinnerTypes } from 'constants/enums';
 import { isAuthenticated } from 'common/auth';
+import jwtDecode from 'jwt-decode';
 
 const Login = props => {
   const [error, setError] = useState(null);
@@ -18,6 +19,9 @@ const Login = props => {
       if (response.success) {
         localStorage.setItem('access_token', response.token);
         localStorage.setItem('expiresIn', response.expiresIn);
+        const decodedToken = jwtDecode(response.token);
+        const userId = decodedToken.id;
+        localStorage.setItem('userId', userId);
         // eslint-disable-next-line react/prop-types
         props.history.push('/events');
       }

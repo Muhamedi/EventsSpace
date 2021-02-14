@@ -8,4 +8,13 @@ module.exports = {
       eventId: Joi.objectId().required(),
     }),
   },
+  updateMyEventStatus: {
+    params: Joi.object({
+      userId: Joi.objectId().required(),
+      eventId: Joi.objectId().required(),
+    }),
+    body: Joi.object({
+      statusId: Joi.number().required(),
+    }),
+  },
 };

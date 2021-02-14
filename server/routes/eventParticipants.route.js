@@ -13,4 +13,12 @@ router
     eventParticipantsController.getMyEventStatus
   );
 
+// /api/event-participants/:eventId/users/:userId/status
+router
+  .route('/:eventId/users/:userId/status')
+  .patch(
+    validate(eventsParticipantsValidator.updateMyEventStatus),
+    eventParticipantsController.updateMyEventStatus
+  );
+
   module.exports = router;

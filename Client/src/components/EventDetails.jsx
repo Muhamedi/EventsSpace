@@ -10,25 +10,54 @@ import {
   ColorTypes,
 } from 'constants/enums';
 import { getEventDetails } from 'api/Events';
+import { getMyEventStatus, updateMyEventStatus } from 'api/EventParticipants';
+import { getUserId } from 'common/auth';
 import moment from 'moment';
 
 const EventDetails = props => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [eventDetails, setEventDetails] = useState(null);
+  const [myEventStatus, setMyEventStatus] = useState(null);
 
-  const fetchEventDetails = async eventId => {
-    const response = await getEventDetails(eventId);
+  const userId = getUserId();
+  const { eventId } = props.match.params;
+
+  const fetchEventDetails = async () => {
+    const eventResponse = await getEventDetails(eventId);
+    if (eventResponse.error) {
+      setError(eventResponse.error);
+      return;
+    }
+    setEventDetails(eventResponse.eventDetails);
+    const myStatusResponse = await getMyEventStatus(eventId, userId);
+    if (myStatusResponse.error) {
+      setError(myStatusResponse.error);
+      return;
+    }
+    setMyEventStatus(myStatusResponse.status);
+    setIsLoading(false);
+  };
+
+  const updateMyStatus = async status => {
+    const response = await updateMyEventStatus(eventId, userId, status._id);
     if (response.error) {
       setError(response.error);
       return;
     }
-    setEventDetails(response.eventDetails);
-    setIsLoading(false);
+    setMyEventStatus(status);
+    const participants = [...eventDetails.participants];
+    const participant = participants.find(x => x.user._id === userId);
+    participant.status = { _id: status._id, name: status.name };
+    setEventDetails(prevState => {
+      return {
+        ...prevState,
+        participants
+      };
+    });
   };
 
   useEffect(() => {
-    const { eventId } = props.match.params;
     fetchEventDetails(eventId);
   }, []);
 
@@ -63,11 +92,41 @@ const EventDetails = props => {
         )}
         {!isLoading && (
           <>
-          <div className='row form-group col-md-3 offset-md-5'>
-            <Button className='btn btn-outline-success m-1' type={SpinnerTypes.LIGHT} text='IN' />
-            <Button className='btn btn-outline-danger m-1 active' type={SpinnerTypes.LIGHT} text='OUT' />
-            <Button className='btn btn-outline-secondary m-1' type={SpinnerTypes.LIGHT} text='NOT SURE' />
-          </div>
+            <div className='row form-group col-md-3 offset-md-5'>
+              <Button
+                className={`btn btn-outline-success m-1 ${
+                  myEventStatus._id === ParticipantStatus.IN && 'active'
+                }`}
+                type={SpinnerTypes.LIGHT}
+                text='IN'
+                onClick={() =>
+                  updateMyStatus({ _id: ParticipantStatus.IN, name: 'IN' })
+                }
+              />
+              <Button
+                className={`btn btn-outline-danger m-1 ${
+                  myEventStatus._id === ParticipantStatus.OUT && 'active'
+                }`}
+                type={SpinnerTypes.LIGHT}
+                text='OUT'
+                onClick={() =>
+                  updateMyStatus({ _id: ParticipantStatus.OUT, name: 'OUT' })
+                }
+              />
+              <Button
+                className={`btn btn-outline-secondary m-1 ${
+                  myEventStatus._id === ParticipantStatus.NOT_SURE && 'active'
+                }`}
+                type={SpinnerTypes.LIGHT}
+                text='NOT SURE'
+                onClick={() =>
+                  updateMyStatus({
+                    _id: ParticipantStatus.NOT_SURE,
+                    name: 'NOT SURE',
+                  })
+                }
+              />
+            </div>
             <div className='row'>
               <div className='col-md-5 offset-md-1'>
                 <div className='card'>
@@ -116,7 +175,7 @@ const EventDetails = props => {
                     <li className='list-group-item'>
                       <label className='mr-3'>Start time:</label>
                       <strong>
-                        {moment(eventDetails?.event?.startDatTime).format(
+                        {moment(eventDetails?.event?.startDateTime).format(
                           'HH:mm DD-MM-YYYY'
                         )}
                       </strong>

@@ -1,9 +1,35 @@
 const EventParticipant = require('../models/eventParticipant.model');
 const { HttpStatusCodes } = require('../enums/enums.js');
 
-// exports.updateMyEventStatus = async (req, res, next) => {
-    
-// }
+exports.updateMyEventStatus = async (req, res, next) => {
+  try {
+    const { eventId, userId } = req.params;
+    const { statusId } = req.body;
+    const eventParticipant = await EventParticipant.findOne({
+      eventId,
+      userId,
+      isActive: true,
+    });
+    if (!eventParticipant) {
+      const newEventParticipant = new EventParticipant({
+        userId,
+        eventId,
+        statusId: statusId,
+        isActive: true,
+      });
+      newEventParticipant.save();
+    } else {
+      eventParticipant.statusId = statusId;
+      eventParticipant.save();
+    }
+    return res.status(HttpStatusCodes.OK).json({
+      success: true,
+      message: 'Event status updated successfully',
+    });
+  } catch (err) {
+    return next(new Error(err));
+  }
+};
 
 exports.getMyEventStatus = async (req, res, next) => {
   try {
@@ -24,7 +50,7 @@ exports.getMyEventStatus = async (req, res, next) => {
     }
     res.status(HttpStatusCodes.OK).json({
       success: true,
-      eventParticipant,
+      status: eventParticipant.statusId,
     });
   } catch (err) {
     return next(new Error(err));
