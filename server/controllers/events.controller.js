@@ -128,7 +128,8 @@ exports.getEventDetails = async (req, res, next) => {
     )
       .populate('userId', 'email')
       .populate('statusId', 'name')
-      .select('userId statusId createdAt');
+      .select('userId statusId createdAt')
+      .sort('createdAt');
 
     participants = participants.map(participant => ({
       _id: participant._id,
