@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 var cors = require('cors')
 const eventsRouter = require("./routes/events.route");
+const groupsRouter = require("./routes/groups.route");
 const usersRouter = require("./routes/users.route");
 const participantTypesRouter = require("./routes/participantTypes.route");
 const eventTypesRouter = require("./routes/eventTypes.route");
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "build")));
 
 app.use("/api/events", authMiddleware, eventsRouter);
+app.use("/api/groups", authMiddleware, groupsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/participant-types", authMiddleware, participantTypesRouter);
 app.use("/api/event-types", authMiddleware, eventTypesRouter);

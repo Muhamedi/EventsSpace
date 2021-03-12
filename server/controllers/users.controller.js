@@ -19,49 +19,41 @@ exports.createNewUser = async (req, res, next) => {
         message: `User with email ${email} already exists`,
       });
     }
-    bcrypt.hash(
-      password,
-      CONSTANTS.SALT_ROUNDS,
-      async (error, hashedPassword) => {
-        if (error) {
-          throw new Error(error);
-        }
-        const user = new User({
-          email,
-          password: hashedPassword,
-        });
-        const result = await user.save();
-        if (result) {
-          const activationId = uuidv4();
-          const userId = result._id;
-          const accountActivation = new AccountActivation({
-            userId,
-            activationId,
-            isValid: true,
-            expiration: moment().add(1, 'hours').toDate(),
-          });
-          const accountResult = await accountActivation.save();
-          if (accountResult) {
-            const templateFile = readFile('templates/accountcreated.html');
-            const template = templateFile.replace(
-              /\[activationUrl\]/g,
-              CONSTANTS.EVENTS_SPACE_CLIENT_BASE_URL.concat(
-                `users/${userId}/activation?id=${activationId}&email=${email}`
-              )
-            );
-            const emailContent = {
-              to: email,
-              subject: 'Account created',
-              template,
-            };
-            sendEmail(emailContent);
-          }
-          return res
-            .status(HttpStatusCodes.CREATED)
-            .json({ success: true, message: 'User created successfully.' });
-        }
+    const hashedPassword = await bcrypt.hash(password, CONSTANTS.SALT_ROUNDS);
+    const user = new User({
+      email,
+      password: hashedPassword,
+    });
+    const result = await user.save();
+    if (result) {
+      const activationId = uuidv4();
+      const userId = result._id;
+      const accountActivation = new AccountActivation({
+        userId,
+        activationId,
+        isValid: true,
+        expiration: moment().add(1, 'hours').toDate(),
+      });
+      const accountResult = await accountActivation.save();
+      if (accountResult) {
+        const templateFile = readFile('templates/accountcreated.html');
+        const template = templateFile.replace(
+          /\[activationUrl\]/g,
+          CONSTANTS.EVENTS_SPACE_CLIENT_BASE_URL.concat(
+            `users/${userId}/activation?id=${activationId}&email=${email}`
+          )
+        );
+        const emailContent = {
+          to: email,
+          subject: 'Account created',
+          template,
+        };
+        sendEmail(emailContent);
       }
-    );
+      return res
+        .status(HttpStatusCodes.CREATED)
+        .json({ success: true, message: 'User created successfully.' });
+    }
   } catch (err) {
     return next(new Error(err));
   }
@@ -125,33 +117,29 @@ exports.login = async (req, res, next) => {
         .status(HttpStatusCodes.BAD_REQUEST)
         .json({ success: false, message: 'Email or password incorrect!' });
     }
-    bcrypt.compare(password, user.password, (error, result) => {
-      if (error) {
-        throw new Error(error);
-      }
-      if (!result) {
-        return res
-          .status(HttpStatusCodes.BAD_REQUEST)
-          .json({ success: false, message: 'Username or password incorrect!' });
-      }
-      if (!user.isActive) {
-        return res.status(HttpStatusCodes.FORBIDDEN).json({
-          success: false,
-          message: 'Your account has not been activated.',
-        });
-      }
-      const tokenExpirationDate =
-        new Date().getTime() + Number(CONSTANTS.TOKEN_EXPIRATION_TIME);
-      let token = jwt.sign(
-        { id: user._id, email: user.email },
-        CONSTANTS.EXPRESS_JWT_SECRET,
-        { expiresIn: tokenExpirationDate }
-      );
-      return res.status(HttpStatusCodes.OK).json({
-        success: true,
-        token,
-        expiresIn: tokenExpirationDate,
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword) {
+      return res
+        .status(HttpStatusCodes.BAD_REQUEST)
+        .json({ success: false, message: 'Username or password incorrect!' });
+    }
+    if (!user.isActive) {
+      return res.status(HttpStatusCodes.FORBIDDEN).json({
+        success: false,
+        message: 'Your account has not been activated.',
       });
+    }
+    const tokenExpirationDate =
+      new Date().getTime() + Number(CONSTANTS.TOKEN_EXPIRATION_TIME);
+    let token = jwt.sign(
+      { id: user._id, email: user.email },
+      CONSTANTS.EXPRESS_JWT_SECRET,
+      { expiresIn: tokenExpirationDate }
+    );
+    return res.status(HttpStatusCodes.OK).json({
+      success: true,
+      token,
+      expiresIn: tokenExpirationDate,
     });
   } catch (err) {
     return next(new Error(err));

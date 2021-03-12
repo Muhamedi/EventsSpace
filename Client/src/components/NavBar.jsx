@@ -13,6 +13,9 @@ const NavBar = () => {
             <Link className='navbar-brand' to='/events'>
               Events
             </Link>
+            <Link className='navbar-brand' to='/groups'>
+              Groups
+            </Link>
             <Link className='navbar-brand' to='/history'>
               History
             </Link>

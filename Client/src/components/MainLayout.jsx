@@ -1,13 +1,13 @@
-import React from "react";
-import NavBar from "components/NavBar";
-import Footer from "components/Footer";
-import PropTypes from "prop-types";
+import React from 'react';
+import NavBar from 'components/NavBar';
+import Footer from 'components/Footer';
+import PropTypes from 'prop-types';
 import { isAuthenticated } from 'common/auth';
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 const MainLayout = props => {
-  if(!isAuthenticated()) {
-    return <Redirect to="/login" />;
+  if (!isAuthenticated()) {
+    return <Redirect to='/login' />;
   }
   return (
     <>

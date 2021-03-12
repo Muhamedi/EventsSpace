@@ -1,5 +1,6 @@
 import React from "react";
 import EventsMain from "views/EventsMain";
+import Groups from "views/Groups";
 import SignUp from "views/SignUp";
 import Login from "views/Login";
 import UserActivated from "views/UserActivated";
@@ -12,6 +13,7 @@ const Routes = (
   <Switch>
     <Route exact path="/" component={EventsMain} />
     <Route exact path="/events" component={EventsMain} />
+    <Route exact path="/groups" component={Groups} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/signup" component={SignUp} />
     <Route exact path="/users/:userId/activation" component={UserActivated} />
