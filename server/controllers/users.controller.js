@@ -11,7 +11,7 @@ const { HttpStatusCodes } = require('../enums/enums');
 
 exports.createNewUser = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) {
       return res.status(HttpStatusCodes.CONFLICT).json({
@@ -20,11 +20,13 @@ exports.createNewUser = async (req, res, next) => {
       });
     }
     const hashedPassword = await bcrypt.hash(password, CONSTANTS.SALT_ROUNDS);
-    const user = new User({
+    const newUser = new User({
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
     });
-    const result = await user.save();
+    const result = await newUser.save();
     if (result) {
       const activationId = uuidv4();
       const userId = result._id;

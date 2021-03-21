@@ -126,7 +126,7 @@ exports.getEventDetails = async (req, res, next) => {
         isActive: true,
       }
     )
-      .populate('userId', 'email')
+      .populate('userId', 'firstName lastName')
       .populate('statusId', 'name')
       .select('userId statusId createdAt')
       .sort('createdAt');

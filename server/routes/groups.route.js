@@ -5,16 +5,16 @@ const validate = require('../helpers/validate');
 
 const router = express.Router();
 
-// /api/groups
-router.post(
-  validate(groupsValidator.createGroup),
-  groupsController.createGroup
-);
+// // /api/groups
+// router.post(
+//   validate(groupsValidator.createGroup),
+//   groupsController.createGroup
+// );
 
-// /api/groups
-router.post(
-  validate(groupsValidator.joinGroup),
-  groupsController.joinGroup
-);
+// // /api/groups
+// router.post(
+//   validate(groupsValidator.joinGroup),
+//   groupsController.joinGroup
+// );
 
 module.exports = router;

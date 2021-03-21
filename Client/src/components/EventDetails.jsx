@@ -76,7 +76,7 @@ const EventDetails = props => {
         return '';
     }
   };
-  console.log({ isTeamsView });
+
   return (
     <MainLayout>
       <div className=''>
@@ -138,7 +138,7 @@ const EventDetails = props => {
                 <Button
                   className='btn btn-secondary float-right'
                   type={SpinnerTypes.LIGHT}
-                  text='View teams'
+                  text={ isTeamsView ? 'View Details' : 'View teams' }
                   onClick={() => setTeamsView(isTeamsView => !isTeamsView)}
                 />
               </div>
@@ -245,7 +245,7 @@ const EventDetails = props => {
                               )}`}
                               key={participant._id}
                             >
-                              {participant.user.email}
+                              {`${participant.user.firstName} ${participant.user.lastName}`}
                               <span className='ml-5'>
                                 {participant.status.name.toUpperCase()}
                               </span>

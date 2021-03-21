@@ -4,6 +4,8 @@ Joi.objectId = require('joi-objectid')(Joi)
 module.exports = {
   createNewUser: {
     body: Joi.object({
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       confirmPassword: Joi.string().required().equal(Joi.ref('password')),

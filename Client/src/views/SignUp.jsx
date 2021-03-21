@@ -94,6 +94,34 @@ const SignUp = () => {
                       <div className='form-row'>
                         <div className='form-group col-md-12'>
                           <input
+                            name='firstName'
+                            placeholder='Firstname'
+                            className='form-control'
+                            type='text'
+                            value={values.firstname}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          {errors.firstname && touched.firstname && (
+                            <span className='text-danger'>{errors.firstname}</span>
+                          )}
+                        </div>
+                        <div className='form-group col-md-12'>
+                          <input
+                            name='lastname'
+                            placeholder='Lastname'
+                            className='form-control'
+                            type='text'
+                            value={values.lastname}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                          />
+                          {errors.lastname && touched.lastname && (
+                            <span className='text-danger'>{errors.lastname}</span>
+                          )}
+                        </div>
+                        <div className='form-group col-md-12'>
+                          <input
                             name='email'
                             placeholder='Email Address'
                             className='form-control'
@@ -117,7 +145,9 @@ const SignUp = () => {
                             onBlur={handleBlur}
                           />
                           {errors.password && touched.password && (
-                            <span className='text-danger'>{errors.password}</span>
+                            <span className='text-danger'>
+                              {errors.password}
+                            </span>
                           )}
                         </div>
                         <div className='form-group col-md-12'>
