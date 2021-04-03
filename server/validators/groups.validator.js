@@ -6,7 +6,38 @@ module.exports = {
     body: Joi.object({
       name: Joi.string().required(),
       description: Joi.string().required(),
-      owner: Joi.objectId().required(),
+    }),
+  },
+  createGroupInvite: {
+    params: Joi.object({
+      groupId: Joi.objectId().required(),
+      userId: Joi.objectId().required(),
+    })
+  },
+  updateGroupInvite: {
+    params: Joi.object({
+      id: Joi.objectId().required(),
+    }),
+    body: Joi.object({
+      status: Joi.number().required(),
+    }),
+  },
+  joinGroupRequest: {
+    params: Joi.object({
+      id: Joi.objectId().required(),
+    }),
+  },
+  updateJoinRequest: {
+    params: Joi.object({
+      id: Joi.objectId().required(),
+    }),
+    body: Joi.object({
+      status: Joi.number().required(),
+    }),
+  },
+  getGroupRequests: {
+    params: Joi.object({
+      id: Joi.objectId().required(),
     }),
   }
 };
