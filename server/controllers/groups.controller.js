@@ -2,7 +2,7 @@ const Group = require('../models/group.model');
 const User = require('../models/user.model');
 const UserGroup = require('../models/userGroup.model');
 const GroupJoinRequest = require('../models/groupJoinRequest.model');
-const GroupInvitation = require('../models/groupInvitation.model');
+const GroupInvitation = require('../models/groupInvite.model');
 const { HttpStatusCodes, InvitationStatus } = require('../enums/enums');
 const moment = require('moment');
 

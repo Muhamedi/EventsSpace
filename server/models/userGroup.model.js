@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const groupSchema = new Schema(
+const userGroupSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -21,4 +21,4 @@ const groupSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Group', groupSchema);
+module.exports = mongoose.model('UserGroup', userGroupSchema);
