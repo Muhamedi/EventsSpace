@@ -138,7 +138,7 @@ const EventDetails = props => {
                 <Button
                   className='btn btn-secondary float-right'
                   type={SpinnerTypes.LIGHT}
-                  text={ isTeamsView ? 'View Details' : 'View teams' }
+                  text={isTeamsView ? 'View Details' : 'View teams'}
                   onClick={() => setTeamsView(isTeamsView => !isTeamsView)}
                 />
               </div>
@@ -150,9 +150,11 @@ const EventDetails = props => {
                     <div className='card-header'>Team White</div>
                     <div className='card-body bg-light'>
                       <ul style={{ padding: '0' }}>
-                        <li className='list-group-item'>Muhamed Krasniqi</li>
-                        <li className='list-group-item'>Muhamed Krasniqi</li>
-                        <li className='list-group-item'>Muhamed Krasniqi</li>
+                        {eventDetails.participants.map(participant => (
+                          <li key={participant._id} className='list-group-item'>
+                            {participant.user.firstName} {participant.user.lastName}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -162,9 +164,15 @@ const EventDetails = props => {
                     <div className='card-header'>Team Black</div>
                     <div className='card-body bg-light'>
                       <ul style={{ padding: '0' }}>
-                        <li className='list-group-item text-white bg-dark'>Muhamed Krasniqi</li>
-                        <li className='list-group-item text-white bg-dark'>Muhamed Krasniqi</li>
-                        <li className='list-group-item text-white bg-dark'>Muhamed Krasniqi</li>
+                        <li className='list-group-item text-white bg-dark'>
+                          Muhamed Krasniqi
+                        </li>
+                        <li className='list-group-item text-white bg-dark'>
+                          Muhamed Krasniqi
+                        </li>
+                        <li className='list-group-item text-white bg-dark'>
+                          Muhamed Krasniqi
+                        </li>
                       </ul>
                     </div>
                   </div>

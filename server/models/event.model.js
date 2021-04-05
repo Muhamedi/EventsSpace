@@ -25,11 +25,11 @@ const eventSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    groupId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Group',
-      required: true,
-    },
+    // groupId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Group',
+    //   required: true,
+    // },
     location: {
       type: String,
       required: true,
