@@ -144,40 +144,60 @@ const EventDetails = props => {
               </div>
             </div>
             {isTeamsView && (
-              <div className='row'>
-                <div className='col-md-5 offset-md-1'>
-                  <div className='card'>
-                    <div className='card-header'>Team White</div>
-                    <div className='card-body bg-light'>
-                      <ul style={{ padding: '0' }}>
-                        {eventDetails.participants.map(participant => (
-                          <li key={participant._id} className='list-group-item'>
-                            {participant.user.firstName} {participant.user.lastName}
+              <>
+                <div className='row'>
+                  <div className='col-md-5 offset-md-1'>
+                    <div className='card'>
+                      <div className='card-header'>Team White</div>
+                      <div className='card-body bg-light'>
+                        <ul style={{ padding: '0' }}>
+                          {eventDetails.participants.map(participant => (
+                            <li
+                              key={participant._id}
+                              className='list-group-item'
+                            >
+                              {participant.user.firstName}{' '}
+                              {participant.user.lastName}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-md-5'>
+                    <div className='card'>
+                      <div className='card-header'>Team Black</div>
+                      <div className='card-body bg-light'>
+                        <ul style={{ padding: '0' }}>
+                          <li className='list-group-item text-white bg-dark'>
+                            Muhamed Krasniqi
                           </li>
-                        ))}
-                      </ul>
+                          <li className='list-group-item text-white bg-dark'>
+                            Muhamed Krasniqi
+                          </li>
+                          <li className='list-group-item text-white bg-dark'>
+                            Muhamed Krasniqi
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className='col-md-5'>
-                  <div className='card'>
-                    <div className='card-header'>Team Black</div>
-                    <div className='card-body bg-light'>
-                      <ul style={{ padding: '0' }}>
-                        <li className='list-group-item text-white bg-dark'>
-                          Muhamed Krasniqi
-                        </li>
-                        <li className='list-group-item text-white bg-dark'>
-                          Muhamed Krasniqi
-                        </li>
-                        <li className='list-group-item text-white bg-dark'>
-                          Muhamed Krasniqi
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+                <div className='text-center mt-2'>
+                  <Button
+                    className='mr-1 btn btn btn-success'
+                    type={SpinnerTypes.LIGHT}
+                    text='Init teams'
+                    onClick={() => {}}
+                  />
+                  <Button
+                    className='ml-1 btn btn btn-danger'
+                    type={SpinnerTypes.LIGHT}
+                    text='Clear teams'
+                    onClick={() => {}}
+                  />
                 </div>
-              </div>
+              </>
             )}
             {!isTeamsView && (
               <div className='row'>
