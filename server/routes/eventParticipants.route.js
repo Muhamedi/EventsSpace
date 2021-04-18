@@ -21,4 +21,12 @@ router
     eventParticipantsController.updateMyEventStatus
   );
 
-  module.exports = router;
+// /api/event-participants/:eventId
+router
+  .route('/:eventId')
+  .put(
+    validate(eventsParticipantsValidator.initParticipantTeams),
+    eventParticipantsController.initParticipantTeams
+  );
+
+module.exports = router;

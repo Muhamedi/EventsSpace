@@ -7,6 +7,11 @@ const teamSchema = new Schema(
       type: String,
       required: true,
     },
+    color: {
+      type: String,
+      required: true,
+      default: '#fff'
+    },
     isActive: {
       type: Boolean,
       required: true,

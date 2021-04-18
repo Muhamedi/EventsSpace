@@ -5,14 +5,13 @@ const participantsTypesData = require('./data/participantTypes');
 const eventTypesData = require('./data/eventTypes');
 const invitationStatusesData = require('./data/invitationStatuses');
 const participantStatusesData = require('./data/participantStatuses');
-const teamsData = require('./data/teams');
 
 const seedData = [participantsTypesData, eventTypesData, invitationStatusesData, 
                   participantStatusesData, teamsData];
 const loadModels = ['models/participantType.model', 'models/eventType.model', 'models/invitationStatus.model', 
-                    'models/participantStatus.model', 'models/team.model'];
+                    'models/participantStatus.model'];
 const clearModels = ['ParticipantType', 'EventType', 'InvitationStatus', 
-                     'ParticipantStatus', 'Team'];
+                     'ParticipantStatus'];
 
 seeder.connect(
   CONSTANTS.MONGODB_CONNECTION_STRING,
