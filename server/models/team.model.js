@@ -15,6 +15,7 @@ const teamSchema = new Schema(
     isActive: {
       type: Boolean,
       required: true,
+      default: true
     },
   },
   { timestamps: true }

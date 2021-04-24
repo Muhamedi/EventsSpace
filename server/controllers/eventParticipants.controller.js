@@ -70,14 +70,11 @@ exports.getMyEventStatus = async (req, res, next) => {
 
 exports.initParticipantTeams = async (req, res, next) => {
   try {
-    const { eventId, teamIds } = req.params;
-    const participants = await EventParticipant.find({
-      eventId,
-      isActive: true,
-    });
-    if (teamIds.length != 2) {
-      const teamWhite = Team.find({ name: 'Team White' });
-      const teamBlack = Team.find({ name: 'Team Black' });
+    const { eventId } = req.params;
+    const { teamIds } = req.body;
+    if (!teamIds) {
+      let teamWhite = await Team.findOne({ name: 'Team White' });
+      let teamBlack = await Team.findOne({ name: 'Team Black' });
       if (!teamWhite) {
         teamWhite = new Team({ name: 'Team White', color: '#fff' });
         teamWhite.save();
@@ -86,21 +83,30 @@ exports.initParticipantTeams = async (req, res, next) => {
         teamBlack = new Team({ name: 'Team Black', color: '#000' });
         teamBlack.save();
       }
-      const teamParticipantsNr = Math.floor(participants.length / 2);
-      const reminder = participants.length % 2;
-      const teamWhiteParticipants = participants.splice(0, teamParticipantsNr);
-      const teamBlackParticipants = participants.splice(
-        teamParticipantsNr,
-        teamParticipantsNr + reminder
+      const participants = await EventParticipant.find({
+        eventId,
+        isActive: true,
+      });
+      const participantIds = participants.map(x => x.id);
+      const teamParticipantsNr = Math.floor(participantIds.length / 2);
+      const blackTeamIds = participantIds.slice(0, teamParticipantsNr);
+      const whiteTeamIds = participantIds.slice(teamParticipantsNr);
+      await EventParticipant.updateMany(
+        {
+          _id: {
+            $in: blackTeamIds,
+          },
+        },
+        { $set: { teamId: teamWhite._id } }
       );
-      teamWhiteParticipants.forEach(
-        participant => (participant.teamId = teamWhite._id)
+      await EventParticipant.updateMany(
+        {
+          _id: {
+            $in: whiteTeamIds,
+          },
+        },
+        { $set: { teamId: teamBlack._id } }
       );
-      teamBlackParticipants.forEach(
-        participant => (participant.teamId = teamBlack._id)
-      );
-      teamWhiteParticipants.save();
-      teamBlackParticipants.save();
     }
     res.status(HttpStatusCodes.OK).json({
       success: true,
