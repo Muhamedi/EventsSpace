@@ -13,6 +13,7 @@ import { getEventDetails } from 'api/Events';
 import { getMyEventStatus, updateMyEventStatus } from 'api/EventParticipants';
 import { getUserId } from 'common/auth';
 import moment from 'moment';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const EventDetails = props => {
   const [error, setError] = useState(null);
@@ -168,17 +169,40 @@ const EventDetails = props => {
                     <div className='card'>
                       <div className='card-header'>Team Black</div>
                       <div className='card-body bg-light'>
-                        <ul style={{ padding: '0' }}>
-                          <li className='list-group-item text-white bg-dark'>
-                            Muhamed Krasniqi
-                          </li>
-                          <li className='list-group-item text-white bg-dark'>
-                            Muhamed Krasniqi
-                          </li>
-                          <li className='list-group-item text-white bg-dark'>
-                            Muhamed Krasniqi
-                          </li>
-                        </ul>
+                        <DragDropContext>
+                          <Droppable droppableId='droppable'>
+                            {(provided, snapshot) => (
+                              <ul
+                                style={{ padding: '0' }}
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                              >
+                                {eventDetails.participants.map(
+                                  (participant, index) => (
+                                    <Draggable
+                                      key={participant._id}
+                                      draggableId={participant._id}
+                                      index={index}
+                                    >
+                                      {(provided, snapshot) => (
+                                        <li
+                                          className='list-group-item text-white bg-dark'
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                        >
+                                          {participant.user.firstName}{' '}
+                                          {participant.user.lastName}
+                                        </li>
+                                      )}
+                                    </Draggable>
+                                  )
+                                )}
+                                {provided.placeholder}
+                              </ul>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
                       </div>
                     </div>
                   </div>
