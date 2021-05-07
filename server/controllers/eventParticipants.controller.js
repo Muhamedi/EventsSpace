@@ -97,7 +97,7 @@ exports.initParticipantTeams = async (req, res, next) => {
             $in: blackTeamIds,
           },
         },
-        { $set: { teamId: teamWhite._id } }
+        { $set: { teamId: teamBlack._id } }
       );
       await EventParticipant.updateMany(
         {
@@ -105,13 +105,31 @@ exports.initParticipantTeams = async (req, res, next) => {
             $in: whiteTeamIds,
           },
         },
-        { $set: { teamId: teamBlack._id } }
+        { $set: { teamId: teamWhite._id } }
       );
+      const teamParticipants = await EventParticipant.find({
+        eventId: eventId,
+        isActive: true,
+      })
+        .populate('userId', 'firstName lastName')
+        .select('userId teamId');
+
+      const bla = teamParticipants.map(x => ({ teamId: x.teamId, firstName: x.userId.firstName}));
+      const blackMembers = teamParticipants.filter(
+        x => x.teamId.equals(teamWhite._id)
+      );
+      const whiteMembers = teamParticipants.filter(
+        x => x.teamId.equals(teamBlack._id)
+      );
+
+      res.status(HttpStatusCodes.OK).json({
+        success: true,
+        response: {
+          blackMembers,
+          whiteMembers,
+        },
+      });
     }
-    res.status(HttpStatusCodes.OK).json({
-      success: true,
-      message: 'Team participants saved successfully',
-    });
   } catch (err) {
     return next(new Error(err));
   }
