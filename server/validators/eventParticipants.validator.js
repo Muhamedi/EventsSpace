@@ -17,6 +17,11 @@ module.exports = {
       statusId: Joi.number().required(),
     }),
   },
+  getEventTeamMembers: {
+    params: Joi.object({
+      eventId: Joi.objectId().required(),
+    }),
+  },
   initParticipantTeams: {
     params: Joi.object({
       eventId: Joi.objectId().required(),

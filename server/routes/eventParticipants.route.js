@@ -21,9 +21,17 @@ router
     eventParticipantsController.updateMyEventStatus
   );
 
-// /api/event-participants/:eventId
-router
+  // /api/event-participants/:eventId
+  router
   .route('/:eventId')
+  .get(
+    validate(eventsParticipantsValidator.getEventTeamMembers),
+    eventParticipantsController.getEventTeamMembers
+  );
+
+// /api/event-participants/:eventId/init
+router
+  .route('/:eventId/init')
   .put(
     validate(eventsParticipantsValidator.initParticipantTeams),
     eventParticipantsController.initParticipantTeams

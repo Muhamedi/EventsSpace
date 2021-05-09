@@ -10,7 +10,11 @@ import {
   ColorTypes,
 } from 'constants/enums';
 import { getEventDetails } from 'api/Events';
-import { getMyEventStatus, updateMyEventStatus } from 'api/EventParticipants';
+import {
+  getMyEventStatus,
+  updateMyEventStatus,
+  getEventTeamMembers,
+} from 'api/EventParticipants';
 import { getUserId } from 'common/auth';
 import moment from 'moment';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -18,9 +22,10 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 const EventDetails = props => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [eventDetails, setEventDetails] = useState(null);
+  const [eventDetails, setEventDetails] = useState([]);
   const [myEventStatus, setMyEventStatus] = useState(null);
   const [isTeamsView, setTeamsView] = useState(false);
+  const [teamMembers, setTeamMembers] = useState([]);
 
   const userId = getUserId();
   const { eventId } = props.match.params;
@@ -59,8 +64,18 @@ const EventDetails = props => {
     });
   };
 
+  const getTeamMembers = async eventId => {
+    const response = await getEventTeamMembers(eventId);
+    if (response.error) {
+      setError(response.error);
+      return;
+    }
+    setTeamMembers(response.teamMembers);
+  };
+
   useEffect(() => {
     fetchEventDetails(eventId);
+    getTeamMembers(eventId);
   }, []);
 
   const getStatusColor = (status, index, nrOfParticipants) => {
@@ -152,15 +167,17 @@ const EventDetails = props => {
                       <div className='card-header'>Team White</div>
                       <div className='card-body bg-light'>
                         <ul style={{ padding: '0' }}>
-                          {eventDetails.participants.map(participant => (
-                            <li
-                              key={participant._id}
-                              className='list-group-item'
-                            >
-                              {participant.user.firstName}{' '}
-                              {participant.user.lastName}
-                            </li>
-                          ))}
+                          {teamMembers &&
+                            teamMembers.length > 0 &&
+                            teamMembers[0].team.map(member => (
+                              <li
+                                key={member._id}
+                                className='list-group-item'
+                              >
+                                {member.firstName}{' '}
+                                {member.lastName}
+                              </li>
+                            ))}
                         </ul>
                       </div>
                     </div>
@@ -177,27 +194,29 @@ const EventDetails = props => {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                               >
-                                {eventDetails.participants.map(
-                                  (participant, index) => (
-                                    <Draggable
-                                      key={participant._id}
-                                      draggableId={participant._id}
-                                      index={index}
-                                    >
-                                      {(provided, snapshot) => (
-                                        <li
-                                          className='list-group-item text-white bg-dark'
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                        >
-                                          {participant.user.firstName}{' '}
-                                          {participant.user.lastName}
-                                        </li>
-                                      )}
-                                    </Draggable>
-                                  )
-                                )}
+                                {teamMembers &&
+                                  teamMembers.length > 0 &&
+                                  teamMembers[1].team.map(
+                                    (member, index) => (
+                                      <Draggable
+                                        key={member._id}
+                                        draggableId={member._id}
+                                        index={index}
+                                      >
+                                        {(provided, snapshot) => (
+                                          <li
+                                            className='list-group-item text-white bg-dark'
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                          >
+                                            {member.firstName}{' '}
+                                            {member.lastName}
+                                          </li>
+                                        )}
+                                      </Draggable>
+                                    )
+                                  )}
                                 {provided.placeholder}
                               </ul>
                             )}

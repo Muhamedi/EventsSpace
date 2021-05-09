@@ -24,3 +24,16 @@ export const updateMyEventStatus = async (eventId, userId, statusId) => {
     return { error };
   }
 };
+
+export const getEventTeamMembers = async (eventId) => {
+  try {
+    const {
+      data,
+    } = await eventsSpaceApi.get(
+      `api/event-participants/${eventId}`
+    );
+    return data;
+  } catch (error) {
+    return { error };
+  }
+};

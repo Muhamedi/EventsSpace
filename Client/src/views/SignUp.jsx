@@ -39,11 +39,17 @@ const SignUp = () => {
   return (
     <Formik
       initialValues={{
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         confirmPassword: '',
       }}
       validationSchema={Yup.object().shape({
+        firstName: Yup.string()
+          .required('FirstName is required'),
+        lastName: Yup.string()
+          .required('LastName is required'),
         email: Yup.string()
           .email('Email address should be valid')
           .required('Email is required'),
@@ -103,12 +109,14 @@ const SignUp = () => {
                             onBlur={handleBlur}
                           />
                           {errors.firstname && touched.firstname && (
-                            <span className='text-danger'>{errors.firstname}</span>
+                            <span className='text-danger'>
+                              {errors.firstname}
+                            </span>
                           )}
                         </div>
                         <div className='form-group col-md-12'>
                           <input
-                            name='lastname'
+                            name='lastName'
                             placeholder='Lastname'
                             className='form-control'
                             type='text'
@@ -117,7 +125,9 @@ const SignUp = () => {
                             onBlur={handleBlur}
                           />
                           {errors.lastname && touched.lastname && (
-                            <span className='text-danger'>{errors.lastname}</span>
+                            <span className='text-danger'>
+                              {errors.lastname}
+                            </span>
                           )}
                         </div>
                         <div className='form-group col-md-12'>

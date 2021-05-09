@@ -1,7 +1,9 @@
 const EventParticipant = require('../models/eventParticipant.model');
 const Event = require('../models/event.model');
 const Team = require('../models/team.model');
-const { HttpStatusCodes } = require('../enums/enums.js');
+const User = require('../models/user.model');
+const { HttpStatusCodes, InvitationStatus } = require('../enums/enums.js');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.updateMyEventStatus = async (req, res, next) => {
   try {
@@ -68,6 +70,47 @@ exports.getMyEventStatus = async (req, res, next) => {
   }
 };
 
+exports.getEventTeamMembers = async (req, res, next) => {
+  try {
+    const { eventId } = req.params;
+
+    const participants = await EventParticipant.aggregate([
+      {
+        $match: {
+          teamId: { $ne: null },
+          eventId: { $eq: ObjectId(eventId) },
+          statusId: { $eq: InvitationStatus.ACCEPTED },
+        },
+      },
+      {
+        $group: {
+          _id: '$teamId',
+          team: {
+            $push: '$userId',
+          },
+        },
+      },
+    ]);
+
+    await User.populate(participants, { path: 'team' });
+
+    var teamMembers = participants.map(participant => ({
+      team: participant.team.map(team => ({
+        _id: team._id,
+        firstName: team.firstName,
+        lastName: team.lastName,
+      })),
+    }));
+
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      teamMembers,
+    });
+  } catch (err) {
+    return next(new Error(err));
+  }
+};
+
 exports.initParticipantTeams = async (req, res, next) => {
   try {
     const { eventId } = req.params;
@@ -114,20 +157,23 @@ exports.initParticipantTeams = async (req, res, next) => {
         .populate('userId', 'firstName lastName')
         .select('userId teamId');
 
-      const bla = teamParticipants.map(x => ({ teamId: x.teamId, firstName: x.userId.firstName}));
-      const blackMembers = teamParticipants.filter(
-        x => x.teamId.equals(teamWhite._id)
+      const firstTeam = teamParticipants.filter(x =>
+        x.teamId.equals(teamWhite._id)
       );
-      const whiteMembers = teamParticipants.filter(
-        x => x.teamId.equals(teamBlack._id)
+      const secondTeam = teamParticipants.filter(x =>
+        x.teamId.equals(teamBlack._id)
       );
 
       res.status(HttpStatusCodes.OK).json({
         success: true,
         response: {
-          blackMembers,
-          whiteMembers,
+          firstTeam,
+          secondTeam,
         },
+      });
+    } else {
+      res.status(HttpStatusCodes.OK).json({
+        success: true,
       });
     }
   } catch (err) {
