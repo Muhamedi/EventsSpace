@@ -93,6 +93,11 @@ const EventDetails = props => {
     }
   };
 
+  const onDragEnd = data => {
+    // if (!data.destination) return;
+    console.log({ data });
+  };
+
   return (
     <MainLayout>
       <div className=''>
@@ -166,28 +171,8 @@ const EventDetails = props => {
                     <div className='card'>
                       <div className='card-header'>Team White</div>
                       <div className='card-body bg-light'>
-                        <ul style={{ padding: '0' }}>
-                          {teamMembers &&
-                            teamMembers.length > 0 &&
-                            teamMembers[0].team.map(member => (
-                              <li
-                                key={member._id}
-                                className='list-group-item'
-                              >
-                                {member.firstName}{' '}
-                                {member.lastName}
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-md-5'>
-                    <div className='card'>
-                      <div className='card-header'>Team Black</div>
-                      <div className='card-body bg-light'>
-                        <DragDropContext>
-                          <Droppable droppableId='droppable'>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                          <Droppable droppableId='droppable1'>
                             {(provided, snapshot) => (
                               <ul
                                 style={{ padding: '0' }}
@@ -196,27 +181,64 @@ const EventDetails = props => {
                               >
                                 {teamMembers &&
                                   teamMembers.length > 0 &&
-                                  teamMembers[1].team.map(
-                                    (member, index) => (
-                                      <Draggable
-                                        key={member._id}
-                                        draggableId={member._id}
-                                        index={index}
-                                      >
-                                        {(provided, snapshot) => (
-                                          <li
-                                            className='list-group-item text-white bg-dark'
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                          >
-                                            {member.firstName}{' '}
-                                            {member.lastName}
-                                          </li>
-                                        )}
-                                      </Draggable>
-                                    )
-                                  )}
+                                  teamMembers[0].team.map((member, index) => (
+                                    <Draggable
+                                      key={member._id}
+                                      draggableId={member._id}
+                                      index={index}
+                                    >
+                                      {(provided, snapshot) => (
+                                        <li
+                                          className='list-group-item'
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                        >
+                                          {member.firstName} {member.lastName}
+                                        </li>
+                                      )}
+                                    </Draggable>
+                                  ))}
+                                {provided.placeholder}
+                              </ul>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-md-5'>
+                    <div className='card'>
+                      <div className='card-header'>Team Black</div>
+                      <div className='card-body bg-light'>
+                        <DragDropContext>
+                          <Droppable droppableId='droppable2'>
+                            {(provided, snapshot) => (
+                              <ul
+                                style={{ padding: '0' }}
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                              >
+                                {teamMembers &&
+                                  teamMembers.length > 0 &&
+                                  teamMembers[1].team.map((member, index) => (
+                                    <Draggable
+                                      key={member._id}
+                                      draggableId={member._id}
+                                      index={index}
+                                    >
+                                      {(provided, snapshot) => (
+                                        <li
+                                          className='list-group-item text-white bg-dark'
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                        >
+                                          {member.firstName} {member.lastName}
+                                        </li>
+                                      )}
+                                    </Draggable>
+                                  ))}
                                 {provided.placeholder}
                               </ul>
                             )}
@@ -230,13 +252,19 @@ const EventDetails = props => {
                   <Button
                     className='mr-1 btn btn btn-success'
                     type={SpinnerTypes.LIGHT}
-                    text='Init teams'
+                    text='Save'
                     onClick={() => {}}
                   />
                   <Button
-                    className='ml-1 btn btn btn-danger'
+                    className='ml-1 mr-1 btn btn btn-danger'
                     type={SpinnerTypes.LIGHT}
-                    text='Clear teams'
+                    text='Clear'
+                    onClick={() => {}}
+                  />
+                  <Button
+                    className='ml-1 btn btn btn-secondary'
+                    type={SpinnerTypes.LIGHT}
+                    text='Init'
                     onClick={() => {}}
                   />
                 </div>
