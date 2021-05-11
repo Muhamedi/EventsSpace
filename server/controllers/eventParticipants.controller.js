@@ -80,31 +80,37 @@ exports.getEventTeamMembers = async (req, res, next) => {
           teamId: { $ne: null },
           eventId: { $eq: ObjectId(eventId) },
           statusId: { $eq: InvitationStatus.ACCEPTED },
+          isActive: true,
         },
       },
       {
         $group: {
           _id: '$teamId',
           team: {
-            $push: '$userId',
+            $push: { userId: '$userId' },
           },
         },
       },
     ]);
 
-    await User.populate(participants, { path: 'team' });
+    await User.populate(participants, {
+      path: 'team.userId',
+      select: 'firstName lastName',
+    });
+    await Team.populate(participants, { path: '_id', select: 'name color' });
 
-    var teamMembers = participants.map(participant => ({
-      team: participant.team.map(team => ({
-        _id: team._id,
-        firstName: team.firstName,
-        lastName: team.lastName,
+    var teams = participants.map(participant => ({
+      team: { ...participant._id._doc },
+      members: participant.team.map(member => ({
+        _id: member.userId._id,
+        firstName: member.userId.firstName,
+        lastName: member.userId.lastName,
       })),
     }));
 
     res.status(HttpStatusCodes.OK).json({
       success: true,
-      teamMembers,
+      teams,
     });
   } catch (err) {
     return next(new Error(err));

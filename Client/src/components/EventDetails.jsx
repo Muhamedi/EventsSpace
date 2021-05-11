@@ -8,6 +8,7 @@ import {
   ParticipantTypes,
   ParticipantStatus,
   ColorTypes,
+  Colors,
 } from 'constants/enums';
 import { getEventDetails } from 'api/Events';
 import {
@@ -25,7 +26,8 @@ const EventDetails = props => {
   const [eventDetails, setEventDetails] = useState([]);
   const [myEventStatus, setMyEventStatus] = useState(null);
   const [isTeamsView, setTeamsView] = useState(false);
-  const [teamMembers, setTeamMembers] = useState([]);
+  const [blackTeamMembers, setBlackTeamMembers] = useState([]);
+  const [whiteTeamMembers, setWhiteTeamMembers] = useState([]);
 
   const userId = getUserId();
   const { eventId } = props.match.params;
@@ -70,7 +72,18 @@ const EventDetails = props => {
       setError(response.error);
       return;
     }
-    setTeamMembers(response.teamMembers);
+    if (response.teams) {
+      const blackTeam = response.teams.find(
+        x => x.team.color.toLowerCase() === Colors.BLACK
+      );
+
+      const whiteTeam = response.teams.find(
+        x => x.team.color.toLowerCase() === Colors.WHITE
+      );
+      
+      setBlackTeamMembers(blackTeam.members);
+      setWhiteTeamMembers(whiteTeam.members);
+    }
   };
 
   useEffect(() => {
@@ -97,7 +110,8 @@ const EventDetails = props => {
     // if (!data.destination) return;
     console.log({ data });
   };
-
+   console.log({blackTeamMembers});
+   console.log({whiteTeamMembers});
   return (
     <MainLayout>
       <div className=''>
@@ -179,9 +193,9 @@ const EventDetails = props => {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                               >
-                                {teamMembers &&
-                                  teamMembers.length > 0 &&
-                                  teamMembers[0].team.map((member, index) => (
+                                {whiteTeamMembers &&
+                                  whiteTeamMembers.length > 0 &&
+                                  whiteTeamMembers.map((member, index) => (
                                     <Draggable
                                       key={member._id}
                                       draggableId={member._id}
@@ -219,9 +233,9 @@ const EventDetails = props => {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                               >
-                                {teamMembers &&
-                                  teamMembers.length > 0 &&
-                                  teamMembers[1].team.map((member, index) => (
+                                {blackTeamMembers &&
+                                  blackTeamMembers.length > 0 &&
+                                  blackTeamMembers.map((member, index) => (
                                     <Draggable
                                       key={member._id}
                                       draggableId={member._id}

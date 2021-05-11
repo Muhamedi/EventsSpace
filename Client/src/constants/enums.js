@@ -35,3 +35,8 @@ export const ParticipantStatus = {
   OUT: 2,
   NOT_SURE: 3,
 };
+
+export const Colors = {
+  BLACK: '#000',
+  WHITE: '#fff',
+}
