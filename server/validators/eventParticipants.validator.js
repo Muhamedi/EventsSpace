@@ -17,17 +17,22 @@ module.exports = {
       statusId: Joi.number().required(),
     }),
   },
-  getEventTeamMembers: {
+  getEventTeamParticipants: {
     params: Joi.object({
       eventId: Joi.objectId().required(),
     }),
   },
-  initParticipantTeams: {
+  initTeamParticipants: {
     params: Joi.object({
       eventId: Joi.objectId().required(),
     }),
     body: Joi.object({
       teamIds: Joi.array().items(Joi.objectId()).optional(),
+    }),
+  },
+  clearEventTeamParticipants: {
+    params: Joi.object({
+      eventId: Joi.objectId().required(),
     }),
   },
 };

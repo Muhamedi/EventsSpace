@@ -28,7 +28,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/participant-types", authMiddleware, participantTypesRouter);
 app.use("/api/event-types", authMiddleware, eventTypesRouter);
 app.use("/api/invites", authMiddleware, invitesRouter);
-app.use("/api/event-participants", authMiddleware, eventParticipantsRouter);
+app.use("/api", authMiddleware, eventParticipantsRouter);
 
 app.use(errorHandler);
 

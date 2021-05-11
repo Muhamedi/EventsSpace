@@ -56,12 +56,12 @@ exports.getMyEventStatus = async (req, res, next) => {
       .select('statusId');
 
     if (!eventParticipant) {
-      return res.status(HttpStatusCodes.NOT_FOUND).json({
-        success: false,
-        message: 'Event not found',
+      return res.status(HttpStatusCodes.OK).json({
+        success: true,
+        status: { _id: 4, name: 'Not specified'},
       });
     }
-    res.status(HttpStatusCodes.OK).json({
+    return res.status(HttpStatusCodes.OK).json({
       success: true,
       status: eventParticipant.statusId,
     });
@@ -70,7 +70,7 @@ exports.getMyEventStatus = async (req, res, next) => {
   }
 };
 
-exports.getEventTeamMembers = async (req, res, next) => {
+exports.getEventTeamParticipants = async (req, res, next) => {
   try {
     const { eventId } = req.params;
 
@@ -117,7 +117,7 @@ exports.getEventTeamMembers = async (req, res, next) => {
   }
 };
 
-exports.initParticipantTeams = async (req, res, next) => {
+exports.initTeamParticipants = async (req, res, next) => {
   try {
     const { eventId } = req.params;
     const { teamIds } = req.body;
@@ -182,6 +182,32 @@ exports.initParticipantTeams = async (req, res, next) => {
         success: true,
       });
     }
+  } catch (err) {
+    return next(new Error(err));
+  }
+};
+
+exports.clearEventTeamParticipants = async (req, res, next) => {
+  try {
+    const { eventId } = req.params;
+    const participantIds = await EventParticipant.find({
+      eventId,
+      isActive: true,
+    }).select('_id');
+
+    await EventParticipant.updateMany(
+      {
+        _id: {
+          $in: participantIds,
+        },
+      },
+      { $set: { teamId: null } }
+    );
+
+    res.status(HttpStatusCodes.OK).json({
+      success: true,
+      message: 'Event participants cleared successfully',
+    });
   } catch (err) {
     return next(new Error(err));
   }

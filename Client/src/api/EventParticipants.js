@@ -3,7 +3,7 @@ import { eventsSpaceApi } from 'config/axiosConfig';
 export const getMyEventStatus = async (eventId, userId) => {
   try {
     const { data } = await eventsSpaceApi.get(
-      `api/event-participants/${eventId}/users/${userId}/status`
+      `api/events/${eventId}/users/${userId}/status`
     );
     return data;
   } catch (error) {
@@ -13,10 +13,8 @@ export const getMyEventStatus = async (eventId, userId) => {
 
 export const updateMyEventStatus = async (eventId, userId, statusId) => {
   try {
-    const {
-      data,
-    } = await eventsSpaceApi.patch(
-      `api/event-participants/${eventId}/users/${userId}/status`,
+    const { data } = await eventsSpaceApi.patch(
+      `api/events/${eventId}/users/${userId}/status`,
       { statusId }
     );
     return data;
@@ -25,12 +23,34 @@ export const updateMyEventStatus = async (eventId, userId, statusId) => {
   }
 };
 
-export const getEventTeamMembers = async (eventId) => {
+export const getEventTeamParticipants = async (eventId) => {
   try {
     const {
       data,
     } = await eventsSpaceApi.get(
-      `api/event-participants/${eventId}`
+      `api/events/${eventId}/participants`
+    );
+    return data;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const initEventTeamParticipants = async eventId => {
+  try {
+    const { data } = await eventsSpaceApi.put(
+      `api/events/${eventId}/participants/init`
+    );
+    return data;
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const clearEventTeamParticipants = async eventId => {
+  try {
+    const { data } = await eventsSpaceApi.delete(
+      `api/events/${eventId}/participants`
     );
     return data;
   } catch (error) {

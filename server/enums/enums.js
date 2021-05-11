@@ -23,4 +23,5 @@ exports.ParticipantStatus = {
   IN: 1,
   OUT: 2,
   NOT_SURE: 3,
+  NOT_SPECIFIED: 4
 };

@@ -5,36 +5,44 @@ const validate = require('../helpers/validate');
 
 const router = express.Router();
 
-// /api/event-participants/:eventId/users/:userId/status
+// /api/events/:eventId/users/:userId/status
 router
-  .route('/:eventId/users/:userId/status')
+  .route('/events/:eventId/users/:userId/status')
   .get(
     validate(eventsParticipantsValidator.getMyEventStatus),
     eventParticipantsController.getMyEventStatus
   );
 
-// /api/event-participants/:eventId/users/:userId/status
+// /api/events/:eventId/users/:userId/status
 router
-  .route('/:eventId/users/:userId/status')
+  .route('/events/:eventId/users/:userId/status')
   .patch(
     validate(eventsParticipantsValidator.updateMyEventStatus),
     eventParticipantsController.updateMyEventStatus
   );
 
-  // /api/event-participants/:eventId
+  // /api/events/:eventId/participants
   router
-  .route('/:eventId')
+  .route('/events/:eventId/participants')
   .get(
-    validate(eventsParticipantsValidator.getEventTeamMembers),
-    eventParticipantsController.getEventTeamMembers
+    validate(eventsParticipantsValidator.getEventTeamParticipants),
+    eventParticipantsController.getEventTeamParticipants
   );
 
-// /api/event-participants/:eventId/init
+// /api/events/:eventId/participants/init
 router
-  .route('/:eventId/init')
+  .route('/events/:eventId/participants/init')
   .put(
-    validate(eventsParticipantsValidator.initParticipantTeams),
-    eventParticipantsController.initParticipantTeams
+    validate(eventsParticipantsValidator.initTeamParticipants),
+    eventParticipantsController.initTeamParticipants
+  );
+
+// /api/events/:eventId/participants
+router
+  .route('/events/:eventId/participants')
+  .delete(
+    validate(eventsParticipantsValidator.clearEventTeamParticipants),
+    eventParticipantsController.clearEventTeamParticipants
   );
 
 module.exports = router;
